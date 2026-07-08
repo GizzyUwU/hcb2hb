@@ -1,0 +1,22 @@
+{
+  "name": "hcb2hb",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@logtape/logtape": "^2.2.4",
+    "@logtape/redaction": "^2.2.4",
+    "@logtape/sentry": "^2.2.4",
+    "@sentry/bun": "^10.64.0",
+    "ansi-regex": "^6.2.2",
+    "axios": "^1.18.1",
+    "orval": "^8.20.0",
+    "zod": "^4.4.3"
+  }
+}
