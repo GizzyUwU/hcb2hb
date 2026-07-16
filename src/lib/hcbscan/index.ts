@@ -1,7 +1,7 @@
 import axios, { type AxiosInstance, type AxiosRequestConfig, type AxiosResponse } from "axios";
 import type { ZodType } from "zod";
 import { z } from "zod";
-import * as ZTypes from "./types.ts"
+import { ZTypes } from "./types.ts"
 import type { logger as LogTape } from "@/index";
 
 export default class HCBScan {

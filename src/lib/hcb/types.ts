@@ -11,4128 +11,6663 @@
                       <br><br>Happy hacking! ✨
  * OpenAPI spec version: 3.0.0
  */
-import * as zod from 'zod';
-
-/**
- * Returns a list of organizations in <a href='https://blog.hcb.hackclub.com/posts/transparent-finances-optional-feature-151427'><strong>Transparency Mode</strong></a> that have opted in to public listing.
- * @summary Get a list of transparent organizations
- */
-export const listTransparentOrganizationsQueryPageDefault = 1;
-export const listTransparentOrganizationsQueryPerPageDefault = 50;
-export const listTransparentOrganizationsQueryOffsetDefault = 0;
-
-export const ListTransparentOrganizationsQueryParams = zod.object({
-  "page": zod.number().default(listTransparentOrganizationsQueryPageDefault).describe('Page offset to fetch.'),
-  "per_page": zod.number().default(listTransparentOrganizationsQueryPerPageDefault).describe('Number of results to return per page.'),
-  "offset": zod.number().default(listTransparentOrganizationsQueryOffsetDefault).describe('Pad a number of results.'),
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)')
-})
-
-export const ListTransparentOrganizationsResponseItem = zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).describe('Organization model')
-export const ListTransparentOrganizationsResponse = zod.array(ListTransparentOrganizationsResponseItem)
-
-
-/**
- * The organization must be in <a href='https://blog.hcb.hackclub.com/posts/transparent-finances-optional-feature-151427'><strong>Transparency Mode</strong></a>.
- * @summary Get a single organization
- */
-export const GetASingleOrganizationParams = zod.object({
-  "organization_id": zod.string().describe('Organization ID or slug.')
-})
-
-export const GetASingleOrganizationQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)')
-})
-
-export const GetASingleOrganizationResponse = zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).describe('Organization model')
-
-
-/**
- * Transaction represent a line item on an Organization's ledger. There are various <em>types</em> of transaction (see the <em>type</em> below).<br/><br/>
- * @summary List an organization's transactions
- */
-export const ListAnOrganizationsTransactionsParams = zod.object({
-  "organization_id": zod.string().describe('Organization ID or slug.')
-})
-
-export const listAnOrganizationsTransactionsQueryPageDefault = 1;
-export const listAnOrganizationsTransactionsQueryPerPageDefault = 50;
-export const listAnOrganizationsTransactionsQueryOffsetDefault = 0;
-
-export const ListAnOrganizationsTransactionsQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)'),
-  "page": zod.number().default(listAnOrganizationsTransactionsQueryPageDefault).describe('Page offset to fetch.'),
-  "per_page": zod.number().default(listAnOrganizationsTransactionsQueryPerPageDefault).describe('Number of results to return per page.'),
-  "offset": zod.number().default(listAnOrganizationsTransactionsQueryOffsetDefault).describe('Pad a number of results.')
-})
-
-export const ListAnOrganizationsTransactionsResponseItem = zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "amount_cents": zod.number().optional(),
-  "memo": zod.string().optional(),
-  "date": zod.string().optional(),
-  "type": zod.enum(['invoice', 'donation', 'ach_transfer', 'check', 'transfer', 'bank_account_transaction', 'card_charge', 'wire_transfer', 'wise_transfer', 'check_deposit', 'reimbursed_expense', 'hcb_fee']).optional(),
-  "pending": zod.boolean().optional(),
-  "receipts": zod.object({
-  "count": zod.number().optional(),
-  "missing": zod.boolean().optional()
-}).optional(),
-  "comments": zod.object({
-  "count": zod.number().optional()
-}).optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "user": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-}).optional(),
-  "tags": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "label": zod.string()
-})).optional(),
-  "card_charge": zod.unknown().optional(),
-  "ach_transfer": zod.unknown().optional(),
-  "check": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.number().optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['scheduled', 'in_transit', 'in_transit_and_processed', 'deposited', 'canceled', 'voided', 'refunded']).optional()
-}).optional().describe('Check model'),
-  "donation": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.number().optional(),
-  "donor": zod.object({
-  "name": zod.string().optional(),
-  "anonymous": zod.boolean().optional(),
-  "avatar": zod.string().optional()
-}).optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['pending', 'in_transit', 'deposited', 'failed', 'refunded']).optional(),
-  "recurring": zod.boolean().optional()
-}).optional().describe('Donation model'),
-  "invoice": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.string().optional(),
-  "sponsor": zod.object({
-  "id": zod.string().optional(),
-  "name": zod.string().optional()
-}).optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['open', 'paid', 'void']).optional()
-}).optional().describe('Invoice model'),
-  "transfer": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.string().optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['fulfilled', 'processing', 'rejected', 'canceled', 'errored', 'under_review', 'pending']).optional(),
-  "source_organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model')
-}).optional().describe('Transfer model'),
-  "wire_transfer": zod.unknown().optional(),
-  "wise_transfer": zod.unknown().optional(),
-  "check_deposit": zod.unknown().optional(),
-  "reimbursed_expense": zod.unknown().optional(),
-  "hcb_fee": zod.unknown().optional()
-}).describe('Transaction model')
-export const ListAnOrganizationsTransactionsResponse = zod.array(ListAnOrganizationsTransactionsResponseItem)
-
-
-/**
- * Transactions created using an HCB card.
- * @summary List an organization's card charges
- */
-export const ListAnOrganizationsCardChargesParams = zod.object({
-  "organization_id": zod.string().describe('Organization ID or slug.')
-})
-
-export const listAnOrganizationsCardChargesQueryPageDefault = 1;
-export const listAnOrganizationsCardChargesQueryPerPageDefault = 50;
-export const listAnOrganizationsCardChargesQueryOffsetDefault = 0;
-
-export const ListAnOrganizationsCardChargesQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)'),
-  "page": zod.number().default(listAnOrganizationsCardChargesQueryPageDefault).describe('Page offset to fetch.'),
-  "per_page": zod.number().default(listAnOrganizationsCardChargesQueryPerPageDefault).describe('Number of results to return per page.'),
-  "offset": zod.number().default(listAnOrganizationsCardChargesQueryOffsetDefault).describe('Pad a number of results.')
-})
-
-export const ListAnOrganizationsCardChargesResponseItem = zod.unknown()
-export const ListAnOrganizationsCardChargesResponse = zod.array(ListAnOrganizationsCardChargesResponseItem)
-
-
-/**
- * @summary List an organization's donations
- */
-export const ListAnOrganizationsDonationsParams = zod.object({
-  "organization_id": zod.string().describe('Organization ID or slug.')
-})
-
-export const listAnOrganizationsDonationsQueryPageDefault = 1;
-export const listAnOrganizationsDonationsQueryPerPageDefault = 50;
-export const listAnOrganizationsDonationsQueryOffsetDefault = 0;
-
-export const ListAnOrganizationsDonationsQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)'),
-  "page": zod.number().default(listAnOrganizationsDonationsQueryPageDefault).describe('Page offset to fetch.'),
-  "per_page": zod.number().default(listAnOrganizationsDonationsQueryPerPageDefault).describe('Number of results to return per page.'),
-  "offset": zod.number().default(listAnOrganizationsDonationsQueryOffsetDefault).describe('Pad a number of results.')
-})
-
-export const ListAnOrganizationsDonationsResponseItem = zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "amount_cents": zod.number().optional(),
-  "memo": zod.string().optional(),
-  "date": zod.string().optional(),
-  "type": zod.enum(['invoice', 'donation', 'ach_transfer', 'check', 'transfer', 'bank_account_transaction', 'card_charge', 'wire_transfer', 'wise_transfer', 'check_deposit', 'reimbursed_expense', 'hcb_fee']).optional(),
-  "pending": zod.boolean().optional(),
-  "receipts": zod.object({
-  "count": zod.number().optional(),
-  "missing": zod.boolean().optional()
-}).optional(),
-  "comments": zod.object({
-  "count": zod.number().optional()
-}).optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "user": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-}).optional(),
-  "tags": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "label": zod.string()
-})).optional(),
-  "card_charge": zod.unknown().optional(),
-  "ach_transfer": zod.unknown().optional(),
-  "check": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.number().optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['scheduled', 'in_transit', 'in_transit_and_processed', 'deposited', 'canceled', 'voided', 'refunded']).optional()
-}).optional().describe('Check model'),
-  "donation": zod.unknown().optional(),
-  "invoice": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.string().optional(),
-  "sponsor": zod.object({
-  "id": zod.string().optional(),
-  "name": zod.string().optional()
-}).optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['open', 'paid', 'void']).optional()
-}).optional().describe('Invoice model'),
-  "transfer": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.string().optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['fulfilled', 'processing', 'rejected', 'canceled', 'errored', 'under_review', 'pending']).optional(),
-  "source_organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model')
-}).optional().describe('Transfer model'),
-  "wire_transfer": zod.unknown().optional(),
-  "wise_transfer": zod.unknown().optional(),
-  "check_deposit": zod.unknown().optional(),
-  "reimbursed_expense": zod.unknown().optional(),
-  "hcb_fee": zod.unknown().optional()
-}).optional().describe('Transaction model'),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.number().optional(),
-  "donor": zod.object({
-  "name": zod.string().optional(),
-  "anonymous": zod.boolean().optional(),
-  "avatar": zod.string().optional()
-}).optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['pending', 'in_transit', 'deposited', 'failed', 'refunded']).optional(),
-  "recurring": zod.boolean().optional()
-}).describe('Donation model')
-export const ListAnOrganizationsDonationsResponse = zod.array(ListAnOrganizationsDonationsResponseItem)
-
-
-/**
- * @summary List an organization's transfers
- */
-export const ListAnOrganizationsTransfersParams = zod.object({
-  "organization_id": zod.string().describe('Organization ID or slug.')
-})
-
-export const listAnOrganizationsTransfersQueryPageDefault = 1;
-export const listAnOrganizationsTransfersQueryPerPageDefault = 50;
-export const listAnOrganizationsTransfersQueryOffsetDefault = 0;
-
-export const ListAnOrganizationsTransfersQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)'),
-  "page": zod.number().default(listAnOrganizationsTransfersQueryPageDefault).describe('Page offset to fetch.'),
-  "per_page": zod.number().default(listAnOrganizationsTransfersQueryPerPageDefault).describe('Number of results to return per page.'),
-  "offset": zod.number().default(listAnOrganizationsTransfersQueryOffsetDefault).describe('Pad a number of results.')
-})
-
-export const ListAnOrganizationsTransfersResponseItem = zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "amount_cents": zod.number().optional(),
-  "memo": zod.string().optional(),
-  "date": zod.string().optional(),
-  "type": zod.enum(['invoice', 'donation', 'ach_transfer', 'check', 'transfer', 'bank_account_transaction', 'card_charge', 'wire_transfer', 'wise_transfer', 'check_deposit', 'reimbursed_expense', 'hcb_fee']).optional(),
-  "pending": zod.boolean().optional(),
-  "receipts": zod.object({
-  "count": zod.number().optional(),
-  "missing": zod.boolean().optional()
-}).optional(),
-  "comments": zod.object({
-  "count": zod.number().optional()
-}).optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "user": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-}).optional(),
-  "tags": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "label": zod.string()
-})).optional(),
-  "card_charge": zod.unknown().optional(),
-  "ach_transfer": zod.unknown().optional(),
-  "check": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.number().optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['scheduled', 'in_transit', 'in_transit_and_processed', 'deposited', 'canceled', 'voided', 'refunded']).optional()
-}).optional().describe('Check model'),
-  "donation": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.number().optional(),
-  "donor": zod.object({
-  "name": zod.string().optional(),
-  "anonymous": zod.boolean().optional(),
-  "avatar": zod.string().optional()
-}).optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['pending', 'in_transit', 'deposited', 'failed', 'refunded']).optional(),
-  "recurring": zod.boolean().optional()
-}).optional().describe('Donation model'),
-  "invoice": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.string().optional(),
-  "sponsor": zod.object({
-  "id": zod.string().optional(),
-  "name": zod.string().optional()
-}).optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['open', 'paid', 'void']).optional()
-}).optional().describe('Invoice model'),
-  "transfer": zod.unknown().optional(),
-  "wire_transfer": zod.unknown().optional(),
-  "wise_transfer": zod.unknown().optional(),
-  "check_deposit": zod.unknown().optional(),
-  "reimbursed_expense": zod.unknown().optional(),
-  "hcb_fee": zod.unknown().optional()
-}).optional().describe('Transaction model'),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.string().optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['fulfilled', 'processing', 'rejected', 'canceled', 'errored', 'under_review', 'pending']).optional(),
-  "source_organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model')
-}).describe('Transfer model')
-export const ListAnOrganizationsTransfersResponse = zod.array(ListAnOrganizationsTransfersResponseItem)
-
-
-/**
- * @summary List an organization's wire transfers
- */
-export const ListAnOrganizationsWireTransfersParams = zod.object({
-  "organization_id": zod.string().describe('Organization ID or slug.')
-})
-
-export const listAnOrganizationsWireTransfersQueryPageDefault = 1;
-export const listAnOrganizationsWireTransfersQueryPerPageDefault = 50;
-export const listAnOrganizationsWireTransfersQueryOffsetDefault = 0;
-
-export const ListAnOrganizationsWireTransfersQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)'),
-  "page": zod.number().default(listAnOrganizationsWireTransfersQueryPageDefault).describe('Page offset to fetch.'),
-  "per_page": zod.number().default(listAnOrganizationsWireTransfersQueryPerPageDefault).describe('Number of results to return per page.'),
-  "offset": zod.number().default(listAnOrganizationsWireTransfersQueryOffsetDefault).describe('Pad a number of results.')
-})
-
-export const ListAnOrganizationsWireTransfersResponseItem = zod.unknown()
-export const ListAnOrganizationsWireTransfersResponse = zod.array(ListAnOrganizationsWireTransfersResponseItem)
-
-
-/**
- * @summary List an organization's Wise transfers
- */
-export const ListAnOrganizationsWiseTransfersParams = zod.object({
-  "organization_id": zod.string().describe('Organization ID or slug.')
-})
-
-export const listAnOrganizationsWiseTransfersQueryPageDefault = 1;
-export const listAnOrganizationsWiseTransfersQueryPerPageDefault = 50;
-export const listAnOrganizationsWiseTransfersQueryOffsetDefault = 0;
-
-export const ListAnOrganizationsWiseTransfersQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)'),
-  "page": zod.number().default(listAnOrganizationsWiseTransfersQueryPageDefault).describe('Page offset to fetch.'),
-  "per_page": zod.number().default(listAnOrganizationsWiseTransfersQueryPerPageDefault).describe('Number of results to return per page.'),
-  "offset": zod.number().default(listAnOrganizationsWiseTransfersQueryOffsetDefault).describe('Pad a number of results.')
-})
-
-export const ListAnOrganizationsWiseTransfersResponseItem = zod.unknown()
-export const ListAnOrganizationsWiseTransfersResponse = zod.array(ListAnOrganizationsWiseTransfersResponseItem)
-
-
-/**
- * @summary List an organization's check deposits
- */
-export const ListAnOrganizationsCheckDepositsParams = zod.object({
-  "organization_id": zod.string().describe('Organization ID or slug.')
-})
-
-export const listAnOrganizationsCheckDepositsQueryPageDefault = 1;
-export const listAnOrganizationsCheckDepositsQueryPerPageDefault = 50;
-export const listAnOrganizationsCheckDepositsQueryOffsetDefault = 0;
-
-export const ListAnOrganizationsCheckDepositsQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)'),
-  "page": zod.number().default(listAnOrganizationsCheckDepositsQueryPageDefault).describe('Page offset to fetch.'),
-  "per_page": zod.number().default(listAnOrganizationsCheckDepositsQueryPerPageDefault).describe('Number of results to return per page.'),
-  "offset": zod.number().default(listAnOrganizationsCheckDepositsQueryOffsetDefault).describe('Pad a number of results.')
-})
-
-export const ListAnOrganizationsCheckDepositsResponseItem = zod.unknown()
-export const ListAnOrganizationsCheckDepositsResponse = zod.array(ListAnOrganizationsCheckDepositsResponseItem)
-
-
-/**
- * @summary List an organization's reimbursed expenses
- */
-export const ListAnOrganizationsReimbursedExpensesParams = zod.object({
-  "organization_id": zod.string().describe('Organization ID or slug.')
-})
-
-export const listAnOrganizationsReimbursedExpensesQueryPageDefault = 1;
-export const listAnOrganizationsReimbursedExpensesQueryPerPageDefault = 50;
-export const listAnOrganizationsReimbursedExpensesQueryOffsetDefault = 0;
-
-export const ListAnOrganizationsReimbursedExpensesQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)'),
-  "page": zod.number().default(listAnOrganizationsReimbursedExpensesQueryPageDefault).describe('Page offset to fetch.'),
-  "per_page": zod.number().default(listAnOrganizationsReimbursedExpensesQueryPerPageDefault).describe('Number of results to return per page.'),
-  "offset": zod.number().default(listAnOrganizationsReimbursedExpensesQueryOffsetDefault).describe('Pad a number of results.')
-})
-
-export const ListAnOrganizationsReimbursedExpensesResponseItem = zod.unknown()
-export const ListAnOrganizationsReimbursedExpensesResponse = zod.array(ListAnOrganizationsReimbursedExpensesResponseItem)
-
-
-/**
- * @summary List an organization's HCB fees
- */
-export const ListAnOrganizationsHcbFeesParams = zod.object({
-  "organization_id": zod.string().describe('Organization ID or slug.')
-})
-
-export const listAnOrganizationsHcbFeesQueryPageDefault = 1;
-export const listAnOrganizationsHcbFeesQueryPerPageDefault = 50;
-export const listAnOrganizationsHcbFeesQueryOffsetDefault = 0;
-
-export const ListAnOrganizationsHcbFeesQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)'),
-  "page": zod.number().default(listAnOrganizationsHcbFeesQueryPageDefault).describe('Page offset to fetch.'),
-  "per_page": zod.number().default(listAnOrganizationsHcbFeesQueryPerPageDefault).describe('Number of results to return per page.'),
-  "offset": zod.number().default(listAnOrganizationsHcbFeesQueryOffsetDefault).describe('Pad a number of results.')
-})
-
-export const ListAnOrganizationsHcbFeesResponseItem = zod.unknown()
-export const ListAnOrganizationsHcbFeesResponse = zod.array(ListAnOrganizationsHcbFeesResponseItem)
-
-
-/**
- * @summary List an organization's invoices
- */
-export const ListAnOrganizationsInvoicesParams = zod.object({
-  "organization_id": zod.string().describe('Organization ID or slug.')
-})
-
-export const listAnOrganizationsInvoicesQueryPageDefault = 1;
-export const listAnOrganizationsInvoicesQueryPerPageDefault = 50;
-export const listAnOrganizationsInvoicesQueryOffsetDefault = 0;
-
-export const ListAnOrganizationsInvoicesQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)'),
-  "page": zod.number().default(listAnOrganizationsInvoicesQueryPageDefault).describe('Page offset to fetch.'),
-  "per_page": zod.number().default(listAnOrganizationsInvoicesQueryPerPageDefault).describe('Number of results to return per page.'),
-  "offset": zod.number().default(listAnOrganizationsInvoicesQueryOffsetDefault).describe('Pad a number of results.')
-})
-
-export const ListAnOrganizationsInvoicesResponseItem = zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "amount_cents": zod.number().optional(),
-  "memo": zod.string().optional(),
-  "date": zod.string().optional(),
-  "type": zod.enum(['invoice', 'donation', 'ach_transfer', 'check', 'transfer', 'bank_account_transaction', 'card_charge', 'wire_transfer', 'wise_transfer', 'check_deposit', 'reimbursed_expense', 'hcb_fee']).optional(),
-  "pending": zod.boolean().optional(),
-  "receipts": zod.object({
-  "count": zod.number().optional(),
-  "missing": zod.boolean().optional()
-}).optional(),
-  "comments": zod.object({
-  "count": zod.number().optional()
-}).optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "user": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-}).optional(),
-  "tags": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "label": zod.string()
-})).optional(),
-  "card_charge": zod.unknown().optional(),
-  "ach_transfer": zod.unknown().optional(),
-  "check": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.number().optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['scheduled', 'in_transit', 'in_transit_and_processed', 'deposited', 'canceled', 'voided', 'refunded']).optional()
-}).optional().describe('Check model'),
-  "donation": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.number().optional(),
-  "donor": zod.object({
-  "name": zod.string().optional(),
-  "anonymous": zod.boolean().optional(),
-  "avatar": zod.string().optional()
-}).optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['pending', 'in_transit', 'deposited', 'failed', 'refunded']).optional(),
-  "recurring": zod.boolean().optional()
-}).optional().describe('Donation model'),
-  "invoice": zod.unknown().optional(),
-  "transfer": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.string().optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['fulfilled', 'processing', 'rejected', 'canceled', 'errored', 'under_review', 'pending']).optional(),
-  "source_organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model')
-}).optional().describe('Transfer model'),
-  "wire_transfer": zod.unknown().optional(),
-  "wise_transfer": zod.unknown().optional(),
-  "check_deposit": zod.unknown().optional(),
-  "reimbursed_expense": zod.unknown().optional(),
-  "hcb_fee": zod.unknown().optional()
-}).optional().describe('Transaction model'),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.string().optional(),
-  "sponsor": zod.object({
-  "id": zod.string().optional(),
-  "name": zod.string().optional()
-}).optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['open', 'paid', 'void']).optional()
-}).describe('Invoice model')
-export const ListAnOrganizationsInvoicesResponse = zod.array(ListAnOrganizationsInvoicesResponseItem)
-
-
-/**
- * @summary List an organization's ACH transfers
- */
-export const ListAnOrganizationsAchTransfersParams = zod.object({
-  "organization_id": zod.string().describe('Organization ID or slug.')
-})
-
-export const listAnOrganizationsAchTransfersQueryPageDefault = 1;
-export const listAnOrganizationsAchTransfersQueryPerPageDefault = 50;
-export const listAnOrganizationsAchTransfersQueryOffsetDefault = 0;
-
-export const ListAnOrganizationsAchTransfersQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)'),
-  "page": zod.number().default(listAnOrganizationsAchTransfersQueryPageDefault).describe('Page offset to fetch.'),
-  "per_page": zod.number().default(listAnOrganizationsAchTransfersQueryPerPageDefault).describe('Number of results to return per page.'),
-  "offset": zod.number().default(listAnOrganizationsAchTransfersQueryOffsetDefault).describe('Pad a number of results.')
-})
-
-export const ListAnOrganizationsAchTransfersResponseItem = zod.unknown()
-export const ListAnOrganizationsAchTransfersResponse = zod.array(ListAnOrganizationsAchTransfersResponseItem)
-
-
-/**
- * @summary List an organization's checks
- */
-export const ListAnOrganizationsChecksParams = zod.object({
-  "organization_id": zod.string().describe('Organization ID or slug.')
-})
-
-export const listAnOrganizationsChecksQueryPageDefault = 1;
-export const listAnOrganizationsChecksQueryPerPageDefault = 50;
-export const listAnOrganizationsChecksQueryOffsetDefault = 0;
-
-export const ListAnOrganizationsChecksQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)'),
-  "page": zod.number().default(listAnOrganizationsChecksQueryPageDefault).describe('Page offset to fetch.'),
-  "per_page": zod.number().default(listAnOrganizationsChecksQueryPerPageDefault).describe('Number of results to return per page.'),
-  "offset": zod.number().default(listAnOrganizationsChecksQueryOffsetDefault).describe('Pad a number of results.')
-})
-
-export const ListAnOrganizationsChecksResponseItem = zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "amount_cents": zod.number().optional(),
-  "memo": zod.string().optional(),
-  "date": zod.string().optional(),
-  "type": zod.enum(['invoice', 'donation', 'ach_transfer', 'check', 'transfer', 'bank_account_transaction', 'card_charge', 'wire_transfer', 'wise_transfer', 'check_deposit', 'reimbursed_expense', 'hcb_fee']).optional(),
-  "pending": zod.boolean().optional(),
-  "receipts": zod.object({
-  "count": zod.number().optional(),
-  "missing": zod.boolean().optional()
-}).optional(),
-  "comments": zod.object({
-  "count": zod.number().optional()
-}).optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "user": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-}).optional(),
-  "tags": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "label": zod.string()
-})).optional(),
-  "card_charge": zod.unknown().optional(),
-  "ach_transfer": zod.unknown().optional(),
-  "check": zod.unknown().optional(),
-  "donation": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.number().optional(),
-  "donor": zod.object({
-  "name": zod.string().optional(),
-  "anonymous": zod.boolean().optional(),
-  "avatar": zod.string().optional()
-}).optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['pending', 'in_transit', 'deposited', 'failed', 'refunded']).optional(),
-  "recurring": zod.boolean().optional()
-}).optional().describe('Donation model'),
-  "invoice": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.string().optional(),
-  "sponsor": zod.object({
-  "id": zod.string().optional(),
-  "name": zod.string().optional()
-}).optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['open', 'paid', 'void']).optional()
-}).optional().describe('Invoice model'),
-  "transfer": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.string().optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['fulfilled', 'processing', 'rejected', 'canceled', 'errored', 'under_review', 'pending']).optional(),
-  "source_organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model')
-}).optional().describe('Transfer model'),
-  "wire_transfer": zod.unknown().optional(),
-  "wise_transfer": zod.unknown().optional(),
-  "check_deposit": zod.unknown().optional(),
-  "reimbursed_expense": zod.unknown().optional(),
-  "hcb_fee": zod.unknown().optional()
-}).optional().describe('Transaction model'),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.number().optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['scheduled', 'in_transit', 'in_transit_and_processed', 'deposited', 'canceled', 'voided', 'refunded']).optional()
-}).describe('Check model')
-export const ListAnOrganizationsChecksResponse = zod.array(ListAnOrganizationsChecksResponseItem)
-
-
-/**
- * @summary List an organization's cards
- */
-export const ListAnOrganizationsCardsParams = zod.object({
-  "organization_id": zod.string().describe('Organization ID or slug.')
-})
-
-export const listAnOrganizationsCardsQueryPageDefault = 1;
-export const listAnOrganizationsCardsQueryPerPageDefault = 50;
-export const listAnOrganizationsCardsQueryOffsetDefault = 0;
-
-export const ListAnOrganizationsCardsQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)'),
-  "page": zod.number().default(listAnOrganizationsCardsQueryPageDefault).describe('Page offset to fetch.'),
-  "per_page": zod.number().default(listAnOrganizationsCardsQueryPerPageDefault).describe('Number of results to return per page.'),
-  "offset": zod.number().default(listAnOrganizationsCardsQueryOffsetDefault).describe('Pad a number of results.')
-})
-
-export const ListAnOrganizationsCardsResponseItem = zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "type": zod.enum(['virtual', 'physical']).optional(),
-  "status": zod.enum(['active', 'inactive', 'frozen', 'canceled']).optional(),
-  "issued_at": zod.string().optional(),
-  "owner": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-}).optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model')
-}).describe('Card model')
-export const ListAnOrganizationsCardsResponse = zod.array(ListAnOrganizationsCardsResponseItem)
-
-
-/**
- * @summary Get a card charge
- */
-export const GetACardChargeParams = zod.object({
-  "card_charge_id": zod.string().describe('Card charge ID')
-})
-
-export const GetACardChargeQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)')
-})
-
-export const GetACardChargeResponse = zod.unknown()
-
-
-/**
- * @summary Get a single donation
- */
-export const GetASingleDonationParams = zod.object({
-  "donation_id": zod.string().describe('Donation ID')
-})
-
-export const GetASingleDonationQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)')
-})
-
-export const GetASingleDonationResponse = zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "amount_cents": zod.number().optional(),
-  "memo": zod.string().optional(),
-  "date": zod.string().optional(),
-  "type": zod.enum(['invoice', 'donation', 'ach_transfer', 'check', 'transfer', 'bank_account_transaction', 'card_charge', 'wire_transfer', 'wise_transfer', 'check_deposit', 'reimbursed_expense', 'hcb_fee']).optional(),
-  "pending": zod.boolean().optional(),
-  "receipts": zod.object({
-  "count": zod.number().optional(),
-  "missing": zod.boolean().optional()
-}).optional(),
-  "comments": zod.object({
-  "count": zod.number().optional()
-}).optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "user": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-}).optional(),
-  "tags": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "label": zod.string()
-})).optional(),
-  "card_charge": zod.unknown().optional(),
-  "ach_transfer": zod.unknown().optional(),
-  "check": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.number().optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['scheduled', 'in_transit', 'in_transit_and_processed', 'deposited', 'canceled', 'voided', 'refunded']).optional()
-}).optional().describe('Check model'),
-  "donation": zod.unknown().optional(),
-  "invoice": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.string().optional(),
-  "sponsor": zod.object({
-  "id": zod.string().optional(),
-  "name": zod.string().optional()
-}).optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['open', 'paid', 'void']).optional()
-}).optional().describe('Invoice model'),
-  "transfer": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.string().optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['fulfilled', 'processing', 'rejected', 'canceled', 'errored', 'under_review', 'pending']).optional(),
-  "source_organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model')
-}).optional().describe('Transfer model'),
-  "wire_transfer": zod.unknown().optional(),
-  "wise_transfer": zod.unknown().optional(),
-  "check_deposit": zod.unknown().optional(),
-  "reimbursed_expense": zod.unknown().optional(),
-  "hcb_fee": zod.unknown().optional()
-}).optional().describe('Transaction model'),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.number().optional(),
-  "donor": zod.object({
-  "name": zod.string().optional(),
-  "anonymous": zod.boolean().optional(),
-  "avatar": zod.string().optional()
-}).optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['pending', 'in_transit', 'deposited', 'failed', 'refunded']).optional(),
-  "recurring": zod.boolean().optional()
-}).describe('Donation model')
-
-
-/**
- * @summary Get a single transfer
- */
-export const GetASingleTransferParams = zod.object({
-  "transfer_id": zod.string().describe('Transfer ID')
-})
-
-export const GetASingleTransferQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)')
-})
-
-export const GetASingleTransferResponse = zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "amount_cents": zod.number().optional(),
-  "memo": zod.string().optional(),
-  "date": zod.string().optional(),
-  "type": zod.enum(['invoice', 'donation', 'ach_transfer', 'check', 'transfer', 'bank_account_transaction', 'card_charge', 'wire_transfer', 'wise_transfer', 'check_deposit', 'reimbursed_expense', 'hcb_fee']).optional(),
-  "pending": zod.boolean().optional(),
-  "receipts": zod.object({
-  "count": zod.number().optional(),
-  "missing": zod.boolean().optional()
-}).optional(),
-  "comments": zod.object({
-  "count": zod.number().optional()
-}).optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "user": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-}).optional(),
-  "tags": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "label": zod.string()
-})).optional(),
-  "card_charge": zod.unknown().optional(),
-  "ach_transfer": zod.unknown().optional(),
-  "check": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.number().optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['scheduled', 'in_transit', 'in_transit_and_processed', 'deposited', 'canceled', 'voided', 'refunded']).optional()
-}).optional().describe('Check model'),
-  "donation": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.number().optional(),
-  "donor": zod.object({
-  "name": zod.string().optional(),
-  "anonymous": zod.boolean().optional(),
-  "avatar": zod.string().optional()
-}).optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['pending', 'in_transit', 'deposited', 'failed', 'refunded']).optional(),
-  "recurring": zod.boolean().optional()
-}).optional().describe('Donation model'),
-  "invoice": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.string().optional(),
-  "sponsor": zod.object({
-  "id": zod.string().optional(),
-  "name": zod.string().optional()
-}).optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['open', 'paid', 'void']).optional()
-}).optional().describe('Invoice model'),
-  "transfer": zod.unknown().optional(),
-  "wire_transfer": zod.unknown().optional(),
-  "wise_transfer": zod.unknown().optional(),
-  "check_deposit": zod.unknown().optional(),
-  "reimbursed_expense": zod.unknown().optional(),
-  "hcb_fee": zod.unknown().optional()
-}).optional().describe('Transaction model'),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.string().optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['fulfilled', 'processing', 'rejected', 'canceled', 'errored', 'under_review', 'pending']).optional(),
-  "source_organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model')
-}).describe('Transfer model')
-
-
-/**
- * @summary Get a single wire transfer
- */
-export const GetASingleWireTransferParams = zod.object({
-  "wire_transfer_id": zod.string().describe('Wire transfer ID')
-})
-
-export const GetASingleWireTransferQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)')
-})
-
-export const GetASingleWireTransferResponse = zod.unknown()
-
-
-/**
- * @summary Get a single Wise transfer
- */
-export const GetASingleWiseTransferParams = zod.object({
-  "wise_transfer_id": zod.string().describe('Wise transfer ID')
-})
-
-export const GetASingleWiseTransferQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)')
-})
-
-export const GetASingleWiseTransferResponse = zod.unknown()
-
-
-/**
- * @summary Get a single check deposit
- */
-export const GetASingleCheckDepositParams = zod.object({
-  "check_deposit_id": zod.string().describe('Check deposit ID')
-})
-
-export const GetASingleCheckDepositQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)')
-})
-
-export const GetASingleCheckDepositResponse = zod.unknown()
-
-
-/**
- * @summary Get a single reimbursed expense
- */
-export const GetASingleReimbursedExpenseParams = zod.object({
-  "reimbursed_expense_id": zod.string().describe('Reimbursed expense ID')
-})
-
-export const GetASingleReimbursedExpenseQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)')
-})
-
-export const GetASingleReimbursedExpenseResponse = zod.unknown()
-
-
-/**
- * @summary Get a single HCB fee
- */
-export const GetASingleHcbFeeParams = zod.object({
-  "hcb_fee_id": zod.string().describe('HCB fee ID')
-})
-
-export const GetASingleHcbFeeQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)')
-})
-
-export const GetASingleHcbFeeResponse = zod.unknown()
-
-
-/**
- * @summary Get a single invoice
- */
-export const GetASingleInvoiceParams = zod.object({
-  "invoice_id": zod.string().describe('Invoice ID')
-})
-
-export const GetASingleInvoiceQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)')
-})
-
-export const GetASingleInvoiceResponse = zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "amount_cents": zod.number().optional(),
-  "memo": zod.string().optional(),
-  "date": zod.string().optional(),
-  "type": zod.enum(['invoice', 'donation', 'ach_transfer', 'check', 'transfer', 'bank_account_transaction', 'card_charge', 'wire_transfer', 'wise_transfer', 'check_deposit', 'reimbursed_expense', 'hcb_fee']).optional(),
-  "pending": zod.boolean().optional(),
-  "receipts": zod.object({
-  "count": zod.number().optional(),
-  "missing": zod.boolean().optional()
-}).optional(),
-  "comments": zod.object({
-  "count": zod.number().optional()
-}).optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "user": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-}).optional(),
-  "tags": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "label": zod.string()
-})).optional(),
-  "card_charge": zod.unknown().optional(),
-  "ach_transfer": zod.unknown().optional(),
-  "check": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.number().optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['scheduled', 'in_transit', 'in_transit_and_processed', 'deposited', 'canceled', 'voided', 'refunded']).optional()
-}).optional().describe('Check model'),
-  "donation": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.number().optional(),
-  "donor": zod.object({
-  "name": zod.string().optional(),
-  "anonymous": zod.boolean().optional(),
-  "avatar": zod.string().optional()
-}).optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['pending', 'in_transit', 'deposited', 'failed', 'refunded']).optional(),
-  "recurring": zod.boolean().optional()
-}).optional().describe('Donation model'),
-  "invoice": zod.unknown().optional(),
-  "transfer": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.string().optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['fulfilled', 'processing', 'rejected', 'canceled', 'errored', 'under_review', 'pending']).optional(),
-  "source_organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model')
-}).optional().describe('Transfer model'),
-  "wire_transfer": zod.unknown().optional(),
-  "wise_transfer": zod.unknown().optional(),
-  "check_deposit": zod.unknown().optional(),
-  "reimbursed_expense": zod.unknown().optional(),
-  "hcb_fee": zod.unknown().optional()
-}).optional().describe('Transaction model'),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.string().optional(),
-  "sponsor": zod.object({
-  "id": zod.string().optional(),
-  "name": zod.string().optional()
-}).optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['open', 'paid', 'void']).optional()
-}).describe('Invoice model')
-
-
-/**
- * @summary Get a single ACH transfer
- */
-export const GetASingleAchTransferParams = zod.object({
-  "ach_transfer_id": zod.string().describe('ACH transfer ID')
-})
-
-export const GetASingleAchTransferQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)')
-})
-
-export const GetASingleAchTransferResponse = zod.unknown()
-
-
-/**
- * @summary Get a single check
- */
-export const GetASingleCheckParams = zod.object({
-  "check_id": zod.string().describe('Check ID')
-})
-
-export const GetASingleCheckQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)')
-})
-
-export const GetASingleCheckResponse = zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "amount_cents": zod.number().optional(),
-  "memo": zod.string().optional(),
-  "date": zod.string().optional(),
-  "type": zod.enum(['invoice', 'donation', 'ach_transfer', 'check', 'transfer', 'bank_account_transaction', 'card_charge', 'wire_transfer', 'wise_transfer', 'check_deposit', 'reimbursed_expense', 'hcb_fee']).optional(),
-  "pending": zod.boolean().optional(),
-  "receipts": zod.object({
-  "count": zod.number().optional(),
-  "missing": zod.boolean().optional()
-}).optional(),
-  "comments": zod.object({
-  "count": zod.number().optional()
-}).optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "user": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-}).optional(),
-  "tags": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "label": zod.string()
-})).optional(),
-  "card_charge": zod.unknown().optional(),
-  "ach_transfer": zod.unknown().optional(),
-  "check": zod.unknown().optional(),
-  "donation": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.number().optional(),
-  "donor": zod.object({
-  "name": zod.string().optional(),
-  "anonymous": zod.boolean().optional(),
-  "avatar": zod.string().optional()
-}).optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['pending', 'in_transit', 'deposited', 'failed', 'refunded']).optional(),
-  "recurring": zod.boolean().optional()
-}).optional().describe('Donation model'),
-  "invoice": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.string().optional(),
-  "sponsor": zod.object({
-  "id": zod.string().optional(),
-  "name": zod.string().optional()
-}).optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['open', 'paid', 'void']).optional()
-}).optional().describe('Invoice model'),
-  "transfer": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.string().optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['fulfilled', 'processing', 'rejected', 'canceled', 'errored', 'under_review', 'pending']).optional(),
-  "source_organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model')
-}).optional().describe('Transfer model'),
-  "wire_transfer": zod.unknown().optional(),
-  "wise_transfer": zod.unknown().optional(),
-  "check_deposit": zod.unknown().optional(),
-  "reimbursed_expense": zod.unknown().optional(),
-  "hcb_fee": zod.unknown().optional()
-}).optional().describe('Transaction model'),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.number().optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['scheduled', 'in_transit', 'in_transit_and_processed', 'deposited', 'canceled', 'voided', 'refunded']).optional()
-}).describe('Check model')
-
-
-/**
- * @summary Get a single card
- */
-export const GetASingleCardParams = zod.object({
-  "card_id": zod.string().describe('Card ID')
-})
-
-export const GetASingleCardQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)')
-})
-
-export const GetASingleCardResponse = zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "type": zod.enum(['virtual', 'physical']).optional(),
-  "status": zod.enum(['active', 'inactive', 'frozen', 'canceled']).optional(),
-  "issued_at": zod.string().optional(),
-  "owner": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-}).optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model')
-}).describe('Card model')
-
-
-/**
- * @summary Get a single transaction
- */
-export const GetASingleTransactionParams = zod.object({
-  "transaction_id": zod.string().describe('Transaction ID')
-})
-
-export const GetASingleTransactionQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)')
-})
-
-export const GetASingleTransactionResponse = zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "amount_cents": zod.number().optional(),
-  "memo": zod.string().optional(),
-  "date": zod.string().optional(),
-  "type": zod.enum(['invoice', 'donation', 'ach_transfer', 'check', 'transfer', 'bank_account_transaction', 'card_charge', 'wire_transfer', 'wise_transfer', 'check_deposit', 'reimbursed_expense', 'hcb_fee']).optional(),
-  "pending": zod.boolean().optional(),
-  "receipts": zod.object({
-  "count": zod.number().optional(),
-  "missing": zod.boolean().optional()
-}).optional(),
-  "comments": zod.object({
-  "count": zod.number().optional()
-}).optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "user": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-}).optional(),
-  "tags": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "label": zod.string()
-})).optional(),
-  "card_charge": zod.unknown().optional(),
-  "ach_transfer": zod.unknown().optional(),
-  "check": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.number().optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['scheduled', 'in_transit', 'in_transit_and_processed', 'deposited', 'canceled', 'voided', 'refunded']).optional()
-}).optional().describe('Check model'),
-  "donation": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.number().optional(),
-  "donor": zod.object({
-  "name": zod.string().optional(),
-  "anonymous": zod.boolean().optional(),
-  "avatar": zod.string().optional()
-}).optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['pending', 'in_transit', 'deposited', 'failed', 'refunded']).optional(),
-  "recurring": zod.boolean().optional()
-}).optional().describe('Donation model'),
-  "invoice": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.string().optional(),
-  "sponsor": zod.object({
-  "id": zod.string().optional(),
-  "name": zod.string().optional()
-}).optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['open', 'paid', 'void']).optional()
-}).optional().describe('Invoice model'),
-  "transfer": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.string().optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['fulfilled', 'processing', 'rejected', 'canceled', 'errored', 'under_review', 'pending']).optional(),
-  "source_organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model')
-}).optional().describe('Transfer model'),
-  "wire_transfer": zod.unknown().optional(),
-  "wise_transfer": zod.unknown().optional(),
-  "check_deposit": zod.unknown().optional(),
-  "reimbursed_expense": zod.unknown().optional(),
-  "hcb_fee": zod.unknown().optional()
-}).describe('Transaction model')
-
-
-/**
- * Returns a list of recent activities from all HCB organizations that are in <a href='https://blog.hcb.hackclub.com/posts/transparent-finances-optional-feature-151427'><strong>Transparency Mode</strong></a> and have opted in to public listing.
- * @summary Get a list of recent activities on transparent HCB organizations
- */
-export const listActivitiesQueryPageDefaultOne = 1;
-export const listActivitiesQueryPerPageDefaultOne = 50;
-export const listActivitiesQueryOffsetDefault = 0;
-
-export const ListActivitiesQueryParams = zod.object({
-  "page": zod.number().default(listActivitiesQueryPageDefaultOne).describe('Page offset to fetch.'),
-  "per_page": zod.number().default(listActivitiesQueryPerPageDefaultOne).describe('Number of results to return per page.'),
-  "offset": zod.number().default(listActivitiesQueryOffsetDefault).describe('Pad a number of results.'),
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)')
-})
-
-export const ListActivitiesResponseItem = zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "key": zod.string(),
-  "created_at": zod.string(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "user": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-}).optional(),
-  "transaction": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "amount_cents": zod.number().optional(),
-  "memo": zod.string().optional(),
-  "date": zod.string().optional(),
-  "type": zod.enum(['invoice', 'donation', 'ach_transfer', 'check', 'transfer', 'bank_account_transaction', 'card_charge', 'wire_transfer', 'wise_transfer', 'check_deposit', 'reimbursed_expense', 'hcb_fee']).optional(),
-  "pending": zod.boolean().optional(),
-  "receipts": zod.object({
-  "count": zod.number().optional(),
-  "missing": zod.boolean().optional()
-}).optional(),
-  "comments": zod.object({
-  "count": zod.number().optional()
-}).optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "user": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-}).optional(),
-  "tags": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "label": zod.string()
-})).optional(),
-  "card_charge": zod.unknown().optional(),
-  "ach_transfer": zod.unknown().optional(),
-  "check": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.number().optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['scheduled', 'in_transit', 'in_transit_and_processed', 'deposited', 'canceled', 'voided', 'refunded']).optional()
-}).optional().describe('Check model'),
-  "donation": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.number().optional(),
-  "donor": zod.object({
-  "name": zod.string().optional(),
-  "anonymous": zod.boolean().optional(),
-  "avatar": zod.string().optional()
-}).optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['pending', 'in_transit', 'deposited', 'failed', 'refunded']).optional(),
-  "recurring": zod.boolean().optional()
-}).optional().describe('Donation model'),
-  "invoice": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.string().optional(),
-  "sponsor": zod.object({
-  "id": zod.string().optional(),
-  "name": zod.string().optional()
-}).optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['open', 'paid', 'void']).optional()
-}).optional().describe('Invoice model'),
-  "transfer": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.string().optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['fulfilled', 'processing', 'rejected', 'canceled', 'errored', 'under_review', 'pending']).optional(),
-  "source_organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model')
-}).optional().describe('Transfer model'),
-  "wire_transfer": zod.unknown().optional(),
-  "wise_transfer": zod.unknown().optional(),
-  "check_deposit": zod.unknown().optional(),
-  "reimbursed_expense": zod.unknown().optional(),
-  "hcb_fee": zod.unknown().optional()
-}).optional().describe('Transaction model')
-}).describe('Activity model')
-export const ListActivitiesResponse = zod.array(ListActivitiesResponseItem)
-
-
-/**
- * @summary Get a single activity
- */
-export const GetASingleActivityParams = zod.object({
-  "activity_id": zod.string().describe('Activity ID')
-})
-
-export const GetASingleActivityQueryParams = zod.object({
-  "expand": zod.string().optional().describe('Object types to expand in the API response (separated by commas)')
-})
-
-export const GetASingleActivityResponse = zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "key": zod.string(),
-  "created_at": zod.string(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "user": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-}).optional(),
-  "transaction": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "amount_cents": zod.number().optional(),
-  "memo": zod.string().optional(),
-  "date": zod.string().optional(),
-  "type": zod.enum(['invoice', 'donation', 'ach_transfer', 'check', 'transfer', 'bank_account_transaction', 'card_charge', 'wire_transfer', 'wise_transfer', 'check_deposit', 'reimbursed_expense', 'hcb_fee']).optional(),
-  "pending": zod.boolean().optional(),
-  "receipts": zod.object({
-  "count": zod.number().optional(),
-  "missing": zod.boolean().optional()
-}).optional(),
-  "comments": zod.object({
-  "count": zod.number().optional()
-}).optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "user": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-}).optional(),
-  "tags": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "label": zod.string()
-})).optional(),
-  "card_charge": zod.unknown().optional(),
-  "ach_transfer": zod.unknown().optional(),
-  "check": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.number().optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['scheduled', 'in_transit', 'in_transit_and_processed', 'deposited', 'canceled', 'voided', 'refunded']).optional()
-}).optional().describe('Check model'),
-  "donation": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.number().optional(),
-  "donor": zod.object({
-  "name": zod.string().optional(),
-  "anonymous": zod.boolean().optional(),
-  "avatar": zod.string().optional()
-}).optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['pending', 'in_transit', 'deposited', 'failed', 'refunded']).optional(),
-  "recurring": zod.boolean().optional()
-}).optional().describe('Donation model'),
-  "invoice": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.string().optional(),
-  "sponsor": zod.object({
-  "id": zod.string().optional(),
-  "name": zod.string().optional()
-}).optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['open', 'paid', 'void']).optional()
-}).optional().describe('Invoice model'),
-  "transfer": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "memo": zod.string().optional(),
-  "transaction": zod.unknown().optional(),
-  "organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model'),
-  "amount_cents": zod.string().optional(),
-  "date": zod.string().optional(),
-  "status": zod.enum(['fulfilled', 'processing', 'rejected', 'canceled', 'errored', 'under_review', 'pending']).optional(),
-  "source_organization": zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "href": zod.string(),
-  "name": zod.string().optional(),
-  "slug": zod.string().optional(),
-  "website": zod.string().optional(),
-  "category": zod.enum(['hack_club_hq', 'robotics_team', 'hackathon', 'hack_club', 'climate', 'nonprofit']).optional(),
-  "transparent": zod.boolean().optional(),
-  "demo_mode": zod.boolean().optional(),
-  "financially_frozen": zod.boolean().optional(),
-  "logo": zod.string().optional(),
-  "donation_header": zod.string().optional(),
-  "background_image": zod.string().optional(),
-  "public_message": zod.string().optional(),
-  "donation_link": zod.string().optional(),
-  "balances": zod.object({
-  "balance_cents": zod.number().optional(),
-  "fee_balance_cents": zod.number().optional(),
-  "incoming_balance_cents": zod.number().optional(),
-  "total_raised": zod.number().optional()
-}).optional(),
-  "created_at": zod.string().optional(),
-  "users": zod.array(zod.object({
-  "id": zod.string(),
-  "object": zod.string(),
-  "full_name": zod.string(),
-  "auditor": zod.boolean(),
-  "admin": zod.boolean(),
-  "photo": zod.string()
-})).optional()
-}).optional().describe('Organization model')
-}).optional().describe('Transfer model'),
-  "wire_transfer": zod.unknown().optional(),
-  "wise_transfer": zod.unknown().optional(),
-  "check_deposit": zod.unknown().optional(),
-  "reimbursed_expense": zod.unknown().optional(),
-  "hcb_fee": zod.unknown().optional()
-}).optional().describe('Transaction model')
-}).describe('Activity model')
+import * as zod from "zod";
+
+export namespace ZTypes {
+  /**
+   * Returns a list of organizations in <a href='https://blog.hcb.hackclub.com/posts/transparent-finances-optional-feature-151427'><strong>Transparency Mode</strong></a> that have opted in to public listing.
+   * @summary Get a list of transparent organizations
+   */
+  export const listTransparentOrganizationsQueryPageDefault = 1;
+  export const listTransparentOrganizationsQueryPerPageDefault = 50;
+  export const listTransparentOrganizationsQueryOffsetDefault = 0;
+
+  export const ListTransparentOrganizationsQueryParams = zod.object({
+    page: zod
+      .number()
+      .default(listTransparentOrganizationsQueryPageDefault)
+      .describe("Page offset to fetch."),
+    per_page: zod
+      .number()
+      .default(listTransparentOrganizationsQueryPerPageDefault)
+      .describe("Number of results to return per page."),
+    offset: zod
+      .number()
+      .default(listTransparentOrganizationsQueryOffsetDefault)
+      .describe("Pad a number of results."),
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+  });
+
+  export const ListTransparentOrganizationsResponseItem = zod
+    .object({
+      id: zod.string(),
+      object: zod.string(),
+      href: zod.string(),
+      name: zod.string().optional(),
+      slug: zod.string().optional(),
+      website: zod.string().optional(),
+      category: zod
+        .enum([
+          "hack_club_hq",
+          "robotics_team",
+          "hackathon",
+          "hack_club",
+          "climate",
+          "nonprofit",
+        ])
+        .optional(),
+      transparent: zod.boolean().optional(),
+      demo_mode: zod.boolean().optional(),
+      financially_frozen: zod.boolean().optional(),
+      logo: zod.string().optional(),
+      donation_header: zod.string().optional(),
+      background_image: zod.string().optional(),
+      public_message: zod.string().optional(),
+      donation_link: zod.string().optional(),
+      balances: zod
+        .object({
+          balance_cents: zod.number().optional(),
+          fee_balance_cents: zod.number().optional(),
+          incoming_balance_cents: zod.number().optional(),
+          total_raised: zod.number().optional(),
+        })
+        .optional(),
+      created_at: zod.string().optional(),
+      users: zod
+        .array(
+          zod.object({
+            id: zod.string(),
+            object: zod.string(),
+            full_name: zod.string(),
+            auditor: zod.boolean(),
+            admin: zod.boolean(),
+            photo: zod.string(),
+          }),
+        )
+        .optional(),
+    })
+    .describe("Organization model");
+  export const ListTransparentOrganizationsResponse = zod.array(
+    ListTransparentOrganizationsResponseItem,
+  );
+
+  /**
+   * The organization must be in <a href='https://blog.hcb.hackclub.com/posts/transparent-finances-optional-feature-151427'><strong>Transparency Mode</strong></a>.
+   * @summary Get a single organization
+   */
+  export const GetASingleOrganizationParams = zod.object({
+    organization_id: zod.string().describe("Organization ID or slug."),
+  });
+
+  export const GetASingleOrganizationQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+  });
+
+  export const GetASingleOrganizationResponse = zod
+    .object({
+      id: zod.string(),
+      object: zod.string(),
+      href: zod.string(),
+      name: zod.string().optional(),
+      slug: zod.string().optional(),
+      website: zod.string().optional(),
+      category: zod
+        .enum([
+          "hack_club_hq",
+          "robotics_team",
+          "hackathon",
+          "hack_club",
+          "climate",
+          "nonprofit",
+        ])
+        .optional(),
+      transparent: zod.boolean().optional(),
+      demo_mode: zod.boolean().optional(),
+      financially_frozen: zod.boolean().optional(),
+      logo: zod.string().optional(),
+      donation_header: zod.string().optional(),
+      background_image: zod.string().optional(),
+      public_message: zod.string().optional(),
+      donation_link: zod.string().optional(),
+      balances: zod
+        .object({
+          balance_cents: zod.number().optional(),
+          fee_balance_cents: zod.number().optional(),
+          incoming_balance_cents: zod.number().optional(),
+          total_raised: zod.number().optional(),
+        })
+        .optional(),
+      created_at: zod.string().optional(),
+      users: zod
+        .array(
+          zod.object({
+            id: zod.string(),
+            object: zod.string(),
+            full_name: zod.string(),
+            auditor: zod.boolean(),
+            admin: zod.boolean(),
+            photo: zod.string(),
+          }),
+        )
+        .optional(),
+    })
+    .describe("Organization model");
+
+  /**
+   * Transaction represent a line item on an Organization's ledger. There are various <em>types</em> of transaction (see the <em>type</em> below).<br/><br/>
+   * @summary List an organization's transactions
+   */
+  export const ListAnOrganizationsTransactionsParams = zod.object({
+    organization_id: zod.string().describe("Organization ID or slug."),
+  });
+
+  export const listAnOrganizationsTransactionsQueryPageDefault = 1;
+  export const listAnOrganizationsTransactionsQueryPerPageDefault = 50;
+  export const listAnOrganizationsTransactionsQueryOffsetDefault = 0;
+
+  export const ListAnOrganizationsTransactionsQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+    page: zod
+      .number()
+      .default(listAnOrganizationsTransactionsQueryPageDefault)
+      .describe("Page offset to fetch."),
+    per_page: zod
+      .number()
+      .default(listAnOrganizationsTransactionsQueryPerPageDefault)
+      .describe("Number of results to return per page."),
+    offset: zod
+      .number()
+      .default(listAnOrganizationsTransactionsQueryOffsetDefault)
+      .describe("Pad a number of results."),
+  });
+
+  export const ListAnOrganizationsTransactionsResponseItem = zod
+    .object({
+      id: zod.string(),
+      object: zod.string(),
+      href: zod.string(),
+      amount_cents: zod.number().optional(),
+      memo: zod.string().optional(),
+      date: zod.string().optional(),
+      type: zod
+        .enum([
+          "invoice",
+          "donation",
+          "ach_transfer",
+          "check",
+          "transfer",
+          "bank_account_transaction",
+          "card_charge",
+          "wire_transfer",
+          "wise_transfer",
+          "check_deposit",
+          "reimbursed_expense",
+          "hcb_fee",
+        ])
+        .optional(),
+      pending: zod.boolean().optional(),
+      receipts: zod
+        .object({
+          count: zod.number().optional(),
+          missing: zod.boolean().optional(),
+        })
+        .optional(),
+      comments: zod
+        .object({
+          count: zod.number().optional(),
+        })
+        .optional(),
+      organization: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          name: zod.string().optional(),
+          slug: zod.string().optional(),
+          website: zod.string().optional(),
+          category: zod
+            .enum([
+              "hack_club_hq",
+              "robotics_team",
+              "hackathon",
+              "hack_club",
+              "climate",
+              "nonprofit",
+            ])
+            .optional(),
+          transparent: zod.boolean().optional(),
+          demo_mode: zod.boolean().optional(),
+          financially_frozen: zod.boolean().optional(),
+          logo: zod.string().optional(),
+          donation_header: zod.string().optional(),
+          background_image: zod.string().optional(),
+          public_message: zod.string().optional(),
+          donation_link: zod.string().optional(),
+          balances: zod
+            .object({
+              balance_cents: zod.number().optional(),
+              fee_balance_cents: zod.number().optional(),
+              incoming_balance_cents: zod.number().optional(),
+              total_raised: zod.number().optional(),
+            })
+            .optional(),
+          created_at: zod.string().optional(),
+          users: zod
+            .array(
+              zod.object({
+                id: zod.string(),
+                object: zod.string(),
+                full_name: zod.string(),
+                auditor: zod.boolean(),
+                admin: zod.boolean(),
+                photo: zod.string(),
+              }),
+            )
+            .optional(),
+        })
+        .optional()
+        .describe("Organization model"),
+      user: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          full_name: zod.string(),
+          auditor: zod.boolean(),
+          admin: zod.boolean(),
+          photo: zod.string(),
+        })
+        .optional(),
+      tags: zod
+        .array(
+          zod.object({
+            id: zod.string(),
+            object: zod.string(),
+            label: zod.string(),
+          }),
+        )
+        .optional(),
+      card_charge: zod.unknown().optional(),
+      ach_transfer: zod.unknown().optional(),
+      check: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          memo: zod.string().optional(),
+          transaction: zod.unknown().optional(),
+          organization: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              name: zod.string().optional(),
+              slug: zod.string().optional(),
+              website: zod.string().optional(),
+              category: zod
+                .enum([
+                  "hack_club_hq",
+                  "robotics_team",
+                  "hackathon",
+                  "hack_club",
+                  "climate",
+                  "nonprofit",
+                ])
+                .optional(),
+              transparent: zod.boolean().optional(),
+              demo_mode: zod.boolean().optional(),
+              financially_frozen: zod.boolean().optional(),
+              logo: zod.string().optional(),
+              donation_header: zod.string().optional(),
+              background_image: zod.string().optional(),
+              public_message: zod.string().optional(),
+              donation_link: zod.string().optional(),
+              balances: zod
+                .object({
+                  balance_cents: zod.number().optional(),
+                  fee_balance_cents: zod.number().optional(),
+                  incoming_balance_cents: zod.number().optional(),
+                  total_raised: zod.number().optional(),
+                })
+                .optional(),
+              created_at: zod.string().optional(),
+              users: zod
+                .array(
+                  zod.object({
+                    id: zod.string(),
+                    object: zod.string(),
+                    full_name: zod.string(),
+                    auditor: zod.boolean(),
+                    admin: zod.boolean(),
+                    photo: zod.string(),
+                  }),
+                )
+                .optional(),
+            })
+            .optional()
+            .describe("Organization model"),
+          amount_cents: zod.number().optional(),
+          date: zod.string().optional(),
+          status: zod
+            .enum([
+              "scheduled",
+              "in_transit",
+              "in_transit_and_processed",
+              "deposited",
+              "canceled",
+              "voided",
+              "refunded",
+            ])
+            .optional(),
+        })
+        .optional()
+        .describe("Check model"),
+      donation: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          memo: zod.string().optional(),
+          transaction: zod.unknown().optional(),
+          organization: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              name: zod.string().optional(),
+              slug: zod.string().optional(),
+              website: zod.string().optional(),
+              category: zod
+                .enum([
+                  "hack_club_hq",
+                  "robotics_team",
+                  "hackathon",
+                  "hack_club",
+                  "climate",
+                  "nonprofit",
+                ])
+                .optional(),
+              transparent: zod.boolean().optional(),
+              demo_mode: zod.boolean().optional(),
+              financially_frozen: zod.boolean().optional(),
+              logo: zod.string().optional(),
+              donation_header: zod.string().optional(),
+              background_image: zod.string().optional(),
+              public_message: zod.string().optional(),
+              donation_link: zod.string().optional(),
+              balances: zod
+                .object({
+                  balance_cents: zod.number().optional(),
+                  fee_balance_cents: zod.number().optional(),
+                  incoming_balance_cents: zod.number().optional(),
+                  total_raised: zod.number().optional(),
+                })
+                .optional(),
+              created_at: zod.string().optional(),
+              users: zod
+                .array(
+                  zod.object({
+                    id: zod.string(),
+                    object: zod.string(),
+                    full_name: zod.string(),
+                    auditor: zod.boolean(),
+                    admin: zod.boolean(),
+                    photo: zod.string(),
+                  }),
+                )
+                .optional(),
+            })
+            .optional()
+            .describe("Organization model"),
+          amount_cents: zod.number().optional(),
+          donor: zod
+            .object({
+              name: zod.string().optional(),
+              anonymous: zod.boolean().optional(),
+              avatar: zod.string().optional(),
+            })
+            .optional(),
+          date: zod.string().optional(),
+          status: zod
+            .enum(["pending", "in_transit", "deposited", "failed", "refunded"])
+            .optional(),
+          recurring: zod.boolean().optional(),
+        })
+        .optional()
+        .describe("Donation model"),
+      invoice: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          memo: zod.string().optional(),
+          transaction: zod.unknown().optional(),
+          organization: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              name: zod.string().optional(),
+              slug: zod.string().optional(),
+              website: zod.string().optional(),
+              category: zod
+                .enum([
+                  "hack_club_hq",
+                  "robotics_team",
+                  "hackathon",
+                  "hack_club",
+                  "climate",
+                  "nonprofit",
+                ])
+                .optional(),
+              transparent: zod.boolean().optional(),
+              demo_mode: zod.boolean().optional(),
+              financially_frozen: zod.boolean().optional(),
+              logo: zod.string().optional(),
+              donation_header: zod.string().optional(),
+              background_image: zod.string().optional(),
+              public_message: zod.string().optional(),
+              donation_link: zod.string().optional(),
+              balances: zod
+                .object({
+                  balance_cents: zod.number().optional(),
+                  fee_balance_cents: zod.number().optional(),
+                  incoming_balance_cents: zod.number().optional(),
+                  total_raised: zod.number().optional(),
+                })
+                .optional(),
+              created_at: zod.string().optional(),
+              users: zod
+                .array(
+                  zod.object({
+                    id: zod.string(),
+                    object: zod.string(),
+                    full_name: zod.string(),
+                    auditor: zod.boolean(),
+                    admin: zod.boolean(),
+                    photo: zod.string(),
+                  }),
+                )
+                .optional(),
+            })
+            .optional()
+            .describe("Organization model"),
+          amount_cents: zod.string().optional(),
+          sponsor: zod
+            .object({
+              id: zod.string().optional(),
+              name: zod.string().optional(),
+            })
+            .optional(),
+          date: zod.string().optional(),
+          status: zod.enum(["open", "paid", "void"]).optional(),
+        })
+        .optional()
+        .describe("Invoice model"),
+      transfer: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          memo: zod.string().optional(),
+          transaction: zod.unknown().optional(),
+          organization: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              name: zod.string().optional(),
+              slug: zod.string().optional(),
+              website: zod.string().optional(),
+              category: zod
+                .enum([
+                  "hack_club_hq",
+                  "robotics_team",
+                  "hackathon",
+                  "hack_club",
+                  "climate",
+                  "nonprofit",
+                ])
+                .optional(),
+              transparent: zod.boolean().optional(),
+              demo_mode: zod.boolean().optional(),
+              financially_frozen: zod.boolean().optional(),
+              logo: zod.string().optional(),
+              donation_header: zod.string().optional(),
+              background_image: zod.string().optional(),
+              public_message: zod.string().optional(),
+              donation_link: zod.string().optional(),
+              balances: zod
+                .object({
+                  balance_cents: zod.number().optional(),
+                  fee_balance_cents: zod.number().optional(),
+                  incoming_balance_cents: zod.number().optional(),
+                  total_raised: zod.number().optional(),
+                })
+                .optional(),
+              created_at: zod.string().optional(),
+              users: zod
+                .array(
+                  zod.object({
+                    id: zod.string(),
+                    object: zod.string(),
+                    full_name: zod.string(),
+                    auditor: zod.boolean(),
+                    admin: zod.boolean(),
+                    photo: zod.string(),
+                  }),
+                )
+                .optional(),
+            })
+            .optional()
+            .describe("Organization model"),
+          amount_cents: zod.string().optional(),
+          date: zod.string().optional(),
+          status: zod
+            .enum([
+              "fulfilled",
+              "processing",
+              "rejected",
+              "canceled",
+              "errored",
+              "under_review",
+              "pending",
+            ])
+            .optional(),
+          source_organization: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              name: zod.string().optional(),
+              slug: zod.string().optional(),
+              website: zod.string().optional(),
+              category: zod
+                .enum([
+                  "hack_club_hq",
+                  "robotics_team",
+                  "hackathon",
+                  "hack_club",
+                  "climate",
+                  "nonprofit",
+                ])
+                .optional(),
+              transparent: zod.boolean().optional(),
+              demo_mode: zod.boolean().optional(),
+              financially_frozen: zod.boolean().optional(),
+              logo: zod.string().optional(),
+              donation_header: zod.string().optional(),
+              background_image: zod.string().optional(),
+              public_message: zod.string().optional(),
+              donation_link: zod.string().optional(),
+              balances: zod
+                .object({
+                  balance_cents: zod.number().optional(),
+                  fee_balance_cents: zod.number().optional(),
+                  incoming_balance_cents: zod.number().optional(),
+                  total_raised: zod.number().optional(),
+                })
+                .optional(),
+              created_at: zod.string().optional(),
+              users: zod
+                .array(
+                  zod.object({
+                    id: zod.string(),
+                    object: zod.string(),
+                    full_name: zod.string(),
+                    auditor: zod.boolean(),
+                    admin: zod.boolean(),
+                    photo: zod.string(),
+                  }),
+                )
+                .optional(),
+            })
+            .optional()
+            .describe("Organization model"),
+        })
+        .optional()
+        .describe("Transfer model"),
+      wire_transfer: zod.unknown().optional(),
+      wise_transfer: zod.unknown().optional(),
+      check_deposit: zod.unknown().optional(),
+      reimbursed_expense: zod.unknown().optional(),
+      hcb_fee: zod.unknown().optional(),
+    })
+    .describe("Transaction model");
+  export const ListAnOrganizationsTransactionsResponse = zod.array(
+    ListAnOrganizationsTransactionsResponseItem,
+  );
+
+  /**
+   * Transactions created using an HCB card.
+   * @summary List an organization's card charges
+   */
+  export const ListAnOrganizationsCardChargesParams = zod.object({
+    organization_id: zod.string().describe("Organization ID or slug."),
+  });
+
+  export const listAnOrganizationsCardChargesQueryPageDefault = 1;
+  export const listAnOrganizationsCardChargesQueryPerPageDefault = 50;
+  export const listAnOrganizationsCardChargesQueryOffsetDefault = 0;
+
+  export const ListAnOrganizationsCardChargesQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+    page: zod
+      .number()
+      .default(listAnOrganizationsCardChargesQueryPageDefault)
+      .describe("Page offset to fetch."),
+    per_page: zod
+      .number()
+      .default(listAnOrganizationsCardChargesQueryPerPageDefault)
+      .describe("Number of results to return per page."),
+    offset: zod
+      .number()
+      .default(listAnOrganizationsCardChargesQueryOffsetDefault)
+      .describe("Pad a number of results."),
+  });
+
+  export const ListAnOrganizationsCardChargesResponseItem = zod.unknown();
+  export const ListAnOrganizationsCardChargesResponse = zod.array(
+    ListAnOrganizationsCardChargesResponseItem,
+  );
+
+  /**
+   * @summary List an organization's donations
+   */
+  export const ListAnOrganizationsDonationsParams = zod.object({
+    organization_id: zod.string().describe("Organization ID or slug."),
+  });
+
+  export const listAnOrganizationsDonationsQueryPageDefault = 1;
+  export const listAnOrganizationsDonationsQueryPerPageDefault = 50;
+  export const listAnOrganizationsDonationsQueryOffsetDefault = 0;
+
+  export const ListAnOrganizationsDonationsQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+    page: zod
+      .number()
+      .default(listAnOrganizationsDonationsQueryPageDefault)
+      .describe("Page offset to fetch."),
+    per_page: zod
+      .number()
+      .default(listAnOrganizationsDonationsQueryPerPageDefault)
+      .describe("Number of results to return per page."),
+    offset: zod
+      .number()
+      .default(listAnOrganizationsDonationsQueryOffsetDefault)
+      .describe("Pad a number of results."),
+  });
+
+  export const ListAnOrganizationsDonationsResponseItem = zod
+    .object({
+      id: zod.string(),
+      object: zod.string(),
+      href: zod.string(),
+      memo: zod.string().optional(),
+      transaction: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          amount_cents: zod.number().optional(),
+          memo: zod.string().optional(),
+          date: zod.string().optional(),
+          type: zod
+            .enum([
+              "invoice",
+              "donation",
+              "ach_transfer",
+              "check",
+              "transfer",
+              "bank_account_transaction",
+              "card_charge",
+              "wire_transfer",
+              "wise_transfer",
+              "check_deposit",
+              "reimbursed_expense",
+              "hcb_fee",
+            ])
+            .optional(),
+          pending: zod.boolean().optional(),
+          receipts: zod
+            .object({
+              count: zod.number().optional(),
+              missing: zod.boolean().optional(),
+            })
+            .optional(),
+          comments: zod
+            .object({
+              count: zod.number().optional(),
+            })
+            .optional(),
+          organization: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              name: zod.string().optional(),
+              slug: zod.string().optional(),
+              website: zod.string().optional(),
+              category: zod
+                .enum([
+                  "hack_club_hq",
+                  "robotics_team",
+                  "hackathon",
+                  "hack_club",
+                  "climate",
+                  "nonprofit",
+                ])
+                .optional(),
+              transparent: zod.boolean().optional(),
+              demo_mode: zod.boolean().optional(),
+              financially_frozen: zod.boolean().optional(),
+              logo: zod.string().optional(),
+              donation_header: zod.string().optional(),
+              background_image: zod.string().optional(),
+              public_message: zod.string().optional(),
+              donation_link: zod.string().optional(),
+              balances: zod
+                .object({
+                  balance_cents: zod.number().optional(),
+                  fee_balance_cents: zod.number().optional(),
+                  incoming_balance_cents: zod.number().optional(),
+                  total_raised: zod.number().optional(),
+                })
+                .optional(),
+              created_at: zod.string().optional(),
+              users: zod
+                .array(
+                  zod.object({
+                    id: zod.string(),
+                    object: zod.string(),
+                    full_name: zod.string(),
+                    auditor: zod.boolean(),
+                    admin: zod.boolean(),
+                    photo: zod.string(),
+                  }),
+                )
+                .optional(),
+            })
+            .optional()
+            .describe("Organization model"),
+          user: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              full_name: zod.string(),
+              auditor: zod.boolean(),
+              admin: zod.boolean(),
+              photo: zod.string(),
+            })
+            .optional(),
+          tags: zod
+            .array(
+              zod.object({
+                id: zod.string(),
+                object: zod.string(),
+                label: zod.string(),
+              }),
+            )
+            .optional(),
+          card_charge: zod.unknown().optional(),
+          ach_transfer: zod.unknown().optional(),
+          check: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.number().optional(),
+              date: zod.string().optional(),
+              status: zod
+                .enum([
+                  "scheduled",
+                  "in_transit",
+                  "in_transit_and_processed",
+                  "deposited",
+                  "canceled",
+                  "voided",
+                  "refunded",
+                ])
+                .optional(),
+            })
+            .optional()
+            .describe("Check model"),
+          donation: zod.unknown().optional(),
+          invoice: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.string().optional(),
+              sponsor: zod
+                .object({
+                  id: zod.string().optional(),
+                  name: zod.string().optional(),
+                })
+                .optional(),
+              date: zod.string().optional(),
+              status: zod.enum(["open", "paid", "void"]).optional(),
+            })
+            .optional()
+            .describe("Invoice model"),
+          transfer: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.string().optional(),
+              date: zod.string().optional(),
+              status: zod
+                .enum([
+                  "fulfilled",
+                  "processing",
+                  "rejected",
+                  "canceled",
+                  "errored",
+                  "under_review",
+                  "pending",
+                ])
+                .optional(),
+              source_organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+            })
+            .optional()
+            .describe("Transfer model"),
+          wire_transfer: zod.unknown().optional(),
+          wise_transfer: zod.unknown().optional(),
+          check_deposit: zod.unknown().optional(),
+          reimbursed_expense: zod.unknown().optional(),
+          hcb_fee: zod.unknown().optional(),
+        })
+        .optional()
+        .describe("Transaction model"),
+      organization: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          name: zod.string().optional(),
+          slug: zod.string().optional(),
+          website: zod.string().optional(),
+          category: zod
+            .enum([
+              "hack_club_hq",
+              "robotics_team",
+              "hackathon",
+              "hack_club",
+              "climate",
+              "nonprofit",
+            ])
+            .optional(),
+          transparent: zod.boolean().optional(),
+          demo_mode: zod.boolean().optional(),
+          financially_frozen: zod.boolean().optional(),
+          logo: zod.string().optional(),
+          donation_header: zod.string().optional(),
+          background_image: zod.string().optional(),
+          public_message: zod.string().optional(),
+          donation_link: zod.string().optional(),
+          balances: zod
+            .object({
+              balance_cents: zod.number().optional(),
+              fee_balance_cents: zod.number().optional(),
+              incoming_balance_cents: zod.number().optional(),
+              total_raised: zod.number().optional(),
+            })
+            .optional(),
+          created_at: zod.string().optional(),
+          users: zod
+            .array(
+              zod.object({
+                id: zod.string(),
+                object: zod.string(),
+                full_name: zod.string(),
+                auditor: zod.boolean(),
+                admin: zod.boolean(),
+                photo: zod.string(),
+              }),
+            )
+            .optional(),
+        })
+        .optional()
+        .describe("Organization model"),
+      amount_cents: zod.number().optional(),
+      donor: zod
+        .object({
+          name: zod.string().optional(),
+          anonymous: zod.boolean().optional(),
+          avatar: zod.string().optional(),
+        })
+        .optional(),
+      date: zod.string().optional(),
+      status: zod
+        .enum(["pending", "in_transit", "deposited", "failed", "refunded"])
+        .optional(),
+      recurring: zod.boolean().optional(),
+    })
+    .describe("Donation model");
+  export const ListAnOrganizationsDonationsResponse = zod.array(
+    ListAnOrganizationsDonationsResponseItem,
+  );
+
+  /**
+   * @summary List an organization's transfers
+   */
+  export const ListAnOrganizationsTransfersParams = zod.object({
+    organization_id: zod.string().describe("Organization ID or slug."),
+  });
+
+  export const listAnOrganizationsTransfersQueryPageDefault = 1;
+  export const listAnOrganizationsTransfersQueryPerPageDefault = 50;
+  export const listAnOrganizationsTransfersQueryOffsetDefault = 0;
+
+  export const ListAnOrganizationsTransfersQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+    page: zod
+      .number()
+      .default(listAnOrganizationsTransfersQueryPageDefault)
+      .describe("Page offset to fetch."),
+    per_page: zod
+      .number()
+      .default(listAnOrganizationsTransfersQueryPerPageDefault)
+      .describe("Number of results to return per page."),
+    offset: zod
+      .number()
+      .default(listAnOrganizationsTransfersQueryOffsetDefault)
+      .describe("Pad a number of results."),
+  });
+
+  export const ListAnOrganizationsTransfersResponseItem = zod
+    .object({
+      id: zod.string(),
+      object: zod.string(),
+      href: zod.string(),
+      memo: zod.string().optional(),
+      transaction: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          amount_cents: zod.number().optional(),
+          memo: zod.string().optional(),
+          date: zod.string().optional(),
+          type: zod
+            .enum([
+              "invoice",
+              "donation",
+              "ach_transfer",
+              "check",
+              "transfer",
+              "bank_account_transaction",
+              "card_charge",
+              "wire_transfer",
+              "wise_transfer",
+              "check_deposit",
+              "reimbursed_expense",
+              "hcb_fee",
+            ])
+            .optional(),
+          pending: zod.boolean().optional(),
+          receipts: zod
+            .object({
+              count: zod.number().optional(),
+              missing: zod.boolean().optional(),
+            })
+            .optional(),
+          comments: zod
+            .object({
+              count: zod.number().optional(),
+            })
+            .optional(),
+          organization: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              name: zod.string().optional(),
+              slug: zod.string().optional(),
+              website: zod.string().optional(),
+              category: zod
+                .enum([
+                  "hack_club_hq",
+                  "robotics_team",
+                  "hackathon",
+                  "hack_club",
+                  "climate",
+                  "nonprofit",
+                ])
+                .optional(),
+              transparent: zod.boolean().optional(),
+              demo_mode: zod.boolean().optional(),
+              financially_frozen: zod.boolean().optional(),
+              logo: zod.string().optional(),
+              donation_header: zod.string().optional(),
+              background_image: zod.string().optional(),
+              public_message: zod.string().optional(),
+              donation_link: zod.string().optional(),
+              balances: zod
+                .object({
+                  balance_cents: zod.number().optional(),
+                  fee_balance_cents: zod.number().optional(),
+                  incoming_balance_cents: zod.number().optional(),
+                  total_raised: zod.number().optional(),
+                })
+                .optional(),
+              created_at: zod.string().optional(),
+              users: zod
+                .array(
+                  zod.object({
+                    id: zod.string(),
+                    object: zod.string(),
+                    full_name: zod.string(),
+                    auditor: zod.boolean(),
+                    admin: zod.boolean(),
+                    photo: zod.string(),
+                  }),
+                )
+                .optional(),
+            })
+            .optional()
+            .describe("Organization model"),
+          user: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              full_name: zod.string(),
+              auditor: zod.boolean(),
+              admin: zod.boolean(),
+              photo: zod.string(),
+            })
+            .optional(),
+          tags: zod
+            .array(
+              zod.object({
+                id: zod.string(),
+                object: zod.string(),
+                label: zod.string(),
+              }),
+            )
+            .optional(),
+          card_charge: zod.unknown().optional(),
+          ach_transfer: zod.unknown().optional(),
+          check: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.number().optional(),
+              date: zod.string().optional(),
+              status: zod
+                .enum([
+                  "scheduled",
+                  "in_transit",
+                  "in_transit_and_processed",
+                  "deposited",
+                  "canceled",
+                  "voided",
+                  "refunded",
+                ])
+                .optional(),
+            })
+            .optional()
+            .describe("Check model"),
+          donation: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.number().optional(),
+              donor: zod
+                .object({
+                  name: zod.string().optional(),
+                  anonymous: zod.boolean().optional(),
+                  avatar: zod.string().optional(),
+                })
+                .optional(),
+              date: zod.string().optional(),
+              status: zod
+                .enum([
+                  "pending",
+                  "in_transit",
+                  "deposited",
+                  "failed",
+                  "refunded",
+                ])
+                .optional(),
+              recurring: zod.boolean().optional(),
+            })
+            .optional()
+            .describe("Donation model"),
+          invoice: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.string().optional(),
+              sponsor: zod
+                .object({
+                  id: zod.string().optional(),
+                  name: zod.string().optional(),
+                })
+                .optional(),
+              date: zod.string().optional(),
+              status: zod.enum(["open", "paid", "void"]).optional(),
+            })
+            .optional()
+            .describe("Invoice model"),
+          transfer: zod.unknown().optional(),
+          wire_transfer: zod.unknown().optional(),
+          wise_transfer: zod.unknown().optional(),
+          check_deposit: zod.unknown().optional(),
+          reimbursed_expense: zod.unknown().optional(),
+          hcb_fee: zod.unknown().optional(),
+        })
+        .optional()
+        .describe("Transaction model"),
+      organization: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          name: zod.string().optional(),
+          slug: zod.string().optional(),
+          website: zod.string().optional(),
+          category: zod
+            .enum([
+              "hack_club_hq",
+              "robotics_team",
+              "hackathon",
+              "hack_club",
+              "climate",
+              "nonprofit",
+            ])
+            .optional(),
+          transparent: zod.boolean().optional(),
+          demo_mode: zod.boolean().optional(),
+          financially_frozen: zod.boolean().optional(),
+          logo: zod.string().optional(),
+          donation_header: zod.string().optional(),
+          background_image: zod.string().optional(),
+          public_message: zod.string().optional(),
+          donation_link: zod.string().optional(),
+          balances: zod
+            .object({
+              balance_cents: zod.number().optional(),
+              fee_balance_cents: zod.number().optional(),
+              incoming_balance_cents: zod.number().optional(),
+              total_raised: zod.number().optional(),
+            })
+            .optional(),
+          created_at: zod.string().optional(),
+          users: zod
+            .array(
+              zod.object({
+                id: zod.string(),
+                object: zod.string(),
+                full_name: zod.string(),
+                auditor: zod.boolean(),
+                admin: zod.boolean(),
+                photo: zod.string(),
+              }),
+            )
+            .optional(),
+        })
+        .optional()
+        .describe("Organization model"),
+      amount_cents: zod.string().optional(),
+      date: zod.string().optional(),
+      status: zod
+        .enum([
+          "fulfilled",
+          "processing",
+          "rejected",
+          "canceled",
+          "errored",
+          "under_review",
+          "pending",
+        ])
+        .optional(),
+      source_organization: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          name: zod.string().optional(),
+          slug: zod.string().optional(),
+          website: zod.string().optional(),
+          category: zod
+            .enum([
+              "hack_club_hq",
+              "robotics_team",
+              "hackathon",
+              "hack_club",
+              "climate",
+              "nonprofit",
+            ])
+            .optional(),
+          transparent: zod.boolean().optional(),
+          demo_mode: zod.boolean().optional(),
+          financially_frozen: zod.boolean().optional(),
+          logo: zod.string().optional(),
+          donation_header: zod.string().optional(),
+          background_image: zod.string().optional(),
+          public_message: zod.string().optional(),
+          donation_link: zod.string().optional(),
+          balances: zod
+            .object({
+              balance_cents: zod.number().optional(),
+              fee_balance_cents: zod.number().optional(),
+              incoming_balance_cents: zod.number().optional(),
+              total_raised: zod.number().optional(),
+            })
+            .optional(),
+          created_at: zod.string().optional(),
+          users: zod
+            .array(
+              zod.object({
+                id: zod.string(),
+                object: zod.string(),
+                full_name: zod.string(),
+                auditor: zod.boolean(),
+                admin: zod.boolean(),
+                photo: zod.string(),
+              }),
+            )
+            .optional(),
+        })
+        .optional()
+        .describe("Organization model"),
+    })
+    .describe("Transfer model");
+  export const ListAnOrganizationsTransfersResponse = zod.array(
+    ListAnOrganizationsTransfersResponseItem,
+  );
+
+  /**
+   * @summary List an organization's wire transfers
+   */
+  export const ListAnOrganizationsWireTransfersParams = zod.object({
+    organization_id: zod.string().describe("Organization ID or slug."),
+  });
+
+  export const listAnOrganizationsWireTransfersQueryPageDefault = 1;
+  export const listAnOrganizationsWireTransfersQueryPerPageDefault = 50;
+  export const listAnOrganizationsWireTransfersQueryOffsetDefault = 0;
+
+  export const ListAnOrganizationsWireTransfersQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+    page: zod
+      .number()
+      .default(listAnOrganizationsWireTransfersQueryPageDefault)
+      .describe("Page offset to fetch."),
+    per_page: zod
+      .number()
+      .default(listAnOrganizationsWireTransfersQueryPerPageDefault)
+      .describe("Number of results to return per page."),
+    offset: zod
+      .number()
+      .default(listAnOrganizationsWireTransfersQueryOffsetDefault)
+      .describe("Pad a number of results."),
+  });
+
+  export const ListAnOrganizationsWireTransfersResponseItem = zod.unknown();
+  export const ListAnOrganizationsWireTransfersResponse = zod.array(
+    ListAnOrganizationsWireTransfersResponseItem,
+  );
+
+  /**
+   * @summary List an organization's Wise transfers
+   */
+  export const ListAnOrganizationsWiseTransfersParams = zod.object({
+    organization_id: zod.string().describe("Organization ID or slug."),
+  });
+
+  export const listAnOrganizationsWiseTransfersQueryPageDefault = 1;
+  export const listAnOrganizationsWiseTransfersQueryPerPageDefault = 50;
+  export const listAnOrganizationsWiseTransfersQueryOffsetDefault = 0;
+
+  export const ListAnOrganizationsWiseTransfersQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+    page: zod
+      .number()
+      .default(listAnOrganizationsWiseTransfersQueryPageDefault)
+      .describe("Page offset to fetch."),
+    per_page: zod
+      .number()
+      .default(listAnOrganizationsWiseTransfersQueryPerPageDefault)
+      .describe("Number of results to return per page."),
+    offset: zod
+      .number()
+      .default(listAnOrganizationsWiseTransfersQueryOffsetDefault)
+      .describe("Pad a number of results."),
+  });
+
+  export const ListAnOrganizationsWiseTransfersResponseItem = zod.unknown();
+  export const ListAnOrganizationsWiseTransfersResponse = zod.array(
+    ListAnOrganizationsWiseTransfersResponseItem,
+  );
+
+  /**
+   * @summary List an organization's check deposits
+   */
+  export const ListAnOrganizationsCheckDepositsParams = zod.object({
+    organization_id: zod.string().describe("Organization ID or slug."),
+  });
+
+  export const listAnOrganizationsCheckDepositsQueryPageDefault = 1;
+  export const listAnOrganizationsCheckDepositsQueryPerPageDefault = 50;
+  export const listAnOrganizationsCheckDepositsQueryOffsetDefault = 0;
+
+  export const ListAnOrganizationsCheckDepositsQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+    page: zod
+      .number()
+      .default(listAnOrganizationsCheckDepositsQueryPageDefault)
+      .describe("Page offset to fetch."),
+    per_page: zod
+      .number()
+      .default(listAnOrganizationsCheckDepositsQueryPerPageDefault)
+      .describe("Number of results to return per page."),
+    offset: zod
+      .number()
+      .default(listAnOrganizationsCheckDepositsQueryOffsetDefault)
+      .describe("Pad a number of results."),
+  });
+
+  export const ListAnOrganizationsCheckDepositsResponseItem = zod.unknown();
+  export const ListAnOrganizationsCheckDepositsResponse = zod.array(
+    ListAnOrganizationsCheckDepositsResponseItem,
+  );
+
+  /**
+   * @summary List an organization's reimbursed expenses
+   */
+  export const ListAnOrganizationsReimbursedExpensesParams = zod.object({
+    organization_id: zod.string().describe("Organization ID or slug."),
+  });
+
+  export const listAnOrganizationsReimbursedExpensesQueryPageDefault = 1;
+  export const listAnOrganizationsReimbursedExpensesQueryPerPageDefault = 50;
+  export const listAnOrganizationsReimbursedExpensesQueryOffsetDefault = 0;
+
+  export const ListAnOrganizationsReimbursedExpensesQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+    page: zod
+      .number()
+      .default(listAnOrganizationsReimbursedExpensesQueryPageDefault)
+      .describe("Page offset to fetch."),
+    per_page: zod
+      .number()
+      .default(listAnOrganizationsReimbursedExpensesQueryPerPageDefault)
+      .describe("Number of results to return per page."),
+    offset: zod
+      .number()
+      .default(listAnOrganizationsReimbursedExpensesQueryOffsetDefault)
+      .describe("Pad a number of results."),
+  });
+
+  export const ListAnOrganizationsReimbursedExpensesResponseItem =
+    zod.unknown();
+  export const ListAnOrganizationsReimbursedExpensesResponse = zod.array(
+    ListAnOrganizationsReimbursedExpensesResponseItem,
+  );
+
+  /**
+   * @summary List an organization's HCB fees
+   */
+  export const ListAnOrganizationsHcbFeesParams = zod.object({
+    organization_id: zod.string().describe("Organization ID or slug."),
+  });
+
+  export const listAnOrganizationsHcbFeesQueryPageDefault = 1;
+  export const listAnOrganizationsHcbFeesQueryPerPageDefault = 50;
+  export const listAnOrganizationsHcbFeesQueryOffsetDefault = 0;
+
+  export const ListAnOrganizationsHcbFeesQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+    page: zod
+      .number()
+      .default(listAnOrganizationsHcbFeesQueryPageDefault)
+      .describe("Page offset to fetch."),
+    per_page: zod
+      .number()
+      .default(listAnOrganizationsHcbFeesQueryPerPageDefault)
+      .describe("Number of results to return per page."),
+    offset: zod
+      .number()
+      .default(listAnOrganizationsHcbFeesQueryOffsetDefault)
+      .describe("Pad a number of results."),
+  });
+
+  export const ListAnOrganizationsHcbFeesResponseItem = zod.unknown();
+  export const ListAnOrganizationsHcbFeesResponse = zod.array(
+    ListAnOrganizationsHcbFeesResponseItem,
+  );
+
+  /**
+   * @summary List an organization's invoices
+   */
+  export const ListAnOrganizationsInvoicesParams = zod.object({
+    organization_id: zod.string().describe("Organization ID or slug."),
+  });
+
+  export const listAnOrganizationsInvoicesQueryPageDefault = 1;
+  export const listAnOrganizationsInvoicesQueryPerPageDefault = 50;
+  export const listAnOrganizationsInvoicesQueryOffsetDefault = 0;
+
+  export const ListAnOrganizationsInvoicesQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+    page: zod
+      .number()
+      .default(listAnOrganizationsInvoicesQueryPageDefault)
+      .describe("Page offset to fetch."),
+    per_page: zod
+      .number()
+      .default(listAnOrganizationsInvoicesQueryPerPageDefault)
+      .describe("Number of results to return per page."),
+    offset: zod
+      .number()
+      .default(listAnOrganizationsInvoicesQueryOffsetDefault)
+      .describe("Pad a number of results."),
+  });
+
+  export const ListAnOrganizationsInvoicesResponseItem = zod
+    .object({
+      id: zod.string(),
+      object: zod.string(),
+      href: zod.string(),
+      memo: zod.string().optional(),
+      transaction: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          amount_cents: zod.number().optional(),
+          memo: zod.string().optional(),
+          date: zod.string().optional(),
+          type: zod
+            .enum([
+              "invoice",
+              "donation",
+              "ach_transfer",
+              "check",
+              "transfer",
+              "bank_account_transaction",
+              "card_charge",
+              "wire_transfer",
+              "wise_transfer",
+              "check_deposit",
+              "reimbursed_expense",
+              "hcb_fee",
+            ])
+            .optional(),
+          pending: zod.boolean().optional(),
+          receipts: zod
+            .object({
+              count: zod.number().optional(),
+              missing: zod.boolean().optional(),
+            })
+            .optional(),
+          comments: zod
+            .object({
+              count: zod.number().optional(),
+            })
+            .optional(),
+          organization: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              name: zod.string().optional(),
+              slug: zod.string().optional(),
+              website: zod.string().optional(),
+              category: zod
+                .enum([
+                  "hack_club_hq",
+                  "robotics_team",
+                  "hackathon",
+                  "hack_club",
+                  "climate",
+                  "nonprofit",
+                ])
+                .optional(),
+              transparent: zod.boolean().optional(),
+              demo_mode: zod.boolean().optional(),
+              financially_frozen: zod.boolean().optional(),
+              logo: zod.string().optional(),
+              donation_header: zod.string().optional(),
+              background_image: zod.string().optional(),
+              public_message: zod.string().optional(),
+              donation_link: zod.string().optional(),
+              balances: zod
+                .object({
+                  balance_cents: zod.number().optional(),
+                  fee_balance_cents: zod.number().optional(),
+                  incoming_balance_cents: zod.number().optional(),
+                  total_raised: zod.number().optional(),
+                })
+                .optional(),
+              created_at: zod.string().optional(),
+              users: zod
+                .array(
+                  zod.object({
+                    id: zod.string(),
+                    object: zod.string(),
+                    full_name: zod.string(),
+                    auditor: zod.boolean(),
+                    admin: zod.boolean(),
+                    photo: zod.string(),
+                  }),
+                )
+                .optional(),
+            })
+            .optional()
+            .describe("Organization model"),
+          user: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              full_name: zod.string(),
+              auditor: zod.boolean(),
+              admin: zod.boolean(),
+              photo: zod.string(),
+            })
+            .optional(),
+          tags: zod
+            .array(
+              zod.object({
+                id: zod.string(),
+                object: zod.string(),
+                label: zod.string(),
+              }),
+            )
+            .optional(),
+          card_charge: zod.unknown().optional(),
+          ach_transfer: zod.unknown().optional(),
+          check: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.number().optional(),
+              date: zod.string().optional(),
+              status: zod
+                .enum([
+                  "scheduled",
+                  "in_transit",
+                  "in_transit_and_processed",
+                  "deposited",
+                  "canceled",
+                  "voided",
+                  "refunded",
+                ])
+                .optional(),
+            })
+            .optional()
+            .describe("Check model"),
+          donation: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.number().optional(),
+              donor: zod
+                .object({
+                  name: zod.string().optional(),
+                  anonymous: zod.boolean().optional(),
+                  avatar: zod.string().optional(),
+                })
+                .optional(),
+              date: zod.string().optional(),
+              status: zod
+                .enum([
+                  "pending",
+                  "in_transit",
+                  "deposited",
+                  "failed",
+                  "refunded",
+                ])
+                .optional(),
+              recurring: zod.boolean().optional(),
+            })
+            .optional()
+            .describe("Donation model"),
+          invoice: zod.unknown().optional(),
+          transfer: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.string().optional(),
+              date: zod.string().optional(),
+              status: zod
+                .enum([
+                  "fulfilled",
+                  "processing",
+                  "rejected",
+                  "canceled",
+                  "errored",
+                  "under_review",
+                  "pending",
+                ])
+                .optional(),
+              source_organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+            })
+            .optional()
+            .describe("Transfer model"),
+          wire_transfer: zod.unknown().optional(),
+          wise_transfer: zod.unknown().optional(),
+          check_deposit: zod.unknown().optional(),
+          reimbursed_expense: zod.unknown().optional(),
+          hcb_fee: zod.unknown().optional(),
+        })
+        .optional()
+        .describe("Transaction model"),
+      organization: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          name: zod.string().optional(),
+          slug: zod.string().optional(),
+          website: zod.string().optional(),
+          category: zod
+            .enum([
+              "hack_club_hq",
+              "robotics_team",
+              "hackathon",
+              "hack_club",
+              "climate",
+              "nonprofit",
+            ])
+            .optional(),
+          transparent: zod.boolean().optional(),
+          demo_mode: zod.boolean().optional(),
+          financially_frozen: zod.boolean().optional(),
+          logo: zod.string().optional(),
+          donation_header: zod.string().optional(),
+          background_image: zod.string().optional(),
+          public_message: zod.string().optional(),
+          donation_link: zod.string().optional(),
+          balances: zod
+            .object({
+              balance_cents: zod.number().optional(),
+              fee_balance_cents: zod.number().optional(),
+              incoming_balance_cents: zod.number().optional(),
+              total_raised: zod.number().optional(),
+            })
+            .optional(),
+          created_at: zod.string().optional(),
+          users: zod
+            .array(
+              zod.object({
+                id: zod.string(),
+                object: zod.string(),
+                full_name: zod.string(),
+                auditor: zod.boolean(),
+                admin: zod.boolean(),
+                photo: zod.string(),
+              }),
+            )
+            .optional(),
+        })
+        .optional()
+        .describe("Organization model"),
+      amount_cents: zod.string().optional(),
+      sponsor: zod
+        .object({
+          id: zod.string().optional(),
+          name: zod.string().optional(),
+        })
+        .optional(),
+      date: zod.string().optional(),
+      status: zod.enum(["open", "paid", "void"]).optional(),
+    })
+    .describe("Invoice model");
+  export const ListAnOrganizationsInvoicesResponse = zod.array(
+    ListAnOrganizationsInvoicesResponseItem,
+  );
+
+  /**
+   * @summary List an organization's ACH transfers
+   */
+  export const ListAnOrganizationsAchTransfersParams = zod.object({
+    organization_id: zod.string().describe("Organization ID or slug."),
+  });
+
+  export const listAnOrganizationsAchTransfersQueryPageDefault = 1;
+  export const listAnOrganizationsAchTransfersQueryPerPageDefault = 50;
+  export const listAnOrganizationsAchTransfersQueryOffsetDefault = 0;
+
+  export const ListAnOrganizationsAchTransfersQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+    page: zod
+      .number()
+      .default(listAnOrganizationsAchTransfersQueryPageDefault)
+      .describe("Page offset to fetch."),
+    per_page: zod
+      .number()
+      .default(listAnOrganizationsAchTransfersQueryPerPageDefault)
+      .describe("Number of results to return per page."),
+    offset: zod
+      .number()
+      .default(listAnOrganizationsAchTransfersQueryOffsetDefault)
+      .describe("Pad a number of results."),
+  });
+
+  export const ListAnOrganizationsAchTransfersResponseItem = zod.unknown();
+  export const ListAnOrganizationsAchTransfersResponse = zod.array(
+    ListAnOrganizationsAchTransfersResponseItem,
+  );
+
+  /**
+   * @summary List an organization's checks
+   */
+  export const ListAnOrganizationsChecksParams = zod.object({
+    organization_id: zod.string().describe("Organization ID or slug."),
+  });
+
+  export const listAnOrganizationsChecksQueryPageDefault = 1;
+  export const listAnOrganizationsChecksQueryPerPageDefault = 50;
+  export const listAnOrganizationsChecksQueryOffsetDefault = 0;
+
+  export const ListAnOrganizationsChecksQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+    page: zod
+      .number()
+      .default(listAnOrganizationsChecksQueryPageDefault)
+      .describe("Page offset to fetch."),
+    per_page: zod
+      .number()
+      .default(listAnOrganizationsChecksQueryPerPageDefault)
+      .describe("Number of results to return per page."),
+    offset: zod
+      .number()
+      .default(listAnOrganizationsChecksQueryOffsetDefault)
+      .describe("Pad a number of results."),
+  });
+
+  export const ListAnOrganizationsChecksResponseItem = zod
+    .object({
+      id: zod.string(),
+      object: zod.string(),
+      href: zod.string(),
+      memo: zod.string().optional(),
+      transaction: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          amount_cents: zod.number().optional(),
+          memo: zod.string().optional(),
+          date: zod.string().optional(),
+          type: zod
+            .enum([
+              "invoice",
+              "donation",
+              "ach_transfer",
+              "check",
+              "transfer",
+              "bank_account_transaction",
+              "card_charge",
+              "wire_transfer",
+              "wise_transfer",
+              "check_deposit",
+              "reimbursed_expense",
+              "hcb_fee",
+            ])
+            .optional(),
+          pending: zod.boolean().optional(),
+          receipts: zod
+            .object({
+              count: zod.number().optional(),
+              missing: zod.boolean().optional(),
+            })
+            .optional(),
+          comments: zod
+            .object({
+              count: zod.number().optional(),
+            })
+            .optional(),
+          organization: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              name: zod.string().optional(),
+              slug: zod.string().optional(),
+              website: zod.string().optional(),
+              category: zod
+                .enum([
+                  "hack_club_hq",
+                  "robotics_team",
+                  "hackathon",
+                  "hack_club",
+                  "climate",
+                  "nonprofit",
+                ])
+                .optional(),
+              transparent: zod.boolean().optional(),
+              demo_mode: zod.boolean().optional(),
+              financially_frozen: zod.boolean().optional(),
+              logo: zod.string().optional(),
+              donation_header: zod.string().optional(),
+              background_image: zod.string().optional(),
+              public_message: zod.string().optional(),
+              donation_link: zod.string().optional(),
+              balances: zod
+                .object({
+                  balance_cents: zod.number().optional(),
+                  fee_balance_cents: zod.number().optional(),
+                  incoming_balance_cents: zod.number().optional(),
+                  total_raised: zod.number().optional(),
+                })
+                .optional(),
+              created_at: zod.string().optional(),
+              users: zod
+                .array(
+                  zod.object({
+                    id: zod.string(),
+                    object: zod.string(),
+                    full_name: zod.string(),
+                    auditor: zod.boolean(),
+                    admin: zod.boolean(),
+                    photo: zod.string(),
+                  }),
+                )
+                .optional(),
+            })
+            .optional()
+            .describe("Organization model"),
+          user: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              full_name: zod.string(),
+              auditor: zod.boolean(),
+              admin: zod.boolean(),
+              photo: zod.string(),
+            })
+            .optional(),
+          tags: zod
+            .array(
+              zod.object({
+                id: zod.string(),
+                object: zod.string(),
+                label: zod.string(),
+              }),
+            )
+            .optional(),
+          card_charge: zod.unknown().optional(),
+          ach_transfer: zod.unknown().optional(),
+          check: zod.unknown().optional(),
+          donation: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.number().optional(),
+              donor: zod
+                .object({
+                  name: zod.string().optional(),
+                  anonymous: zod.boolean().optional(),
+                  avatar: zod.string().optional(),
+                })
+                .optional(),
+              date: zod.string().optional(),
+              status: zod
+                .enum([
+                  "pending",
+                  "in_transit",
+                  "deposited",
+                  "failed",
+                  "refunded",
+                ])
+                .optional(),
+              recurring: zod.boolean().optional(),
+            })
+            .optional()
+            .describe("Donation model"),
+          invoice: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.string().optional(),
+              sponsor: zod
+                .object({
+                  id: zod.string().optional(),
+                  name: zod.string().optional(),
+                })
+                .optional(),
+              date: zod.string().optional(),
+              status: zod.enum(["open", "paid", "void"]).optional(),
+            })
+            .optional()
+            .describe("Invoice model"),
+          transfer: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.string().optional(),
+              date: zod.string().optional(),
+              status: zod
+                .enum([
+                  "fulfilled",
+                  "processing",
+                  "rejected",
+                  "canceled",
+                  "errored",
+                  "under_review",
+                  "pending",
+                ])
+                .optional(),
+              source_organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+            })
+            .optional()
+            .describe("Transfer model"),
+          wire_transfer: zod.unknown().optional(),
+          wise_transfer: zod.unknown().optional(),
+          check_deposit: zod.unknown().optional(),
+          reimbursed_expense: zod.unknown().optional(),
+          hcb_fee: zod.unknown().optional(),
+        })
+        .optional()
+        .describe("Transaction model"),
+      organization: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          name: zod.string().optional(),
+          slug: zod.string().optional(),
+          website: zod.string().optional(),
+          category: zod
+            .enum([
+              "hack_club_hq",
+              "robotics_team",
+              "hackathon",
+              "hack_club",
+              "climate",
+              "nonprofit",
+            ])
+            .optional(),
+          transparent: zod.boolean().optional(),
+          demo_mode: zod.boolean().optional(),
+          financially_frozen: zod.boolean().optional(),
+          logo: zod.string().optional(),
+          donation_header: zod.string().optional(),
+          background_image: zod.string().optional(),
+          public_message: zod.string().optional(),
+          donation_link: zod.string().optional(),
+          balances: zod
+            .object({
+              balance_cents: zod.number().optional(),
+              fee_balance_cents: zod.number().optional(),
+              incoming_balance_cents: zod.number().optional(),
+              total_raised: zod.number().optional(),
+            })
+            .optional(),
+          created_at: zod.string().optional(),
+          users: zod
+            .array(
+              zod.object({
+                id: zod.string(),
+                object: zod.string(),
+                full_name: zod.string(),
+                auditor: zod.boolean(),
+                admin: zod.boolean(),
+                photo: zod.string(),
+              }),
+            )
+            .optional(),
+        })
+        .optional()
+        .describe("Organization model"),
+      amount_cents: zod.number().optional(),
+      date: zod.string().optional(),
+      status: zod
+        .enum([
+          "scheduled",
+          "in_transit",
+          "in_transit_and_processed",
+          "deposited",
+          "canceled",
+          "voided",
+          "refunded",
+        ])
+        .optional(),
+    })
+    .describe("Check model");
+  export const ListAnOrganizationsChecksResponse = zod.array(
+    ListAnOrganizationsChecksResponseItem,
+  );
+
+  /**
+   * @summary List an organization's cards
+   */
+  export const ListAnOrganizationsCardsParams = zod.object({
+    organization_id: zod.string().describe("Organization ID or slug."),
+  });
+
+  export const listAnOrganizationsCardsQueryPageDefault = 1;
+  export const listAnOrganizationsCardsQueryPerPageDefault = 50;
+  export const listAnOrganizationsCardsQueryOffsetDefault = 0;
+
+  export const ListAnOrganizationsCardsQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+    page: zod
+      .number()
+      .default(listAnOrganizationsCardsQueryPageDefault)
+      .describe("Page offset to fetch."),
+    per_page: zod
+      .number()
+      .default(listAnOrganizationsCardsQueryPerPageDefault)
+      .describe("Number of results to return per page."),
+    offset: zod
+      .number()
+      .default(listAnOrganizationsCardsQueryOffsetDefault)
+      .describe("Pad a number of results."),
+  });
+
+  export const ListAnOrganizationsCardsResponseItem = zod
+    .object({
+      id: zod.string(),
+      object: zod.string(),
+      href: zod.string(),
+      name: zod.string().optional(),
+      type: zod.enum(["virtual", "physical"]).optional(),
+      status: zod.enum(["active", "inactive", "frozen", "canceled"]).optional(),
+      issued_at: zod.string().optional(),
+      owner: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          full_name: zod.string(),
+          auditor: zod.boolean(),
+          admin: zod.boolean(),
+          photo: zod.string(),
+        })
+        .optional(),
+      organization: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          name: zod.string().optional(),
+          slug: zod.string().optional(),
+          website: zod.string().optional(),
+          category: zod
+            .enum([
+              "hack_club_hq",
+              "robotics_team",
+              "hackathon",
+              "hack_club",
+              "climate",
+              "nonprofit",
+            ])
+            .optional(),
+          transparent: zod.boolean().optional(),
+          demo_mode: zod.boolean().optional(),
+          financially_frozen: zod.boolean().optional(),
+          logo: zod.string().optional(),
+          donation_header: zod.string().optional(),
+          background_image: zod.string().optional(),
+          public_message: zod.string().optional(),
+          donation_link: zod.string().optional(),
+          balances: zod
+            .object({
+              balance_cents: zod.number().optional(),
+              fee_balance_cents: zod.number().optional(),
+              incoming_balance_cents: zod.number().optional(),
+              total_raised: zod.number().optional(),
+            })
+            .optional(),
+          created_at: zod.string().optional(),
+          users: zod
+            .array(
+              zod.object({
+                id: zod.string(),
+                object: zod.string(),
+                full_name: zod.string(),
+                auditor: zod.boolean(),
+                admin: zod.boolean(),
+                photo: zod.string(),
+              }),
+            )
+            .optional(),
+        })
+        .optional()
+        .describe("Organization model"),
+    })
+    .describe("Card model");
+  export const ListAnOrganizationsCardsResponse = zod.array(
+    ListAnOrganizationsCardsResponseItem,
+  );
+
+  /**
+   * @summary Get a card charge
+   */
+  export const GetACardChargeParams = zod.object({
+    card_charge_id: zod.string().describe("Card charge ID"),
+  });
+
+  export const GetACardChargeQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+  });
+
+  export const GetACardChargeResponse = zod.unknown();
+
+  /**
+   * @summary Get a single donation
+   */
+  export const GetASingleDonationParams = zod.object({
+    donation_id: zod.string().describe("Donation ID"),
+  });
+
+  export const GetASingleDonationQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+  });
+
+  export const GetASingleDonationResponse = zod
+    .object({
+      id: zod.string(),
+      object: zod.string(),
+      href: zod.string(),
+      memo: zod.string().optional(),
+      transaction: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          amount_cents: zod.number().optional(),
+          memo: zod.string().optional(),
+          date: zod.string().optional(),
+          type: zod
+            .enum([
+              "invoice",
+              "donation",
+              "ach_transfer",
+              "check",
+              "transfer",
+              "bank_account_transaction",
+              "card_charge",
+              "wire_transfer",
+              "wise_transfer",
+              "check_deposit",
+              "reimbursed_expense",
+              "hcb_fee",
+            ])
+            .optional(),
+          pending: zod.boolean().optional(),
+          receipts: zod
+            .object({
+              count: zod.number().optional(),
+              missing: zod.boolean().optional(),
+            })
+            .optional(),
+          comments: zod
+            .object({
+              count: zod.number().optional(),
+            })
+            .optional(),
+          organization: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              name: zod.string().optional(),
+              slug: zod.string().optional(),
+              website: zod.string().optional(),
+              category: zod
+                .enum([
+                  "hack_club_hq",
+                  "robotics_team",
+                  "hackathon",
+                  "hack_club",
+                  "climate",
+                  "nonprofit",
+                ])
+                .optional(),
+              transparent: zod.boolean().optional(),
+              demo_mode: zod.boolean().optional(),
+              financially_frozen: zod.boolean().optional(),
+              logo: zod.string().optional(),
+              donation_header: zod.string().optional(),
+              background_image: zod.string().optional(),
+              public_message: zod.string().optional(),
+              donation_link: zod.string().optional(),
+              balances: zod
+                .object({
+                  balance_cents: zod.number().optional(),
+                  fee_balance_cents: zod.number().optional(),
+                  incoming_balance_cents: zod.number().optional(),
+                  total_raised: zod.number().optional(),
+                })
+                .optional(),
+              created_at: zod.string().optional(),
+              users: zod
+                .array(
+                  zod.object({
+                    id: zod.string(),
+                    object: zod.string(),
+                    full_name: zod.string(),
+                    auditor: zod.boolean(),
+                    admin: zod.boolean(),
+                    photo: zod.string(),
+                  }),
+                )
+                .optional(),
+            })
+            .optional()
+            .describe("Organization model"),
+          user: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              full_name: zod.string(),
+              auditor: zod.boolean(),
+              admin: zod.boolean(),
+              photo: zod.string(),
+            })
+            .optional(),
+          tags: zod
+            .array(
+              zod.object({
+                id: zod.string(),
+                object: zod.string(),
+                label: zod.string(),
+              }),
+            )
+            .optional(),
+          card_charge: zod.unknown().optional(),
+          ach_transfer: zod.unknown().optional(),
+          check: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.number().optional(),
+              date: zod.string().optional(),
+              status: zod
+                .enum([
+                  "scheduled",
+                  "in_transit",
+                  "in_transit_and_processed",
+                  "deposited",
+                  "canceled",
+                  "voided",
+                  "refunded",
+                ])
+                .optional(),
+            })
+            .optional()
+            .describe("Check model"),
+          donation: zod.unknown().optional(),
+          invoice: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.string().optional(),
+              sponsor: zod
+                .object({
+                  id: zod.string().optional(),
+                  name: zod.string().optional(),
+                })
+                .optional(),
+              date: zod.string().optional(),
+              status: zod.enum(["open", "paid", "void"]).optional(),
+            })
+            .optional()
+            .describe("Invoice model"),
+          transfer: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.string().optional(),
+              date: zod.string().optional(),
+              status: zod
+                .enum([
+                  "fulfilled",
+                  "processing",
+                  "rejected",
+                  "canceled",
+                  "errored",
+                  "under_review",
+                  "pending",
+                ])
+                .optional(),
+              source_organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+            })
+            .optional()
+            .describe("Transfer model"),
+          wire_transfer: zod.unknown().optional(),
+          wise_transfer: zod.unknown().optional(),
+          check_deposit: zod.unknown().optional(),
+          reimbursed_expense: zod.unknown().optional(),
+          hcb_fee: zod.unknown().optional(),
+        })
+        .optional()
+        .describe("Transaction model"),
+      organization: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          name: zod.string().optional(),
+          slug: zod.string().optional(),
+          website: zod.string().optional(),
+          category: zod
+            .enum([
+              "hack_club_hq",
+              "robotics_team",
+              "hackathon",
+              "hack_club",
+              "climate",
+              "nonprofit",
+            ])
+            .optional(),
+          transparent: zod.boolean().optional(),
+          demo_mode: zod.boolean().optional(),
+          financially_frozen: zod.boolean().optional(),
+          logo: zod.string().optional(),
+          donation_header: zod.string().optional(),
+          background_image: zod.string().optional(),
+          public_message: zod.string().optional(),
+          donation_link: zod.string().optional(),
+          balances: zod
+            .object({
+              balance_cents: zod.number().optional(),
+              fee_balance_cents: zod.number().optional(),
+              incoming_balance_cents: zod.number().optional(),
+              total_raised: zod.number().optional(),
+            })
+            .optional(),
+          created_at: zod.string().optional(),
+          users: zod
+            .array(
+              zod.object({
+                id: zod.string(),
+                object: zod.string(),
+                full_name: zod.string(),
+                auditor: zod.boolean(),
+                admin: zod.boolean(),
+                photo: zod.string(),
+              }),
+            )
+            .optional(),
+        })
+        .optional()
+        .describe("Organization model"),
+      amount_cents: zod.number().optional(),
+      donor: zod
+        .object({
+          name: zod.string().optional(),
+          anonymous: zod.boolean().optional(),
+          avatar: zod.string().optional(),
+        })
+        .optional(),
+      date: zod.string().optional(),
+      status: zod
+        .enum(["pending", "in_transit", "deposited", "failed", "refunded"])
+        .optional(),
+      recurring: zod.boolean().optional(),
+    })
+    .describe("Donation model");
+
+  /**
+   * @summary Get a single transfer
+   */
+  export const GetASingleTransferParams = zod.object({
+    transfer_id: zod.string().describe("Transfer ID"),
+  });
+
+  export const GetASingleTransferQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+  });
+
+  export const GetASingleTransferResponse = zod
+    .object({
+      id: zod.string(),
+      object: zod.string(),
+      href: zod.string(),
+      memo: zod.string().optional(),
+      transaction: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          amount_cents: zod.number().optional(),
+          memo: zod.string().optional(),
+          date: zod.string().optional(),
+          type: zod
+            .enum([
+              "invoice",
+              "donation",
+              "ach_transfer",
+              "check",
+              "transfer",
+              "bank_account_transaction",
+              "card_charge",
+              "wire_transfer",
+              "wise_transfer",
+              "check_deposit",
+              "reimbursed_expense",
+              "hcb_fee",
+            ])
+            .optional(),
+          pending: zod.boolean().optional(),
+          receipts: zod
+            .object({
+              count: zod.number().optional(),
+              missing: zod.boolean().optional(),
+            })
+            .optional(),
+          comments: zod
+            .object({
+              count: zod.number().optional(),
+            })
+            .optional(),
+          organization: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              name: zod.string().optional(),
+              slug: zod.string().optional(),
+              website: zod.string().optional(),
+              category: zod
+                .enum([
+                  "hack_club_hq",
+                  "robotics_team",
+                  "hackathon",
+                  "hack_club",
+                  "climate",
+                  "nonprofit",
+                ])
+                .optional(),
+              transparent: zod.boolean().optional(),
+              demo_mode: zod.boolean().optional(),
+              financially_frozen: zod.boolean().optional(),
+              logo: zod.string().optional(),
+              donation_header: zod.string().optional(),
+              background_image: zod.string().optional(),
+              public_message: zod.string().optional(),
+              donation_link: zod.string().optional(),
+              balances: zod
+                .object({
+                  balance_cents: zod.number().optional(),
+                  fee_balance_cents: zod.number().optional(),
+                  incoming_balance_cents: zod.number().optional(),
+                  total_raised: zod.number().optional(),
+                })
+                .optional(),
+              created_at: zod.string().optional(),
+              users: zod
+                .array(
+                  zod.object({
+                    id: zod.string(),
+                    object: zod.string(),
+                    full_name: zod.string(),
+                    auditor: zod.boolean(),
+                    admin: zod.boolean(),
+                    photo: zod.string(),
+                  }),
+                )
+                .optional(),
+            })
+            .optional()
+            .describe("Organization model"),
+          user: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              full_name: zod.string(),
+              auditor: zod.boolean(),
+              admin: zod.boolean(),
+              photo: zod.string(),
+            })
+            .optional(),
+          tags: zod
+            .array(
+              zod.object({
+                id: zod.string(),
+                object: zod.string(),
+                label: zod.string(),
+              }),
+            )
+            .optional(),
+          card_charge: zod.unknown().optional(),
+          ach_transfer: zod.unknown().optional(),
+          check: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.number().optional(),
+              date: zod.string().optional(),
+              status: zod
+                .enum([
+                  "scheduled",
+                  "in_transit",
+                  "in_transit_and_processed",
+                  "deposited",
+                  "canceled",
+                  "voided",
+                  "refunded",
+                ])
+                .optional(),
+            })
+            .optional()
+            .describe("Check model"),
+          donation: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.number().optional(),
+              donor: zod
+                .object({
+                  name: zod.string().optional(),
+                  anonymous: zod.boolean().optional(),
+                  avatar: zod.string().optional(),
+                })
+                .optional(),
+              date: zod.string().optional(),
+              status: zod
+                .enum([
+                  "pending",
+                  "in_transit",
+                  "deposited",
+                  "failed",
+                  "refunded",
+                ])
+                .optional(),
+              recurring: zod.boolean().optional(),
+            })
+            .optional()
+            .describe("Donation model"),
+          invoice: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.string().optional(),
+              sponsor: zod
+                .object({
+                  id: zod.string().optional(),
+                  name: zod.string().optional(),
+                })
+                .optional(),
+              date: zod.string().optional(),
+              status: zod.enum(["open", "paid", "void"]).optional(),
+            })
+            .optional()
+            .describe("Invoice model"),
+          transfer: zod.unknown().optional(),
+          wire_transfer: zod.unknown().optional(),
+          wise_transfer: zod.unknown().optional(),
+          check_deposit: zod.unknown().optional(),
+          reimbursed_expense: zod.unknown().optional(),
+          hcb_fee: zod.unknown().optional(),
+        })
+        .optional()
+        .describe("Transaction model"),
+      organization: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          name: zod.string().optional(),
+          slug: zod.string().optional(),
+          website: zod.string().optional(),
+          category: zod
+            .enum([
+              "hack_club_hq",
+              "robotics_team",
+              "hackathon",
+              "hack_club",
+              "climate",
+              "nonprofit",
+            ])
+            .optional(),
+          transparent: zod.boolean().optional(),
+          demo_mode: zod.boolean().optional(),
+          financially_frozen: zod.boolean().optional(),
+          logo: zod.string().optional(),
+          donation_header: zod.string().optional(),
+          background_image: zod.string().optional(),
+          public_message: zod.string().optional(),
+          donation_link: zod.string().optional(),
+          balances: zod
+            .object({
+              balance_cents: zod.number().optional(),
+              fee_balance_cents: zod.number().optional(),
+              incoming_balance_cents: zod.number().optional(),
+              total_raised: zod.number().optional(),
+            })
+            .optional(),
+          created_at: zod.string().optional(),
+          users: zod
+            .array(
+              zod.object({
+                id: zod.string(),
+                object: zod.string(),
+                full_name: zod.string(),
+                auditor: zod.boolean(),
+                admin: zod.boolean(),
+                photo: zod.string(),
+              }),
+            )
+            .optional(),
+        })
+        .optional()
+        .describe("Organization model"),
+      amount_cents: zod.string().optional(),
+      date: zod.string().optional(),
+      status: zod
+        .enum([
+          "fulfilled",
+          "processing",
+          "rejected",
+          "canceled",
+          "errored",
+          "under_review",
+          "pending",
+        ])
+        .optional(),
+      source_organization: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          name: zod.string().optional(),
+          slug: zod.string().optional(),
+          website: zod.string().optional(),
+          category: zod
+            .enum([
+              "hack_club_hq",
+              "robotics_team",
+              "hackathon",
+              "hack_club",
+              "climate",
+              "nonprofit",
+            ])
+            .optional(),
+          transparent: zod.boolean().optional(),
+          demo_mode: zod.boolean().optional(),
+          financially_frozen: zod.boolean().optional(),
+          logo: zod.string().optional(),
+          donation_header: zod.string().optional(),
+          background_image: zod.string().optional(),
+          public_message: zod.string().optional(),
+          donation_link: zod.string().optional(),
+          balances: zod
+            .object({
+              balance_cents: zod.number().optional(),
+              fee_balance_cents: zod.number().optional(),
+              incoming_balance_cents: zod.number().optional(),
+              total_raised: zod.number().optional(),
+            })
+            .optional(),
+          created_at: zod.string().optional(),
+          users: zod
+            .array(
+              zod.object({
+                id: zod.string(),
+                object: zod.string(),
+                full_name: zod.string(),
+                auditor: zod.boolean(),
+                admin: zod.boolean(),
+                photo: zod.string(),
+              }),
+            )
+            .optional(),
+        })
+        .optional()
+        .describe("Organization model"),
+    })
+    .describe("Transfer model");
+
+  /**
+   * @summary Get a single wire transfer
+   */
+  export const GetASingleWireTransferParams = zod.object({
+    wire_transfer_id: zod.string().describe("Wire transfer ID"),
+  });
+
+  export const GetASingleWireTransferQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+  });
+
+  export const GetASingleWireTransferResponse = zod.unknown();
+
+  /**
+   * @summary Get a single Wise transfer
+   */
+  export const GetASingleWiseTransferParams = zod.object({
+    wise_transfer_id: zod.string().describe("Wise transfer ID"),
+  });
+
+  export const GetASingleWiseTransferQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+  });
+
+  export const GetASingleWiseTransferResponse = zod.unknown();
+
+  /**
+   * @summary Get a single check deposit
+   */
+  export const GetASingleCheckDepositParams = zod.object({
+    check_deposit_id: zod.string().describe("Check deposit ID"),
+  });
+
+  export const GetASingleCheckDepositQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+  });
+
+  export const GetASingleCheckDepositResponse = zod.unknown();
+
+  /**
+   * @summary Get a single reimbursed expense
+   */
+  export const GetASingleReimbursedExpenseParams = zod.object({
+    reimbursed_expense_id: zod.string().describe("Reimbursed expense ID"),
+  });
+
+  export const GetASingleReimbursedExpenseQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+  });
+
+  export const GetASingleReimbursedExpenseResponse = zod.unknown();
+
+  /**
+   * @summary Get a single HCB fee
+   */
+  export const GetASingleHcbFeeParams = zod.object({
+    hcb_fee_id: zod.string().describe("HCB fee ID"),
+  });
+
+  export const GetASingleHcbFeeQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+  });
+
+  export const GetASingleHcbFeeResponse = zod.unknown();
+
+  /**
+   * @summary Get a single invoice
+   */
+  export const GetASingleInvoiceParams = zod.object({
+    invoice_id: zod.string().describe("Invoice ID"),
+  });
+
+  export const GetASingleInvoiceQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+  });
+
+  export const GetASingleInvoiceResponse = zod
+    .object({
+      id: zod.string(),
+      object: zod.string(),
+      href: zod.string(),
+      memo: zod.string().optional(),
+      transaction: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          amount_cents: zod.number().optional(),
+          memo: zod.string().optional(),
+          date: zod.string().optional(),
+          type: zod
+            .enum([
+              "invoice",
+              "donation",
+              "ach_transfer",
+              "check",
+              "transfer",
+              "bank_account_transaction",
+              "card_charge",
+              "wire_transfer",
+              "wise_transfer",
+              "check_deposit",
+              "reimbursed_expense",
+              "hcb_fee",
+            ])
+            .optional(),
+          pending: zod.boolean().optional(),
+          receipts: zod
+            .object({
+              count: zod.number().optional(),
+              missing: zod.boolean().optional(),
+            })
+            .optional(),
+          comments: zod
+            .object({
+              count: zod.number().optional(),
+            })
+            .optional(),
+          organization: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              name: zod.string().optional(),
+              slug: zod.string().optional(),
+              website: zod.string().optional(),
+              category: zod
+                .enum([
+                  "hack_club_hq",
+                  "robotics_team",
+                  "hackathon",
+                  "hack_club",
+                  "climate",
+                  "nonprofit",
+                ])
+                .optional(),
+              transparent: zod.boolean().optional(),
+              demo_mode: zod.boolean().optional(),
+              financially_frozen: zod.boolean().optional(),
+              logo: zod.string().optional(),
+              donation_header: zod.string().optional(),
+              background_image: zod.string().optional(),
+              public_message: zod.string().optional(),
+              donation_link: zod.string().optional(),
+              balances: zod
+                .object({
+                  balance_cents: zod.number().optional(),
+                  fee_balance_cents: zod.number().optional(),
+                  incoming_balance_cents: zod.number().optional(),
+                  total_raised: zod.number().optional(),
+                })
+                .optional(),
+              created_at: zod.string().optional(),
+              users: zod
+                .array(
+                  zod.object({
+                    id: zod.string(),
+                    object: zod.string(),
+                    full_name: zod.string(),
+                    auditor: zod.boolean(),
+                    admin: zod.boolean(),
+                    photo: zod.string(),
+                  }),
+                )
+                .optional(),
+            })
+            .optional()
+            .describe("Organization model"),
+          user: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              full_name: zod.string(),
+              auditor: zod.boolean(),
+              admin: zod.boolean(),
+              photo: zod.string(),
+            })
+            .optional(),
+          tags: zod
+            .array(
+              zod.object({
+                id: zod.string(),
+                object: zod.string(),
+                label: zod.string(),
+              }),
+            )
+            .optional(),
+          card_charge: zod.unknown().optional(),
+          ach_transfer: zod.unknown().optional(),
+          check: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.number().optional(),
+              date: zod.string().optional(),
+              status: zod
+                .enum([
+                  "scheduled",
+                  "in_transit",
+                  "in_transit_and_processed",
+                  "deposited",
+                  "canceled",
+                  "voided",
+                  "refunded",
+                ])
+                .optional(),
+            })
+            .optional()
+            .describe("Check model"),
+          donation: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.number().optional(),
+              donor: zod
+                .object({
+                  name: zod.string().optional(),
+                  anonymous: zod.boolean().optional(),
+                  avatar: zod.string().optional(),
+                })
+                .optional(),
+              date: zod.string().optional(),
+              status: zod
+                .enum([
+                  "pending",
+                  "in_transit",
+                  "deposited",
+                  "failed",
+                  "refunded",
+                ])
+                .optional(),
+              recurring: zod.boolean().optional(),
+            })
+            .optional()
+            .describe("Donation model"),
+          invoice: zod.unknown().optional(),
+          transfer: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.string().optional(),
+              date: zod.string().optional(),
+              status: zod
+                .enum([
+                  "fulfilled",
+                  "processing",
+                  "rejected",
+                  "canceled",
+                  "errored",
+                  "under_review",
+                  "pending",
+                ])
+                .optional(),
+              source_organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+            })
+            .optional()
+            .describe("Transfer model"),
+          wire_transfer: zod.unknown().optional(),
+          wise_transfer: zod.unknown().optional(),
+          check_deposit: zod.unknown().optional(),
+          reimbursed_expense: zod.unknown().optional(),
+          hcb_fee: zod.unknown().optional(),
+        })
+        .optional()
+        .describe("Transaction model"),
+      organization: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          name: zod.string().optional(),
+          slug: zod.string().optional(),
+          website: zod.string().optional(),
+          category: zod
+            .enum([
+              "hack_club_hq",
+              "robotics_team",
+              "hackathon",
+              "hack_club",
+              "climate",
+              "nonprofit",
+            ])
+            .optional(),
+          transparent: zod.boolean().optional(),
+          demo_mode: zod.boolean().optional(),
+          financially_frozen: zod.boolean().optional(),
+          logo: zod.string().optional(),
+          donation_header: zod.string().optional(),
+          background_image: zod.string().optional(),
+          public_message: zod.string().optional(),
+          donation_link: zod.string().optional(),
+          balances: zod
+            .object({
+              balance_cents: zod.number().optional(),
+              fee_balance_cents: zod.number().optional(),
+              incoming_balance_cents: zod.number().optional(),
+              total_raised: zod.number().optional(),
+            })
+            .optional(),
+          created_at: zod.string().optional(),
+          users: zod
+            .array(
+              zod.object({
+                id: zod.string(),
+                object: zod.string(),
+                full_name: zod.string(),
+                auditor: zod.boolean(),
+                admin: zod.boolean(),
+                photo: zod.string(),
+              }),
+            )
+            .optional(),
+        })
+        .optional()
+        .describe("Organization model"),
+      amount_cents: zod.string().optional(),
+      sponsor: zod
+        .object({
+          id: zod.string().optional(),
+          name: zod.string().optional(),
+        })
+        .optional(),
+      date: zod.string().optional(),
+      status: zod.enum(["open", "paid", "void"]).optional(),
+    })
+    .describe("Invoice model");
+
+  /**
+   * @summary Get a single ACH transfer
+   */
+  export const GetASingleAchTransferParams = zod.object({
+    ach_transfer_id: zod.string().describe("ACH transfer ID"),
+  });
+
+  export const GetASingleAchTransferQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+  });
+
+  export const GetASingleAchTransferResponse = zod.unknown();
+
+  /**
+   * @summary Get a single check
+   */
+  export const GetASingleCheckParams = zod.object({
+    check_id: zod.string().describe("Check ID"),
+  });
+
+  export const GetASingleCheckQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+  });
+
+  export const GetASingleCheckResponse = zod
+    .object({
+      id: zod.string(),
+      object: zod.string(),
+      href: zod.string(),
+      memo: zod.string().optional(),
+      transaction: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          amount_cents: zod.number().optional(),
+          memo: zod.string().optional(),
+          date: zod.string().optional(),
+          type: zod
+            .enum([
+              "invoice",
+              "donation",
+              "ach_transfer",
+              "check",
+              "transfer",
+              "bank_account_transaction",
+              "card_charge",
+              "wire_transfer",
+              "wise_transfer",
+              "check_deposit",
+              "reimbursed_expense",
+              "hcb_fee",
+            ])
+            .optional(),
+          pending: zod.boolean().optional(),
+          receipts: zod
+            .object({
+              count: zod.number().optional(),
+              missing: zod.boolean().optional(),
+            })
+            .optional(),
+          comments: zod
+            .object({
+              count: zod.number().optional(),
+            })
+            .optional(),
+          organization: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              name: zod.string().optional(),
+              slug: zod.string().optional(),
+              website: zod.string().optional(),
+              category: zod
+                .enum([
+                  "hack_club_hq",
+                  "robotics_team",
+                  "hackathon",
+                  "hack_club",
+                  "climate",
+                  "nonprofit",
+                ])
+                .optional(),
+              transparent: zod.boolean().optional(),
+              demo_mode: zod.boolean().optional(),
+              financially_frozen: zod.boolean().optional(),
+              logo: zod.string().optional(),
+              donation_header: zod.string().optional(),
+              background_image: zod.string().optional(),
+              public_message: zod.string().optional(),
+              donation_link: zod.string().optional(),
+              balances: zod
+                .object({
+                  balance_cents: zod.number().optional(),
+                  fee_balance_cents: zod.number().optional(),
+                  incoming_balance_cents: zod.number().optional(),
+                  total_raised: zod.number().optional(),
+                })
+                .optional(),
+              created_at: zod.string().optional(),
+              users: zod
+                .array(
+                  zod.object({
+                    id: zod.string(),
+                    object: zod.string(),
+                    full_name: zod.string(),
+                    auditor: zod.boolean(),
+                    admin: zod.boolean(),
+                    photo: zod.string(),
+                  }),
+                )
+                .optional(),
+            })
+            .optional()
+            .describe("Organization model"),
+          user: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              full_name: zod.string(),
+              auditor: zod.boolean(),
+              admin: zod.boolean(),
+              photo: zod.string(),
+            })
+            .optional(),
+          tags: zod
+            .array(
+              zod.object({
+                id: zod.string(),
+                object: zod.string(),
+                label: zod.string(),
+              }),
+            )
+            .optional(),
+          card_charge: zod.unknown().optional(),
+          ach_transfer: zod.unknown().optional(),
+          check: zod.unknown().optional(),
+          donation: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.number().optional(),
+              donor: zod
+                .object({
+                  name: zod.string().optional(),
+                  anonymous: zod.boolean().optional(),
+                  avatar: zod.string().optional(),
+                })
+                .optional(),
+              date: zod.string().optional(),
+              status: zod
+                .enum([
+                  "pending",
+                  "in_transit",
+                  "deposited",
+                  "failed",
+                  "refunded",
+                ])
+                .optional(),
+              recurring: zod.boolean().optional(),
+            })
+            .optional()
+            .describe("Donation model"),
+          invoice: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.string().optional(),
+              sponsor: zod
+                .object({
+                  id: zod.string().optional(),
+                  name: zod.string().optional(),
+                })
+                .optional(),
+              date: zod.string().optional(),
+              status: zod.enum(["open", "paid", "void"]).optional(),
+            })
+            .optional()
+            .describe("Invoice model"),
+          transfer: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.string().optional(),
+              date: zod.string().optional(),
+              status: zod
+                .enum([
+                  "fulfilled",
+                  "processing",
+                  "rejected",
+                  "canceled",
+                  "errored",
+                  "under_review",
+                  "pending",
+                ])
+                .optional(),
+              source_organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+            })
+            .optional()
+            .describe("Transfer model"),
+          wire_transfer: zod.unknown().optional(),
+          wise_transfer: zod.unknown().optional(),
+          check_deposit: zod.unknown().optional(),
+          reimbursed_expense: zod.unknown().optional(),
+          hcb_fee: zod.unknown().optional(),
+        })
+        .optional()
+        .describe("Transaction model"),
+      organization: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          name: zod.string().optional(),
+          slug: zod.string().optional(),
+          website: zod.string().optional(),
+          category: zod
+            .enum([
+              "hack_club_hq",
+              "robotics_team",
+              "hackathon",
+              "hack_club",
+              "climate",
+              "nonprofit",
+            ])
+            .optional(),
+          transparent: zod.boolean().optional(),
+          demo_mode: zod.boolean().optional(),
+          financially_frozen: zod.boolean().optional(),
+          logo: zod.string().optional(),
+          donation_header: zod.string().optional(),
+          background_image: zod.string().optional(),
+          public_message: zod.string().optional(),
+          donation_link: zod.string().optional(),
+          balances: zod
+            .object({
+              balance_cents: zod.number().optional(),
+              fee_balance_cents: zod.number().optional(),
+              incoming_balance_cents: zod.number().optional(),
+              total_raised: zod.number().optional(),
+            })
+            .optional(),
+          created_at: zod.string().optional(),
+          users: zod
+            .array(
+              zod.object({
+                id: zod.string(),
+                object: zod.string(),
+                full_name: zod.string(),
+                auditor: zod.boolean(),
+                admin: zod.boolean(),
+                photo: zod.string(),
+              }),
+            )
+            .optional(),
+        })
+        .optional()
+        .describe("Organization model"),
+      amount_cents: zod.number().optional(),
+      date: zod.string().optional(),
+      status: zod
+        .enum([
+          "scheduled",
+          "in_transit",
+          "in_transit_and_processed",
+          "deposited",
+          "canceled",
+          "voided",
+          "refunded",
+        ])
+        .optional(),
+    })
+    .describe("Check model");
+
+  /**
+   * @summary Get a single card
+   */
+  export const GetASingleCardParams = zod.object({
+    card_id: zod.string().describe("Card ID"),
+  });
+
+  export const GetASingleCardQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+  });
+
+  export const GetASingleCardResponse = zod
+    .object({
+      id: zod.string(),
+      object: zod.string(),
+      href: zod.string(),
+      name: zod.string().optional(),
+      type: zod.enum(["virtual", "physical"]).optional(),
+      status: zod.enum(["active", "inactive", "frozen", "canceled"]).optional(),
+      issued_at: zod.string().optional(),
+      owner: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          full_name: zod.string(),
+          auditor: zod.boolean(),
+          admin: zod.boolean(),
+          photo: zod.string(),
+        })
+        .optional(),
+      organization: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          name: zod.string().optional(),
+          slug: zod.string().optional(),
+          website: zod.string().optional(),
+          category: zod
+            .enum([
+              "hack_club_hq",
+              "robotics_team",
+              "hackathon",
+              "hack_club",
+              "climate",
+              "nonprofit",
+            ])
+            .optional(),
+          transparent: zod.boolean().optional(),
+          demo_mode: zod.boolean().optional(),
+          financially_frozen: zod.boolean().optional(),
+          logo: zod.string().optional(),
+          donation_header: zod.string().optional(),
+          background_image: zod.string().optional(),
+          public_message: zod.string().optional(),
+          donation_link: zod.string().optional(),
+          balances: zod
+            .object({
+              balance_cents: zod.number().optional(),
+              fee_balance_cents: zod.number().optional(),
+              incoming_balance_cents: zod.number().optional(),
+              total_raised: zod.number().optional(),
+            })
+            .optional(),
+          created_at: zod.string().optional(),
+          users: zod
+            .array(
+              zod.object({
+                id: zod.string(),
+                object: zod.string(),
+                full_name: zod.string(),
+                auditor: zod.boolean(),
+                admin: zod.boolean(),
+                photo: zod.string(),
+              }),
+            )
+            .optional(),
+        })
+        .optional()
+        .describe("Organization model"),
+    })
+    .describe("Card model");
+
+  /**
+   * @summary Get a single transaction
+   */
+  export const GetASingleTransactionParams = zod.object({
+    transaction_id: zod.string().describe("Transaction ID"),
+  });
+
+  export const GetASingleTransactionQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+  });
+
+  export const GetASingleTransactionResponse = zod
+    .object({
+      id: zod.string(),
+      object: zod.string(),
+      href: zod.string(),
+      amount_cents: zod.number().optional(),
+      memo: zod.string().optional(),
+      date: zod.string().optional(),
+      type: zod
+        .enum([
+          "invoice",
+          "donation",
+          "ach_transfer",
+          "check",
+          "transfer",
+          "bank_account_transaction",
+          "card_charge",
+          "wire_transfer",
+          "wise_transfer",
+          "check_deposit",
+          "reimbursed_expense",
+          "hcb_fee",
+        ])
+        .optional(),
+      pending: zod.boolean().optional(),
+      receipts: zod
+        .object({
+          count: zod.number().optional(),
+          missing: zod.boolean().optional(),
+        })
+        .optional(),
+      comments: zod
+        .object({
+          count: zod.number().optional(),
+        })
+        .optional(),
+      organization: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          name: zod.string().optional(),
+          slug: zod.string().optional(),
+          website: zod.string().optional(),
+          category: zod
+            .enum([
+              "hack_club_hq",
+              "robotics_team",
+              "hackathon",
+              "hack_club",
+              "climate",
+              "nonprofit",
+            ])
+            .optional(),
+          transparent: zod.boolean().optional(),
+          demo_mode: zod.boolean().optional(),
+          financially_frozen: zod.boolean().optional(),
+          logo: zod.string().optional(),
+          donation_header: zod.string().optional(),
+          background_image: zod.string().optional(),
+          public_message: zod.string().optional(),
+          donation_link: zod.string().optional(),
+          balances: zod
+            .object({
+              balance_cents: zod.number().optional(),
+              fee_balance_cents: zod.number().optional(),
+              incoming_balance_cents: zod.number().optional(),
+              total_raised: zod.number().optional(),
+            })
+            .optional(),
+          created_at: zod.string().optional(),
+          users: zod
+            .array(
+              zod.object({
+                id: zod.string(),
+                object: zod.string(),
+                full_name: zod.string(),
+                auditor: zod.boolean(),
+                admin: zod.boolean(),
+                photo: zod.string(),
+              }),
+            )
+            .optional(),
+        })
+        .optional()
+        .describe("Organization model"),
+      user: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          full_name: zod.string(),
+          auditor: zod.boolean(),
+          admin: zod.boolean(),
+          photo: zod.string(),
+        })
+        .optional(),
+      tags: zod
+        .array(
+          zod.object({
+            id: zod.string(),
+            object: zod.string(),
+            label: zod.string(),
+          }),
+        )
+        .optional(),
+      card_charge: zod.unknown().optional(),
+      ach_transfer: zod.unknown().optional(),
+      check: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          memo: zod.string().optional(),
+          transaction: zod.unknown().optional(),
+          organization: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              name: zod.string().optional(),
+              slug: zod.string().optional(),
+              website: zod.string().optional(),
+              category: zod
+                .enum([
+                  "hack_club_hq",
+                  "robotics_team",
+                  "hackathon",
+                  "hack_club",
+                  "climate",
+                  "nonprofit",
+                ])
+                .optional(),
+              transparent: zod.boolean().optional(),
+              demo_mode: zod.boolean().optional(),
+              financially_frozen: zod.boolean().optional(),
+              logo: zod.string().optional(),
+              donation_header: zod.string().optional(),
+              background_image: zod.string().optional(),
+              public_message: zod.string().optional(),
+              donation_link: zod.string().optional(),
+              balances: zod
+                .object({
+                  balance_cents: zod.number().optional(),
+                  fee_balance_cents: zod.number().optional(),
+                  incoming_balance_cents: zod.number().optional(),
+                  total_raised: zod.number().optional(),
+                })
+                .optional(),
+              created_at: zod.string().optional(),
+              users: zod
+                .array(
+                  zod.object({
+                    id: zod.string(),
+                    object: zod.string(),
+                    full_name: zod.string(),
+                    auditor: zod.boolean(),
+                    admin: zod.boolean(),
+                    photo: zod.string(),
+                  }),
+                )
+                .optional(),
+            })
+            .optional()
+            .describe("Organization model"),
+          amount_cents: zod.number().optional(),
+          date: zod.string().optional(),
+          status: zod
+            .enum([
+              "scheduled",
+              "in_transit",
+              "in_transit_and_processed",
+              "deposited",
+              "canceled",
+              "voided",
+              "refunded",
+            ])
+            .optional(),
+        })
+        .optional()
+        .describe("Check model"),
+      donation: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          memo: zod.string().optional(),
+          transaction: zod.unknown().optional(),
+          organization: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              name: zod.string().optional(),
+              slug: zod.string().optional(),
+              website: zod.string().optional(),
+              category: zod
+                .enum([
+                  "hack_club_hq",
+                  "robotics_team",
+                  "hackathon",
+                  "hack_club",
+                  "climate",
+                  "nonprofit",
+                ])
+                .optional(),
+              transparent: zod.boolean().optional(),
+              demo_mode: zod.boolean().optional(),
+              financially_frozen: zod.boolean().optional(),
+              logo: zod.string().optional(),
+              donation_header: zod.string().optional(),
+              background_image: zod.string().optional(),
+              public_message: zod.string().optional(),
+              donation_link: zod.string().optional(),
+              balances: zod
+                .object({
+                  balance_cents: zod.number().optional(),
+                  fee_balance_cents: zod.number().optional(),
+                  incoming_balance_cents: zod.number().optional(),
+                  total_raised: zod.number().optional(),
+                })
+                .optional(),
+              created_at: zod.string().optional(),
+              users: zod
+                .array(
+                  zod.object({
+                    id: zod.string(),
+                    object: zod.string(),
+                    full_name: zod.string(),
+                    auditor: zod.boolean(),
+                    admin: zod.boolean(),
+                    photo: zod.string(),
+                  }),
+                )
+                .optional(),
+            })
+            .optional()
+            .describe("Organization model"),
+          amount_cents: zod.number().optional(),
+          donor: zod
+            .object({
+              name: zod.string().optional(),
+              anonymous: zod.boolean().optional(),
+              avatar: zod.string().optional(),
+            })
+            .optional(),
+          date: zod.string().optional(),
+          status: zod
+            .enum(["pending", "in_transit", "deposited", "failed", "refunded"])
+            .optional(),
+          recurring: zod.boolean().optional(),
+        })
+        .optional()
+        .describe("Donation model"),
+      invoice: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          memo: zod.string().optional(),
+          transaction: zod.unknown().optional(),
+          organization: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              name: zod.string().optional(),
+              slug: zod.string().optional(),
+              website: zod.string().optional(),
+              category: zod
+                .enum([
+                  "hack_club_hq",
+                  "robotics_team",
+                  "hackathon",
+                  "hack_club",
+                  "climate",
+                  "nonprofit",
+                ])
+                .optional(),
+              transparent: zod.boolean().optional(),
+              demo_mode: zod.boolean().optional(),
+              financially_frozen: zod.boolean().optional(),
+              logo: zod.string().optional(),
+              donation_header: zod.string().optional(),
+              background_image: zod.string().optional(),
+              public_message: zod.string().optional(),
+              donation_link: zod.string().optional(),
+              balances: zod
+                .object({
+                  balance_cents: zod.number().optional(),
+                  fee_balance_cents: zod.number().optional(),
+                  incoming_balance_cents: zod.number().optional(),
+                  total_raised: zod.number().optional(),
+                })
+                .optional(),
+              created_at: zod.string().optional(),
+              users: zod
+                .array(
+                  zod.object({
+                    id: zod.string(),
+                    object: zod.string(),
+                    full_name: zod.string(),
+                    auditor: zod.boolean(),
+                    admin: zod.boolean(),
+                    photo: zod.string(),
+                  }),
+                )
+                .optional(),
+            })
+            .optional()
+            .describe("Organization model"),
+          amount_cents: zod.string().optional(),
+          sponsor: zod
+            .object({
+              id: zod.string().optional(),
+              name: zod.string().optional(),
+            })
+            .optional(),
+          date: zod.string().optional(),
+          status: zod.enum(["open", "paid", "void"]).optional(),
+        })
+        .optional()
+        .describe("Invoice model"),
+      transfer: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          memo: zod.string().optional(),
+          transaction: zod.unknown().optional(),
+          organization: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              name: zod.string().optional(),
+              slug: zod.string().optional(),
+              website: zod.string().optional(),
+              category: zod
+                .enum([
+                  "hack_club_hq",
+                  "robotics_team",
+                  "hackathon",
+                  "hack_club",
+                  "climate",
+                  "nonprofit",
+                ])
+                .optional(),
+              transparent: zod.boolean().optional(),
+              demo_mode: zod.boolean().optional(),
+              financially_frozen: zod.boolean().optional(),
+              logo: zod.string().optional(),
+              donation_header: zod.string().optional(),
+              background_image: zod.string().optional(),
+              public_message: zod.string().optional(),
+              donation_link: zod.string().optional(),
+              balances: zod
+                .object({
+                  balance_cents: zod.number().optional(),
+                  fee_balance_cents: zod.number().optional(),
+                  incoming_balance_cents: zod.number().optional(),
+                  total_raised: zod.number().optional(),
+                })
+                .optional(),
+              created_at: zod.string().optional(),
+              users: zod
+                .array(
+                  zod.object({
+                    id: zod.string(),
+                    object: zod.string(),
+                    full_name: zod.string(),
+                    auditor: zod.boolean(),
+                    admin: zod.boolean(),
+                    photo: zod.string(),
+                  }),
+                )
+                .optional(),
+            })
+            .optional()
+            .describe("Organization model"),
+          amount_cents: zod.string().optional(),
+          date: zod.string().optional(),
+          status: zod
+            .enum([
+              "fulfilled",
+              "processing",
+              "rejected",
+              "canceled",
+              "errored",
+              "under_review",
+              "pending",
+            ])
+            .optional(),
+          source_organization: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              name: zod.string().optional(),
+              slug: zod.string().optional(),
+              website: zod.string().optional(),
+              category: zod
+                .enum([
+                  "hack_club_hq",
+                  "robotics_team",
+                  "hackathon",
+                  "hack_club",
+                  "climate",
+                  "nonprofit",
+                ])
+                .optional(),
+              transparent: zod.boolean().optional(),
+              demo_mode: zod.boolean().optional(),
+              financially_frozen: zod.boolean().optional(),
+              logo: zod.string().optional(),
+              donation_header: zod.string().optional(),
+              background_image: zod.string().optional(),
+              public_message: zod.string().optional(),
+              donation_link: zod.string().optional(),
+              balances: zod
+                .object({
+                  balance_cents: zod.number().optional(),
+                  fee_balance_cents: zod.number().optional(),
+                  incoming_balance_cents: zod.number().optional(),
+                  total_raised: zod.number().optional(),
+                })
+                .optional(),
+              created_at: zod.string().optional(),
+              users: zod
+                .array(
+                  zod.object({
+                    id: zod.string(),
+                    object: zod.string(),
+                    full_name: zod.string(),
+                    auditor: zod.boolean(),
+                    admin: zod.boolean(),
+                    photo: zod.string(),
+                  }),
+                )
+                .optional(),
+            })
+            .optional()
+            .describe("Organization model"),
+        })
+        .optional()
+        .describe("Transfer model"),
+      wire_transfer: zod.unknown().optional(),
+      wise_transfer: zod.unknown().optional(),
+      check_deposit: zod.unknown().optional(),
+      reimbursed_expense: zod.unknown().optional(),
+      hcb_fee: zod.unknown().optional(),
+    })
+    .describe("Transaction model");
+
+  /**
+   * Returns a list of recent activities from all HCB organizations that are in <a href='https://blog.hcb.hackclub.com/posts/transparent-finances-optional-feature-151427'><strong>Transparency Mode</strong></a> and have opted in to public listing.
+   * @summary Get a list of recent activities on transparent HCB organizations
+   */
+  export const listActivitiesQueryPageDefaultOne = 1;
+  export const listActivitiesQueryPerPageDefaultOne = 50;
+  export const listActivitiesQueryOffsetDefault = 0;
+
+  export const ListActivitiesQueryParams = zod.object({
+    page: zod
+      .number()
+      .default(listActivitiesQueryPageDefaultOne)
+      .describe("Page offset to fetch."),
+    per_page: zod
+      .number()
+      .default(listActivitiesQueryPerPageDefaultOne)
+      .describe("Number of results to return per page."),
+    offset: zod
+      .number()
+      .default(listActivitiesQueryOffsetDefault)
+      .describe("Pad a number of results."),
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+  });
+
+  export const ListActivitiesResponseItem = zod
+    .object({
+      id: zod.string(),
+      object: zod.string(),
+      href: zod.string(),
+      key: zod.string(),
+      created_at: zod.string(),
+      organization: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          name: zod.string().optional(),
+          slug: zod.string().optional(),
+          website: zod.string().optional(),
+          category: zod
+            .enum([
+              "hack_club_hq",
+              "robotics_team",
+              "hackathon",
+              "hack_club",
+              "climate",
+              "nonprofit",
+            ])
+            .optional(),
+          transparent: zod.boolean().optional(),
+          demo_mode: zod.boolean().optional(),
+          financially_frozen: zod.boolean().optional(),
+          logo: zod.string().optional(),
+          donation_header: zod.string().optional(),
+          background_image: zod.string().optional(),
+          public_message: zod.string().optional(),
+          donation_link: zod.string().optional(),
+          balances: zod
+            .object({
+              balance_cents: zod.number().optional(),
+              fee_balance_cents: zod.number().optional(),
+              incoming_balance_cents: zod.number().optional(),
+              total_raised: zod.number().optional(),
+            })
+            .optional(),
+          created_at: zod.string().optional(),
+          users: zod
+            .array(
+              zod.object({
+                id: zod.string(),
+                object: zod.string(),
+                full_name: zod.string(),
+                auditor: zod.boolean(),
+                admin: zod.boolean(),
+                photo: zod.string(),
+              }),
+            )
+            .optional(),
+        })
+        .optional()
+        .describe("Organization model"),
+      user: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          full_name: zod.string(),
+          auditor: zod.boolean(),
+          admin: zod.boolean(),
+          photo: zod.string(),
+        })
+        .optional(),
+      transaction: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          amount_cents: zod.number().optional(),
+          memo: zod.string().optional(),
+          date: zod.string().optional(),
+          type: zod
+            .enum([
+              "invoice",
+              "donation",
+              "ach_transfer",
+              "check",
+              "transfer",
+              "bank_account_transaction",
+              "card_charge",
+              "wire_transfer",
+              "wise_transfer",
+              "check_deposit",
+              "reimbursed_expense",
+              "hcb_fee",
+            ])
+            .optional(),
+          pending: zod.boolean().optional(),
+          receipts: zod
+            .object({
+              count: zod.number().optional(),
+              missing: zod.boolean().optional(),
+            })
+            .optional(),
+          comments: zod
+            .object({
+              count: zod.number().optional(),
+            })
+            .optional(),
+          organization: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              name: zod.string().optional(),
+              slug: zod.string().optional(),
+              website: zod.string().optional(),
+              category: zod
+                .enum([
+                  "hack_club_hq",
+                  "robotics_team",
+                  "hackathon",
+                  "hack_club",
+                  "climate",
+                  "nonprofit",
+                ])
+                .optional(),
+              transparent: zod.boolean().optional(),
+              demo_mode: zod.boolean().optional(),
+              financially_frozen: zod.boolean().optional(),
+              logo: zod.string().optional(),
+              donation_header: zod.string().optional(),
+              background_image: zod.string().optional(),
+              public_message: zod.string().optional(),
+              donation_link: zod.string().optional(),
+              balances: zod
+                .object({
+                  balance_cents: zod.number().optional(),
+                  fee_balance_cents: zod.number().optional(),
+                  incoming_balance_cents: zod.number().optional(),
+                  total_raised: zod.number().optional(),
+                })
+                .optional(),
+              created_at: zod.string().optional(),
+              users: zod
+                .array(
+                  zod.object({
+                    id: zod.string(),
+                    object: zod.string(),
+                    full_name: zod.string(),
+                    auditor: zod.boolean(),
+                    admin: zod.boolean(),
+                    photo: zod.string(),
+                  }),
+                )
+                .optional(),
+            })
+            .optional()
+            .describe("Organization model"),
+          user: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              full_name: zod.string(),
+              auditor: zod.boolean(),
+              admin: zod.boolean(),
+              photo: zod.string(),
+            })
+            .optional(),
+          tags: zod
+            .array(
+              zod.object({
+                id: zod.string(),
+                object: zod.string(),
+                label: zod.string(),
+              }),
+            )
+            .optional(),
+          card_charge: zod.unknown().optional(),
+          ach_transfer: zod.unknown().optional(),
+          check: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.number().optional(),
+              date: zod.string().optional(),
+              status: zod
+                .enum([
+                  "scheduled",
+                  "in_transit",
+                  "in_transit_and_processed",
+                  "deposited",
+                  "canceled",
+                  "voided",
+                  "refunded",
+                ])
+                .optional(),
+            })
+            .optional()
+            .describe("Check model"),
+          donation: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.number().optional(),
+              donor: zod
+                .object({
+                  name: zod.string().optional(),
+                  anonymous: zod.boolean().optional(),
+                  avatar: zod.string().optional(),
+                })
+                .optional(),
+              date: zod.string().optional(),
+              status: zod
+                .enum([
+                  "pending",
+                  "in_transit",
+                  "deposited",
+                  "failed",
+                  "refunded",
+                ])
+                .optional(),
+              recurring: zod.boolean().optional(),
+            })
+            .optional()
+            .describe("Donation model"),
+          invoice: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.string().optional(),
+              sponsor: zod
+                .object({
+                  id: zod.string().optional(),
+                  name: zod.string().optional(),
+                })
+                .optional(),
+              date: zod.string().optional(),
+              status: zod.enum(["open", "paid", "void"]).optional(),
+            })
+            .optional()
+            .describe("Invoice model"),
+          transfer: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.string().optional(),
+              date: zod.string().optional(),
+              status: zod
+                .enum([
+                  "fulfilled",
+                  "processing",
+                  "rejected",
+                  "canceled",
+                  "errored",
+                  "under_review",
+                  "pending",
+                ])
+                .optional(),
+              source_organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+            })
+            .optional()
+            .describe("Transfer model"),
+          wire_transfer: zod.unknown().optional(),
+          wise_transfer: zod.unknown().optional(),
+          check_deposit: zod.unknown().optional(),
+          reimbursed_expense: zod.unknown().optional(),
+          hcb_fee: zod.unknown().optional(),
+        })
+        .optional()
+        .describe("Transaction model"),
+    })
+    .describe("Activity model");
+  export const ListActivitiesResponse = zod.array(ListActivitiesResponseItem);
+
+  /**
+   * @summary Get a single activity
+   */
+  export const GetASingleActivityParams = zod.object({
+    activity_id: zod.string().describe("Activity ID"),
+  });
+
+  export const GetASingleActivityQueryParams = zod.object({
+    expand: zod
+      .string()
+      .optional()
+      .describe(
+        "Object types to expand in the API response (separated by commas)",
+      ),
+  });
+
+  export const GetASingleActivityResponse = zod
+    .object({
+      id: zod.string(),
+      object: zod.string(),
+      href: zod.string(),
+      key: zod.string(),
+      created_at: zod.string(),
+      organization: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          name: zod.string().optional(),
+          slug: zod.string().optional(),
+          website: zod.string().optional(),
+          category: zod
+            .enum([
+              "hack_club_hq",
+              "robotics_team",
+              "hackathon",
+              "hack_club",
+              "climate",
+              "nonprofit",
+            ])
+            .optional(),
+          transparent: zod.boolean().optional(),
+          demo_mode: zod.boolean().optional(),
+          financially_frozen: zod.boolean().optional(),
+          logo: zod.string().optional(),
+          donation_header: zod.string().optional(),
+          background_image: zod.string().optional(),
+          public_message: zod.string().optional(),
+          donation_link: zod.string().optional(),
+          balances: zod
+            .object({
+              balance_cents: zod.number().optional(),
+              fee_balance_cents: zod.number().optional(),
+              incoming_balance_cents: zod.number().optional(),
+              total_raised: zod.number().optional(),
+            })
+            .optional(),
+          created_at: zod.string().optional(),
+          users: zod
+            .array(
+              zod.object({
+                id: zod.string(),
+                object: zod.string(),
+                full_name: zod.string(),
+                auditor: zod.boolean(),
+                admin: zod.boolean(),
+                photo: zod.string(),
+              }),
+            )
+            .optional(),
+        })
+        .optional()
+        .describe("Organization model"),
+      user: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          full_name: zod.string(),
+          auditor: zod.boolean(),
+          admin: zod.boolean(),
+          photo: zod.string(),
+        })
+        .optional(),
+      transaction: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+          amount_cents: zod.number().optional(),
+          memo: zod.string().optional(),
+          date: zod.string().optional(),
+          type: zod
+            .enum([
+              "invoice",
+              "donation",
+              "ach_transfer",
+              "check",
+              "transfer",
+              "bank_account_transaction",
+              "card_charge",
+              "wire_transfer",
+              "wise_transfer",
+              "check_deposit",
+              "reimbursed_expense",
+              "hcb_fee",
+            ])
+            .optional(),
+          pending: zod.boolean().optional(),
+          receipts: zod
+            .object({
+              count: zod.number().optional(),
+              missing: zod.boolean().optional(),
+            })
+            .optional(),
+          comments: zod
+            .object({
+              count: zod.number().optional(),
+            })
+            .optional(),
+          organization: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              name: zod.string().optional(),
+              slug: zod.string().optional(),
+              website: zod.string().optional(),
+              category: zod
+                .enum([
+                  "hack_club_hq",
+                  "robotics_team",
+                  "hackathon",
+                  "hack_club",
+                  "climate",
+                  "nonprofit",
+                ])
+                .optional(),
+              transparent: zod.boolean().optional(),
+              demo_mode: zod.boolean().optional(),
+              financially_frozen: zod.boolean().optional(),
+              logo: zod.string().optional(),
+              donation_header: zod.string().optional(),
+              background_image: zod.string().optional(),
+              public_message: zod.string().optional(),
+              donation_link: zod.string().optional(),
+              balances: zod
+                .object({
+                  balance_cents: zod.number().optional(),
+                  fee_balance_cents: zod.number().optional(),
+                  incoming_balance_cents: zod.number().optional(),
+                  total_raised: zod.number().optional(),
+                })
+                .optional(),
+              created_at: zod.string().optional(),
+              users: zod
+                .array(
+                  zod.object({
+                    id: zod.string(),
+                    object: zod.string(),
+                    full_name: zod.string(),
+                    auditor: zod.boolean(),
+                    admin: zod.boolean(),
+                    photo: zod.string(),
+                  }),
+                )
+                .optional(),
+            })
+            .optional()
+            .describe("Organization model"),
+          user: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              full_name: zod.string(),
+              auditor: zod.boolean(),
+              admin: zod.boolean(),
+              photo: zod.string(),
+            })
+            .optional(),
+          tags: zod
+            .array(
+              zod.object({
+                id: zod.string(),
+                object: zod.string(),
+                label: zod.string(),
+              }),
+            )
+            .optional(),
+          card_charge: zod.unknown().optional(),
+          ach_transfer: zod.unknown().optional(),
+          check: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.number().optional(),
+              date: zod.string().optional(),
+              status: zod
+                .enum([
+                  "scheduled",
+                  "in_transit",
+                  "in_transit_and_processed",
+                  "deposited",
+                  "canceled",
+                  "voided",
+                  "refunded",
+                ])
+                .optional(),
+            })
+            .optional()
+            .describe("Check model"),
+          donation: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.number().optional(),
+              donor: zod
+                .object({
+                  name: zod.string().optional(),
+                  anonymous: zod.boolean().optional(),
+                  avatar: zod.string().optional(),
+                })
+                .optional(),
+              date: zod.string().optional(),
+              status: zod
+                .enum([
+                  "pending",
+                  "in_transit",
+                  "deposited",
+                  "failed",
+                  "refunded",
+                ])
+                .optional(),
+              recurring: zod.boolean().optional(),
+            })
+            .optional()
+            .describe("Donation model"),
+          invoice: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.string().optional(),
+              sponsor: zod
+                .object({
+                  id: zod.string().optional(),
+                  name: zod.string().optional(),
+                })
+                .optional(),
+              date: zod.string().optional(),
+              status: zod.enum(["open", "paid", "void"]).optional(),
+            })
+            .optional()
+            .describe("Invoice model"),
+          transfer: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+              memo: zod.string().optional(),
+              transaction: zod.unknown().optional(),
+              organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+              amount_cents: zod.string().optional(),
+              date: zod.string().optional(),
+              status: zod
+                .enum([
+                  "fulfilled",
+                  "processing",
+                  "rejected",
+                  "canceled",
+                  "errored",
+                  "under_review",
+                  "pending",
+                ])
+                .optional(),
+              source_organization: zod
+                .object({
+                  id: zod.string(),
+                  object: zod.string(),
+                  href: zod.string(),
+                  name: zod.string().optional(),
+                  slug: zod.string().optional(),
+                  website: zod.string().optional(),
+                  category: zod
+                    .enum([
+                      "hack_club_hq",
+                      "robotics_team",
+                      "hackathon",
+                      "hack_club",
+                      "climate",
+                      "nonprofit",
+                    ])
+                    .optional(),
+                  transparent: zod.boolean().optional(),
+                  demo_mode: zod.boolean().optional(),
+                  financially_frozen: zod.boolean().optional(),
+                  logo: zod.string().optional(),
+                  donation_header: zod.string().optional(),
+                  background_image: zod.string().optional(),
+                  public_message: zod.string().optional(),
+                  donation_link: zod.string().optional(),
+                  balances: zod
+                    .object({
+                      balance_cents: zod.number().optional(),
+                      fee_balance_cents: zod.number().optional(),
+                      incoming_balance_cents: zod.number().optional(),
+                      total_raised: zod.number().optional(),
+                    })
+                    .optional(),
+                  created_at: zod.string().optional(),
+                  users: zod
+                    .array(
+                      zod.object({
+                        id: zod.string(),
+                        object: zod.string(),
+                        full_name: zod.string(),
+                        auditor: zod.boolean(),
+                        admin: zod.boolean(),
+                        photo: zod.string(),
+                      }),
+                    )
+                    .optional(),
+                })
+                .optional()
+                .describe("Organization model"),
+            })
+            .optional()
+            .describe("Transfer model"),
+          wire_transfer: zod.unknown().optional(),
+          wise_transfer: zod.unknown().optional(),
+          check_deposit: zod.unknown().optional(),
+          reimbursed_expense: zod.unknown().optional(),
+          hcb_fee: zod.unknown().optional(),
+        })
+        .optional()
+        .describe("Transaction model"),
+    })
+    .describe("Activity model");
+}
