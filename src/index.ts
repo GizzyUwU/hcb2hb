@@ -3,6 +3,9 @@ import { DEFAULT_REDACT_FIELDS, redactByField } from "@logtape/redaction";
 import { getSentrySink } from "@logtape/sentry";
 import * as Sentry from "@sentry/bun";
 import ansiRegex from "ansi-regex";
+import path from "path";
+import fs from "fs";
+const registeredInitModules = new Set<string>();
 const sentryAdapter = redactByField(
   getSentrySink({
     enableBreadcrumbs: true,
@@ -98,23 +101,98 @@ await configure({
   loggers: [
     {
       category: ["logtape", "meta"],
-      sinks: [
-        ...(process.env["SENTRY_DSN"] ? ["sentry"] : []),
-        "console",
-      ],
+      sinks: [...(process.env["SENTRY_DSN"] ? ["sentry"] : []), "console"],
       lowestLevel: "error",
     },
     {
-      category: ["hcb2hb"],
-      sinks: [
-        ...(process.env["SENTRY_DSN"]  ? ["sentry"] : []),
-        "console",
-      ],
+      category: ["hc2hb"],
+      sinks: [...(process.env["SENTRY_DSN"] ? ["sentry"] : []), "console"],
       lowestLevel:
-        logLevel[configuredLogLevel as keyof typeof logLevel] ??
-        "info",
+        logLevel[configuredLogLevel as keyof typeof logLevel] ?? "info",
     },
   ],
 });
 
 export const logger = getLogger(["logpheus"]);
+const jobsRunning = new Map<string, boolean>();
+const jobsLastRun = new Map<string, number>();
+async function jobRunner() {
+  registeredInitModules.clear();
+  const jobDir = path.resolve(__dirname, "./jobs");
+  const jobs = fs
+    .readdirSync(jobDir)
+    .filter((f) => f.endsWith(".ts") && !f.includes(".disabled."));
+  const now = Date.now();
+  const promises: Promise<void>[] = [];
+  for (const job of jobs) {
+    try {
+      const importJobFile = await import(path.join(jobDir, job));
+      const mod = importJobFile.default;
+      if (!mod.name || typeof mod.execute !== "function") continue;
+      if (registeredInitModules.has(mod.name))
+        throw new Error(`[HC2HB] Duplicate job name "${mod.name}" in ${job}`);
+      if (jobsRunning.has(mod.name)) continue;
+      const interval = Math.max(10, mod.interval ?? 60) * 1000;
+      if (now - (jobsLastRun.get(mod.name) ?? 0) < interval) continue;
+      jobsLastRun.set(mod.name, now);
+      jobsRunning.set(mod.name, true);
+      const ctxLogger = logger.with({
+        data: {
+          module: mod.name,
+          file: job,
+        },
+      });
+
+      promises.push(
+        mod
+          .execute({
+            logger: ctxLogger,
+          })
+          .catch((err: unknown) => {
+            ctxLogger
+              .with({
+                err,
+              })
+              .error("Failed to execute job");
+          })
+          .finally(() => {
+            jobsRunning.delete(mod.name);
+          }),
+      );
+    } catch (e) {
+      logger
+        .with({
+          data: {
+            file: job,
+          },
+        })
+        .error("Failed to execute handler");
+    }
+  }
+  await Promise.allSettled(promises);
+}
+
+(async () => {
+  const jobLoop = async () => {
+    await jobRunner();
+    setTimeout(jobLoop, 10 * 1000);
+  };
+  jobLoop();
+})();
+
+process.on("SIGTERM", async () => {
+  process.exit(0);
+});
+
+process.on("SIGINT", async () => {
+  process.stdout.write("\r\x1b[K"); // This literally just makes it not show ^C⏎ in my terminal as it annoys me
+  process.exit(0);
+});
+
+process.on("unhandledRejection", (reason) => {
+  logger.error("Unhandled Rejection", { reason });
+});
+
+process.on("uncaughtException", (error) => {
+  logger.error("Uncaught Exception", { error });
+});
