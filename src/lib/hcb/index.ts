@@ -1,8 +1,7 @@
 import axios, { type AxiosInstance, type AxiosRequestConfig, type AxiosResponse } from "axios";
-import type { ZodType } from "zod";
-import { z } from "zod";
-import { ZTypes } from "./types.ts"
 import type { logger as LogTape } from "@/index";
+import { ZTypes } from "./types.ts"
+import { z } from "zod";
 
 export default class HCB {
   public lastCode: number = 200;
@@ -18,7 +17,7 @@ export default class HCB {
     this.ready = Promise.resolve();
   }
 
-  private async req<S extends ZodType<any, any, any>>(config: AxiosRequestConfig, schema: S): Promise<AxiosResponse | {
+  private async req<T extends z.ZodType>(config: AxiosRequestConfig, schema: T): Promise<Omit<AxiosResponse, 'data'> & { ok: boolean, data: z.infer<T> } | {
     ok: false; status: number | null; msg: string | unknown;
   }> {
     await this.ready;
@@ -28,6 +27,7 @@ export default class HCB {
       try {
         return {
           ...res,
+          ok: true,
           data: schema.parse(res.data)
         }
       } catch (err) {

@@ -17,7 +17,7 @@ export default class HB {
     this.ready = Promise.resolve();
   }
 
-  private async req<T extends z.ZodType>(config: AxiosRequestConfig, schema: T): Promise<AxiosResponse | {
+  private async req<T extends z.ZodType>(config: AxiosRequestConfig, schema: T): Promise<Omit<AxiosResponse, 'data'> & { ok: boolean, data: z.infer<T> } | {
     ok: false; status: number | null; msg: string | unknown;
   }> {
     await this.ready;
@@ -27,6 +27,7 @@ export default class HB {
       try {
         return {
           ...res,
+          ok: true,
           data: schema.parse(res.data)
         }
       } catch (err) {

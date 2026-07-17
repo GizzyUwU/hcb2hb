@@ -1,8 +1,7 @@
 import axios, { type AxiosInstance, type AxiosRequestConfig, type AxiosResponse } from "axios";
-import type { ZodType } from "zod";
-import { z } from "zod";
-import { ZTypes } from "./types.ts"
 import type { logger as LogTape } from "@/index";
+import { ZTypes } from "./types.ts"
+import { z } from "zod";
 
 export default class HCBScan {
   public lastCode: number = 200;
@@ -18,7 +17,7 @@ export default class HCBScan {
     this.ready = Promise.resolve();
   }
 
-  private async req<S extends ZodType<any, any, any>>(config: AxiosRequestConfig, schema: S): Promise<AxiosResponse | {
+  private async req<T extends z.ZodType>(config: AxiosRequestConfig, schema: T): Promise<Omit<AxiosResponse, 'data'> & { ok: boolean, data: z.infer<T> } | {
     ok: false; status: number | null; msg: string | unknown;
   }> {
     await this.ready;
@@ -28,6 +27,7 @@ export default class HCBScan {
       try {
         return {
           ...res,
+          ok: true,
           data: schema.parse(res.data)
         }
       } catch (err) {
@@ -80,7 +80,7 @@ export default class HCBScan {
    * @param {number} query.per_page - Limit of items per page
    * 
    */
-  public async activities(param: z.infer<typeof ZTypes["GetUserActivitiesParams"]>, query?: z.infer<typeof ZTypes["GetUserActivitiesQueryParams"]>) {
+  public async userActivities(param: z.infer<typeof ZTypes["GetUserActivitiesParams"]>, query?: z.infer<typeof ZTypes["GetUserActivitiesQueryParams"]>) {
     return this.req({
       method: "GET",
       url: "/users/" + param.id + "/activities",
