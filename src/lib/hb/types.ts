@@ -1,7 +1,11 @@
 import { z } from "zod";
 
 export namespace ZTypes {
-  export const PostCreateEntityBody = z.object({
+  /**
+   * @summary Parameters for creating an entity endpoint
+   * @route POST /api/v1/entities
+   */
+  export const PostCreateEntityParams = z.object({
     description: z.string(),
     entityTypeId: z.string(),
     name: z.string(),
@@ -10,6 +14,11 @@ export namespace ZTypes {
     tagsId: z.array(z.string()),
   });
 
+  /**
+   * @summary Response for creating an entity endpoint
+   * @route POST /api/v1/entities
+   * @response 201
+   */
   export const PostCreateEntityResponse = z.object({
     archived: z.boolean(),
     assetId: z.string(),
@@ -158,6 +167,10 @@ export namespace ZTypes {
     warrentyExpires: z.string(),
   });
 
+  /**
+   * @summary Query parameters for querying all entities endpoint
+   * @route GET /api/v1/entities
+   */
   export const QueryAllEntitiesQueryParams = z.object({
     q: z.string(),
     page: z.number().positive(),
@@ -165,6 +178,11 @@ export namespace ZTypes {
     parentIds: z.array(z.string()),
   });
 
+  /**
+   * @summary Response of query all entites endpoint
+   * @route GET /api/v1/entities
+   * @response 200
+   */
   export const QueryAllEntitiesResponse = z.object({
     items: z.array(z.object({
       archived: z.boolean(),
@@ -198,4 +216,68 @@ export namespace ZTypes {
     total: z.number(),
     totalPrice: z.number(),
   });
+  
+  /**
+   * @summary Response of get all tags endpoint
+   * @route GET /api/v1/tags
+   * @response 200
+   */
+  export const GetAllTagsResponse = z.array(z.object({
+    color: z.string(),
+    createdAt: z.string(),
+    descriptipn: z.string(),
+    icon: z.string(),
+    id: z.string(),
+    name: z.string(),
+    parentId: z.string().nullable(),
+    updatedAt: z.string(),
+  }))
+
+  /**
+   * @summary Params of create tag endpoint
+   * @route POST /api/v1/tags
+   */
+  export const CreateTagParams = z.object({
+    color: z.string(),
+    descrtiption: z.string().max(1000),
+    icon: z.string().max(255),
+    string: z.string().min(1).max(255),
+    parentID: z.string().nullable()
+  })
+
+  /**
+   * @summary Response of create a tag endpoint
+   * @route POST /api/v1/tags
+   * @response 201
+   */
+  export const CreateTagResponse = z.object({
+    children: z.array(z.object({
+      color: z.string(),
+      createdAt: z.string(),
+      description: z.string(),
+      icon: z.string(),
+      id: z.string(),
+      name: z.string(),
+      parentId: z.string().nullable(),
+      updatedAt: z.string(),
+    })),
+    color: z.string(),
+    createdAt: z.string(),
+    description: z.string(),
+    iicon: z.string(),
+    id: z.string(),
+    name: z.string(),
+    parent: z.object({
+      color: z.string(),
+      createdAt: z.string(),
+      description: z.string(),
+      icon: z.string(),
+      id: z.string(),
+      name: z.string(),
+      parentId: z.string().nullable(),
+      updatedAt: z.string(),
+    }),
+    parentId: z.string().nullable(),
+    updatedAt: z.string(),
+  })
 }
