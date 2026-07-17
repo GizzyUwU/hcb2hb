@@ -241,8 +241,8 @@ export namespace ZTypes {
     color: z.string(),
     descrtiption: z.string().max(1000),
     icon: z.string().max(255),
-    string: z.string().min(1).max(255),
-    parentID: z.string().nullable()
+    name: z.string().min(1).max(255),
+    parentId: z.string().nullable()
   })
 
   /**

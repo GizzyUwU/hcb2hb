@@ -74,13 +74,17 @@ export default class HCBScan {
   }
 
   /**
-   * @summary Returns a paginated activity feed for a specific user.
+   * Returns a paginated activity feed for a specific user.
+   * @param {string} param.id - ID of the user you want the activities from
+   * @param {number} query.page - Number of what page you want to look at
+   * @param {number} query.per_page - Limit of items per page
+   * 
    */
-  public async activities(param: z.infer<typeof ZTypes.GetUserActivitiesParams>, query: z.infer<typeof ZTypes.GetUserActivitiesQueryParams>) {
+  public async activities(param: z.infer<typeof ZTypes["GetUserActivitiesParams"]>, query?: z.infer<typeof ZTypes["GetUserActivitiesQueryParams"]>) {
     return this.req({
       method: "GET",
       url: "/users/" + param.id + "/activities",
       params: query
-    }, ZTypes.GetUserActivitiesResponse)
+    }, ZTypes["GetUserActivitiesResponse"])
   }
 }

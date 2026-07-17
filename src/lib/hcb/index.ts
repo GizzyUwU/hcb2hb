@@ -74,13 +74,16 @@ export default class HCB {
   }
 
   /**
-   * @summary Get a single activity's details from HCB
+   * Get a single activity's details from HCB
+   * @param {string} param.activity_id - ID of the activity you want to look at
+   * @param {string} query.expand - Object types to expand in the API response (separated by commas)
   */
-  public async activity(param: z.infer<typeof ZTypes.GetASingleActivityParams>, query: z.infer<typeof ZTypes.GetASingleActivityQueryParams>) {
+  public async activity(param: z.infer<typeof ZTypes["GetASingleActivityParams"]>, query?: z.infer<typeof ZTypes["GetASingleActivityQueryParams"]>) {
     return this.req({
       method: "GET",
       url: "/activities/" + param.activity_id,
+      data: param,
       params: query
-    }, ZTypes.GetASingleActivityResponse)
+    }, ZTypes["GetASingleActivityResponse"])
   }
 }
