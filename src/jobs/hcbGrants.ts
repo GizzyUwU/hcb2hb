@@ -56,7 +56,7 @@ export default {
     }
     const activities = userActivities.data.data ?? [];
     const grantEntitesRaw = await hb.queryEntities({
-      tags: ["Grant"],
+      tags: [grantTag],
     });
     if (
       !grantEntitesRaw.ok ||
