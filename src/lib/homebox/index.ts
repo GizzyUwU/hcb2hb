@@ -129,6 +129,22 @@ export default class HomeBox {
   }
 
   /**
+   * Delete an entity in homebox
+   * @param {string} param.id - Id used to find and delete an entity
+   */
+  public async deleteEntity(
+    pathParams: z.infer<(typeof ZTypes)["DeleteEntityPathParams"]>,
+  ) {
+    return this.req(
+      {
+        method: "DELETE",
+        url: "/entities/" + pathParams.id,
+      },
+      z.unknown(),
+    );
+  }
+
+  /**
    * Query all entities that exist in homebox
    * @param {string} query.q - The string used to search
    * @param {string} query.page - Page number for pagination

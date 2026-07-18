@@ -171,12 +171,17 @@ export namespace ZTypes {
   }).describe("PostCreateEntityResponse");
 
 
+  /**
+   * @summary Path parameters for updating an entity
+   * @route PUT /api/v1/entities/{id}
+   */
   export const PutUpdateEntityPathParams = z.object({
     id: z.string()
   })
+  
   /**
    * @summary Parameters for updating an entity
-   * @route PUT /api/v1/entities
+   * @route PUT /api/v1/entities/{id}
    */
   export const PutUpdateEntityParams = z.object({
     archived: z.boolean().nullish(),
@@ -212,7 +217,7 @@ export namespace ZTypes {
 
   /**
    * @summary Response for updating an entity endpoint
-   * @route PUT /api/v1/entities
+   * @route PUT /api/v1/entities/{id}
    * @response 200
    */
   export const PutUpdateEntityResponse = z.object({
@@ -362,6 +367,15 @@ export namespace ZTypes {
     warrantyDetails: z.string().nullish(),
     warrantyExpires: z.string().nullish(),
   }).describe("PutUpdateEntityResponse");
+
+
+  /**
+   * @summary Path params for deleting an entity via its id
+   * @route DELETE /api/v1/entities/{id}
+   */
+  export const DeleteEntityPathParams = z.object({
+    id: z.string()
+  })
   
   /**
    * @summary Query parameters for querying all entities endpoint

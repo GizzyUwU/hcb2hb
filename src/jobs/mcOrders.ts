@@ -61,13 +61,38 @@ export default {
 
     const orderEntities = mcEntitiesRaw.data.items ?? [];
     for (const order of orders.data) {
+      const alrExist = orderEntities.find((o) =>
+        o.name.includes(String(order.order.id) ?? crypto.randomUUID()),
+      );
+      if (alrExist && order.order.status == "cancelled") {
+        const deleteTheEntity = await hb.deleteEntity({
+          id: alrExist.id,
+        });
+
+        if (
+          !deleteTheEntity.ok ||
+          !deleteTheEntity.data ||
+          Object.keys(deleteTheEntity).length === 0
+        )
+          continue;
+
+        logger
+          .with({
+            orderId: order.order.id,
+            ysws: "Macondo",
+            itemName: order.order.item_snapshot.name,
+          })
+          .info("Deleted a macondo order entity as it got cancelled");
+
+        continue;
+      }
       if (
         orderEntities.find((o) =>
           o.name.includes(String(order.order.id) ?? crypto.randomUUID()),
-        )
+        ) ||
+        order.order.status == "cancelled"
       )
         continue;
-
       const createTheEntity = await hb.createEntity({
         description:
           order.item.description ?? `Macondo Order ${order.order.id}`,
