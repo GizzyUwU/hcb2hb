@@ -142,22 +142,20 @@ async function jobRunner() {
           file: job,
         },
       });
-      console.log("meow", mod)
-
-        mod
-          .execute({
-            logger: ctxLogger,
-          })
-          .catch((err: unknown) => {
-            ctxLogger
-              .with({
-                err,
-              })
-              .error("Failed to execute job");
-          })
-          .finally(() => {
-            jobsRunning.delete(mod.name);
-          })
+      mod
+        .execute({
+          logger: ctxLogger,
+        })
+        .catch((err: unknown) => {
+          ctxLogger
+            .with({
+              err,
+            })
+            .error("Failed to execute job");
+        })
+        .finally(() => {
+          jobsRunning.delete(mod.name);
+        });
     } catch (e) {
       logger
         .with({
@@ -178,6 +176,12 @@ async function jobRunner() {
   };
   await jobLoop();
   console.log("[HC2HB] Started running jobs successfully!");
+  Bun.serve({
+    port: 3000,
+    routes: {
+      "/healthcheck": new Response("OK"),
+    },
+  });
 })();
 
 process.on("SIGTERM", async () => {
