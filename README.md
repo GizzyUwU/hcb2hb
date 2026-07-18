@@ -21,3 +21,5 @@ To run this i think you need bun installed on host cuz of bun cache folder is us
 ```
 docker compose up -d
 ```
+
+This requires you to use homebox which is usually self hosted it may be possible to use the demo though at https://demo.homebox.software/
