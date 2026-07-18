@@ -452,9 +452,10 @@ export namespace ZTypes {
         entity_id: zod.string(),
         read_at: zod.iso.datetime({ offset: true }).nullish(),
         created_at: zod.iso.datetime({ offset: true }),
-      })),
+      }),
+    ),
     unread_count: zod.number(),
-    next_cursor: zod.number()
+    next_cursor: zod.number(),
   });
 
   export const GetMyEarnRate = zod.object({
@@ -464,4 +465,48 @@ export namespace ZTypes {
     total_gold: zod.number(),
     total_hours: zod.number(),
   });
+
+  export const GetMyOrders = zod.array(
+    zod.object({
+      order: zod.object({
+        id: zod.number(),
+        user_id: zod.string(),
+        item_id: zod.number(),
+        quantity: zod.number(),
+        status: zod.string(),
+        item_snapshot: zod.object({
+          id: zod.number(),
+          slug: zod.string().nullish(),
+          name: zod.string(),
+          description: zod.string(),
+          image_url: zod.string(),
+          kind: zod.string(),
+          fufillment_provider: zod.string(),
+          source: zod.string().nullish(),
+          price_hours: zod.number(),
+          price_gold: zod.number(),
+          price_fruit_type: zod.string().nullish(),
+          price_fruit_amount: zod.number().nullish(),
+          price_fruit_level: zod.number().nullish(),
+          price_fruit_category: zod.string().nullish,
+          grant_amount_cents: zod.number().nullish(),
+          attachment_urls: zod.array(zod.string()),
+          region: zod.string().nullish(),
+          price_hours_per_unit: zod.number(),
+          price_gold_per_unit: zod.number(),
+        }),
+        created_at: zod.number(),
+        updated_at: zod.number(),
+        total_price_gold: zod.number(),
+      }),
+      item: ShopItem,
+      orderUser: zod.object({
+        id: zod.string(),
+        name: zod.string(),
+        email: zod.string(),
+        hcb_email: zod.string().nullish()
+      }),
+      fulfillable: zod.boolean()
+    }),
+  );
 }
