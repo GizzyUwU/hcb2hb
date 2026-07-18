@@ -136,7 +136,7 @@ export default {
             !creationOfEntity.data ||
             Object.keys(creationOfEntity.data)?.length === 0
           )
-            return;
+            continue;
 
           const updateTheEntity = await hb.updateEntity(
             {
@@ -155,7 +155,7 @@ export default {
             !updateTheEntity.data ||
             Object.keys(updateTheEntity.data)?.length === 0
           )
-            return;
+            continue;
 
           logger
             .with({
@@ -163,6 +163,7 @@ export default {
               memo: activityData.data.transaction.memo,
             })
             .info("Created new entity of a HCB grant transaction");
+          continue;
         }
       }
     }
