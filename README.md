@@ -1,5 +1,5 @@
 # hc2hb
-- i changed plan for it to be actually hc2hb for all prizes i got from hc events but I can't add support for other events before running out of time for catgirl ysws so only hcb support rn
+- i changed plan for it to be actually hc2hb for all prizes i got from hc events by scraping/using their api but I can't add support for all events before running out of time for catgirl ysws so only hcb support and macondo support rn :3
 To install dependencies:
 
 ```bash
