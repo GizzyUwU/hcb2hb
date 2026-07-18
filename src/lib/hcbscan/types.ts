@@ -51,27 +51,27 @@ export namespace ZTypes {
     "per_page": zod.number().min(1).max(listOrgsQueryPerPageMax).default(listOrgsQueryPerPageDefault).describe('Results per page'),
     "sort": zod.enum(['balance', 'name', 'added']).default(listOrgsQuerySortDefault).describe('Sort field'),
     "order": zod.enum(['asc', 'desc']).default(listOrgsQueryOrderDefault).describe('Sort order'),
-    "category": zod.string().optional().describe('Filter by category')
+    "category": zod.string().nullish().describe('Filter by category')
   })
 
   export const ListOrgsResponse = zod.object({
     "ok": zod.boolean()
   }).and(zod.object({
     "data": zod.array(zod.object({
-      "id": zod.string().optional(),
-      "name": zod.string().optional(),
-      "slug": zod.string().optional(),
+      "id": zod.string().nullish(),
+      "name": zod.string().nullish(),
+      "slug": zod.string().nullish(),
       "category": zod.string().nullish(),
-      "balance_cents": zod.number().optional(),
-      "added": zod.iso.datetime({}).optional(),
+      "balance_cents": zod.number().nullish(),
+      "added": zod.iso.datetime({}).nullish(),
       "frozen_at": zod.iso.datetime({}).nullish()
-    })).optional(),
+    })).nullish(),
     "meta": zod.object({
-      "page": zod.number().optional(),
-      "per_page": zod.number().optional(),
-      "total": zod.number().optional(),
-      "has_more": zod.boolean().optional()
-    }).optional()
+      "page": zod.number().nullish(),
+      "per_page": zod.number().nullish(),
+      "total": zod.number().nullish(),
+      "has_more": zod.boolean().nullish()
+    }).nullish()
   }))
 
 
@@ -87,14 +87,14 @@ export namespace ZTypes {
     "ok": zod.boolean()
   }).and(zod.object({
     "data": zod.object({
-      "id": zod.string().optional(),
-      "name": zod.string().optional(),
-      "slug": zod.string().optional(),
+      "id": zod.string().nullish(),
+      "name": zod.string().nullish(),
+      "slug": zod.string().nullish(),
       "category": zod.string().nullish(),
-      "balance_cents": zod.number().optional(),
-      "added": zod.iso.datetime({}).optional(),
+      "balance_cents": zod.number().nullish(),
+      "added": zod.iso.datetime({}).nullish(),
       "frozen_at": zod.iso.datetime({}).nullish()
-    }).optional()
+    }).nullish()
   }))
 
 
@@ -121,26 +121,26 @@ export namespace ZTypes {
     "ok": zod.boolean()
   }).and(zod.object({
     "data": zod.array(zod.object({
-      "id": zod.string().optional(),
-      "key": zod.string().optional(),
-      "created_at": zod.iso.datetime({}).optional(),
+      "id": zod.string().nullish(),
+      "key": zod.string().nullish(),
+      "created_at": zod.iso.datetime({}).nullish(),
       "user": zod.object({
-        "id": zod.string().optional(),
-        "name": zod.string().optional(),
+        "id": zod.string().nullish(),
+        "name": zod.string().nullish(),
         "avatar": zod.string().nullish()
       }).nullish(),
       "organization": zod.object({
-        "id": zod.string().optional(),
-        "name": zod.string().optional(),
+        "id": zod.string().nullish(),
+        "name": zod.string().nullish(),
         "logo": zod.string().nullish()
       }).nullish()
-    })).optional(),
+    })).nullish(),
     "meta": zod.object({
-      "page": zod.number().optional(),
-      "per_page": zod.number().optional(),
-      "total": zod.number().optional(),
-      "has_more": zod.boolean().optional()
-    }).optional()
+      "page": zod.number().nullish(),
+      "per_page": zod.number().nullish(),
+      "total": zod.number().nullish(),
+      "has_more": zod.boolean().nullish()
+    }).nullish()
   }))
 
 
@@ -156,10 +156,10 @@ export namespace ZTypes {
     "ok": zod.boolean()
   }).and(zod.object({
     "data": zod.array(zod.object({
-      "id": zod.string().optional(),
-      "name": zod.string().optional(),
+      "id": zod.string().nullish(),
+      "name": zod.string().nullish(),
       "avatar": zod.string().nullish()
-    })).optional()
+    })).nullish()
   }))
 
 
@@ -175,18 +175,18 @@ export namespace ZTypes {
     "ok": zod.boolean()
   }).and(zod.object({
     "data": zod.object({
-      "id": zod.string().optional(),
-      "name": zod.string().optional(),
+      "id": zod.string().nullish(),
+      "name": zod.string().nullish(),
       "avatar": zod.string().nullish(),
       "organizations": zod.array(zod.object({
-        "id": zod.string().optional(),
-        "name": zod.string().optional(),
+        "id": zod.string().nullish(),
+        "name": zod.string().nullish(),
         "logo": zod.string().nullish(),
         "balance_cents": zod.number().nullish()
-      })).optional(),
-      "net_worth_cents": zod.number().optional(),
-      "activity_count": zod.number().optional()
-    }).optional()
+      })).nullish(),
+      "net_worth_cents": zod.number().nullish(),
+      "activity_count": zod.number().nullish()
+    }).nullish()
   }))
 
 
@@ -213,26 +213,26 @@ export namespace ZTypes {
     "ok": zod.boolean()
   }).and(zod.object({
     "data": zod.array(zod.object({
-      "id": zod.string().optional(),
-      "key": zod.string().optional(),
-      "created_at": zod.iso.datetime({}).optional(),
+      "id": zod.string().nullish(),
+      "key": zod.string().nullish(),
+      "created_at": zod.iso.datetime({}).nullish(),
       "user": zod.object({
-        "id": zod.string().optional(),
-        "name": zod.string().optional(),
+        "id": zod.string().nullish(),
+        "name": zod.string().nullish(),
         "avatar": zod.string().nullish()
       }).nullish(),
       "organization": zod.object({
-        "id": zod.string().optional(),
-        "name": zod.string().optional(),
+        "id": zod.string().nullish(),
+        "name": zod.string().nullish(),
         "logo": zod.string().nullish()
       }).nullish()
-    })).optional(),
+    })).nullish(),
     "meta": zod.object({
-      "page": zod.number().optional(),
-      "per_page": zod.number().optional(),
-      "total": zod.number().optional(),
-      "has_more": zod.boolean().optional()
-    }).optional()
+      "page": zod.number().nullish(),
+      "per_page": zod.number().nullish(),
+      "total": zod.number().nullish(),
+      "has_more": zod.boolean().nullish()
+    }).nullish()
   }))
 
 
@@ -249,37 +249,37 @@ export namespace ZTypes {
   export const ListActivitiesQueryParams = zod.object({
     "page": zod.number().default(listActivitiesQueryPageDefault),
     "per_page": zod.number().max(listActivitiesQueryPerPageMax).default(listActivitiesQueryPerPageDefault),
-    "org_id": zod.string().optional().describe('Filter by organization ID'),
-    "user_id": zod.string().optional().describe('Filter by user ID'),
-    "key": zod.string().optional().describe('Filter by activity type key'),
-    "after": zod.iso.datetime({}).optional().describe('Only activities after this timestamp'),
-    "before": zod.iso.datetime({}).optional().describe('Only activities before this timestamp')
+    "org_id": zod.string().nullish().describe('Filter by organization ID'),
+    "user_id": zod.string().nullish().describe('Filter by user ID'),
+    "key": zod.string().nullish().describe('Filter by activity type key'),
+    "after": zod.iso.datetime({}).nullish().describe('Only activities after this timestamp'),
+    "before": zod.iso.datetime({}).nullish().describe('Only activities before this timestamp')
   })
 
   export const ListActivitiesResponse = zod.object({
     "ok": zod.boolean()
   }).and(zod.object({
     "data": zod.array(zod.object({
-      "id": zod.string().optional(),
-      "key": zod.string().optional(),
-      "created_at": zod.iso.datetime({}).optional(),
+      "id": zod.string().nullish(),
+      "key": zod.string().nullish(),
+      "created_at": zod.iso.datetime({}).nullish(),
       "user": zod.object({
-        "id": zod.string().optional(),
-        "name": zod.string().optional(),
+        "id": zod.string().nullish(),
+        "name": zod.string().nullish(),
         "avatar": zod.string().nullish()
       }).nullish(),
       "organization": zod.object({
-        "id": zod.string().optional(),
-        "name": zod.string().optional(),
+        "id": zod.string().nullish(),
+        "name": zod.string().nullish(),
         "logo": zod.string().nullish()
       }).nullish()
-    })).optional(),
+    })).nullish(),
     "meta": zod.object({
-      "page": zod.number().optional(),
-      "per_page": zod.number().optional(),
-      "total": zod.number().optional(),
-      "has_more": zod.boolean().optional()
-    }).optional()
+      "page": zod.number().nullish(),
+      "per_page": zod.number().nullish(),
+      "total": zod.number().nullish(),
+      "has_more": zod.boolean().nullish()
+    }).nullish()
   }))
 
 
@@ -304,31 +304,31 @@ export namespace ZTypes {
   }).and(zod.object({
     "data": zod.object({
       "orgs": zod.array(zod.object({
-        "id": zod.string().optional(),
-        "name": zod.string().optional(),
-        "slug": zod.string().optional(),
+        "id": zod.string().nullish(),
+        "name": zod.string().nullish(),
+        "slug": zod.string().nullish(),
         "category": zod.string().nullish(),
-        "balance_cents": zod.number().optional()
-      })).optional(),
+        "balance_cents": zod.number().nullish()
+      })).nullish(),
       "users": zod.array(zod.object({
-        "id": zod.string().optional(),
-        "name": zod.string().optional(),
+        "id": zod.string().nullish(),
+        "name": zod.string().nullish(),
         "avatar": zod.string().nullish()
-      })).optional(),
+      })).nullish(),
       "activities": zod.array(zod.object({
-        "id": zod.string().optional(),
-        "key": zod.string().optional(),
-        "created_at": zod.iso.datetime({}).optional(),
+        "id": zod.string().nullish(),
+        "key": zod.string().nullish(),
+        "created_at": zod.iso.datetime({}).nullish(),
         "user": zod.object({
-          "id": zod.string().optional(),
-          "name": zod.string().optional()
+          "id": zod.string().nullish(),
+          "name": zod.string().nullish()
         }).nullish(),
         "organization": zod.object({
-          "id": zod.string().optional(),
-          "name": zod.string().optional()
+          "id": zod.string().nullish(),
+          "name": zod.string().nullish()
         }).nullish()
-      })).optional()
-    }).optional()
+      })).nullish()
+    }).nullish()
   }))
 
 
@@ -340,11 +340,11 @@ export namespace ZTypes {
     "ok": zod.boolean()
   }).and(zod.object({
     "data": zod.object({
-      "total_organizations": zod.number().optional(),
-      "total_balance_cents": zod.number().optional(),
-      "activity_volume_7d": zod.number().optional(),
-      "activity_volume_previous_7d": zod.number().optional()
-    }).optional()
+      "total_organizations": zod.number().nullish(),
+      "total_balance_cents": zod.number().nullish(),
+      "activity_volume_7d": zod.number().nullish(),
+      "activity_volume_previous_7d": zod.number().nullish()
+    }).nullish()
   }))
 
 
@@ -368,10 +368,10 @@ export namespace ZTypes {
     "ok": zod.boolean()
   }).and(zod.object({
     "data": zod.array(zod.object({
-      "rank": zod.number().optional(),
-      "id": zod.string().optional(),
-      "name": zod.string().optional()
-    })).optional()
+      "rank": zod.number().nullish(),
+      "id": zod.string().nullish(),
+      "name": zod.string().nullish()
+    })).nullish()
   }))
 
 
@@ -383,9 +383,9 @@ export namespace ZTypes {
     "ok": zod.boolean()
   }).and(zod.object({
     "data": zod.object({
-      "api_version": zod.string().optional(),
-      "status": zod.string().optional(),
-      "services": zod.record(zod.string(), zod.boolean()).optional()
-    }).optional()
+      "api_version": zod.string().nullish(),
+      "status": zod.string().nullish(),
+      "services": zod.record(zod.string(), zod.boolean()).nullish()
+    }).nullish()
   }))
 }

@@ -11,7 +11,10 @@ export default class HCBScan {
   constructor(logtape: typeof LogTape) {
     this.fetch = axios.create({
       baseURL: "https://hcbscan.3kh0.net/api/v1",
-      timeout: 10000
+      timeout: 10000,
+      headers: {
+         "Cookie": "fuck_ofcom=yup;"
+       }
     });
     this.logger = logtape;
     this.ready = Promise.resolve();
@@ -36,7 +39,7 @@ export default class HCBScan {
             schemaDesc: schema.description,
             err: err.issues
           })
-          ctx.error(`Zod validation error on HCB ${config.url}`)
+          ctx.error(`Zod validation error on HCBScan ${config.url}`)
           return {
             ok: false,
             status: res.status,
@@ -46,7 +49,7 @@ export default class HCBScan {
           const ctx = this.logger.with({
             err
           })
-          ctx.error(`Unknown parsing error on HCB ${config.url}`)
+          ctx.error(`Unknown parsing error on HCBScan ${config.url}`)
           return {
             ok: false,
             status: res.status,

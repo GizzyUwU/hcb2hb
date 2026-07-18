@@ -1,5 +1,5 @@
-# hcb2hb
-## ignore the name its hc2hb now i plan to just integrate all the apis of events i participated in instead of hcb
+# hc2hb
+## i changed plan for it to be actually hc2hb for all prizes i got from hc events but I can't add support for other events before running out of time for catgirl ysws so only hcb support rn
 To install dependencies:
 
 ```bash

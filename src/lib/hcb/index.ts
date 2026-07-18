@@ -86,4 +86,18 @@ export default class HCB {
       params: query
     }, ZTypes["GetASingleActivityResponse"])
   }
+
+  /**
+   * Get a card charge from HCB
+   * @param {string} param.card_charge_id - ID of the card charge
+   * @param {string} query.expand - Object types to expand in the API response (separated by commas)
+  */
+  public async cardCharge(param: z.infer<typeof ZTypes["GetACardChargeParams"]>, query?: z.infer<typeof ZTypes["GetACardChargeQueryParams"]>) {
+    return this.req({
+      method: "GET",
+      url: "/card_charges/" + param.card_charge_id,
+      data: param,
+      params: query
+    }, ZTypes["GetACardChargeResponse"])
+  }
 }

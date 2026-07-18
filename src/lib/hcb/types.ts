@@ -37,7 +37,7 @@ export namespace ZTypes {
       .describe("Pad a number of results."),
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -48,9 +48,9 @@ export namespace ZTypes {
       id: zod.string(),
       object: zod.string(),
       href: zod.string(),
-      name: zod.string().optional(),
-      slug: zod.string().optional(),
-      website: zod.string().optional(),
+      name: zod.string().nullish(),
+      slug: zod.string().nullish(),
+      website: zod.string().nullish(),
       category: zod
         .enum([
           "hack_club_hq",
@@ -60,24 +60,24 @@ export namespace ZTypes {
           "climate",
           "nonprofit",
         ])
-        .optional(),
-      transparent: zod.boolean().optional(),
-      demo_mode: zod.boolean().optional(),
-      financially_frozen: zod.boolean().optional(),
-      logo: zod.string().optional(),
-      donation_header: zod.string().optional(),
-      background_image: zod.string().optional(),
-      public_message: zod.string().optional(),
-      donation_link: zod.string().optional(),
+        .nullish(),
+      transparent: zod.boolean().nullish(),
+      demo_mode: zod.boolean().nullish(),
+      financially_frozen: zod.boolean().nullish(),
+      logo: zod.string().nullish(),
+      donation_header: zod.string().nullish(),
+      background_image: zod.string().nullish(),
+      public_message: zod.string().nullish(),
+      donation_link: zod.string().nullish(),
       balances: zod
         .object({
-          balance_cents: zod.number().optional(),
-          fee_balance_cents: zod.number().optional(),
-          incoming_balance_cents: zod.number().optional(),
-          total_raised: zod.number().optional(),
+          balance_cents: zod.number().nullish(),
+          fee_balance_cents: zod.number().nullish(),
+          incoming_balance_cents: zod.number().nullish(),
+          total_raised: zod.number().nullish(),
         })
-        .optional(),
-      created_at: zod.string().optional(),
+        .nullish(),
+      created_at: zod.string().nullish(),
       users: zod
         .array(
           zod.object({
@@ -89,7 +89,7 @@ export namespace ZTypes {
             photo: zod.string(),
           }),
         )
-        .optional(),
+        .nullish(),
     })
     .describe("Organization model");
   export const ListTransparentOrganizationsResponse = zod.array(
@@ -107,7 +107,7 @@ export namespace ZTypes {
   export const GetASingleOrganizationQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -118,9 +118,9 @@ export namespace ZTypes {
       id: zod.string(),
       object: zod.string(),
       href: zod.string(),
-      name: zod.string().optional(),
-      slug: zod.string().optional(),
-      website: zod.string().optional(),
+      name: zod.string().nullish(),
+      slug: zod.string().nullish(),
+      website: zod.string().nullish(),
       category: zod
         .enum([
           "hack_club_hq",
@@ -130,24 +130,24 @@ export namespace ZTypes {
           "climate",
           "nonprofit",
         ])
-        .optional(),
-      transparent: zod.boolean().optional(),
-      demo_mode: zod.boolean().optional(),
-      financially_frozen: zod.boolean().optional(),
-      logo: zod.string().optional(),
-      donation_header: zod.string().optional(),
-      background_image: zod.string().optional(),
-      public_message: zod.string().optional(),
-      donation_link: zod.string().optional(),
+        .nullish(),
+      transparent: zod.boolean().nullish(),
+      demo_mode: zod.boolean().nullish(),
+      financially_frozen: zod.boolean().nullish(),
+      logo: zod.string().nullish(),
+      donation_header: zod.string().nullish(),
+      background_image: zod.string().nullish(),
+      public_message: zod.string().nullish(),
+      donation_link: zod.string().nullish(),
       balances: zod
         .object({
-          balance_cents: zod.number().optional(),
-          fee_balance_cents: zod.number().optional(),
-          incoming_balance_cents: zod.number().optional(),
-          total_raised: zod.number().optional(),
+          balance_cents: zod.number().nullish(),
+          fee_balance_cents: zod.number().nullish(),
+          incoming_balance_cents: zod.number().nullish(),
+          total_raised: zod.number().nullish(),
         })
-        .optional(),
-      created_at: zod.string().optional(),
+        .nullish(),
+      created_at: zod.string().nullish(),
       users: zod
         .array(
           zod.object({
@@ -159,7 +159,7 @@ export namespace ZTypes {
             photo: zod.string(),
           }),
         )
-        .optional(),
+        .nullish(),
     })
     .describe("Organization model");
 
@@ -178,7 +178,7 @@ export namespace ZTypes {
   export const ListAnOrganizationsTransactionsQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -201,9 +201,9 @@ export namespace ZTypes {
       id: zod.string(),
       object: zod.string(),
       href: zod.string(),
-      amount_cents: zod.number().optional(),
-      memo: zod.string().optional(),
-      date: zod.string().optional(),
+      amount_cents: zod.number().nullish(),
+      memo: zod.string().nullish(),
+      date: zod.string().nullish(),
       type: zod
         .enum([
           "invoice",
@@ -219,27 +219,27 @@ export namespace ZTypes {
           "reimbursed_expense",
           "hcb_fee",
         ])
-        .optional(),
-      pending: zod.boolean().optional(),
+        .nullish(),
+      pending: zod.boolean().nullish(),
       receipts: zod
         .object({
-          count: zod.number().optional(),
-          missing: zod.boolean().optional(),
+          count: zod.number().nullish(),
+          missing: zod.boolean().nullish(),
         })
-        .optional(),
+        .nullish(),
       comments: zod
         .object({
-          count: zod.number().optional(),
+          count: zod.number().nullish(),
         })
-        .optional(),
+        .nullish(),
       organization: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          name: zod.string().optional(),
-          slug: zod.string().optional(),
-          website: zod.string().optional(),
+          name: zod.string().nullish(),
+          slug: zod.string().nullish(),
+          website: zod.string().nullish(),
           category: zod
             .enum([
               "hack_club_hq",
@@ -249,24 +249,24 @@ export namespace ZTypes {
               "climate",
               "nonprofit",
             ])
-            .optional(),
-          transparent: zod.boolean().optional(),
-          demo_mode: zod.boolean().optional(),
-          financially_frozen: zod.boolean().optional(),
-          logo: zod.string().optional(),
-          donation_header: zod.string().optional(),
-          background_image: zod.string().optional(),
-          public_message: zod.string().optional(),
-          donation_link: zod.string().optional(),
+            .nullish(),
+          transparent: zod.boolean().nullish(),
+          demo_mode: zod.boolean().nullish(),
+          financially_frozen: zod.boolean().nullish(),
+          logo: zod.string().nullish(),
+          donation_header: zod.string().nullish(),
+          background_image: zod.string().nullish(),
+          public_message: zod.string().nullish(),
+          donation_link: zod.string().nullish(),
           balances: zod
             .object({
-              balance_cents: zod.number().optional(),
-              fee_balance_cents: zod.number().optional(),
-              incoming_balance_cents: zod.number().optional(),
-              total_raised: zod.number().optional(),
+              balance_cents: zod.number().nullish(),
+              fee_balance_cents: zod.number().nullish(),
+              incoming_balance_cents: zod.number().nullish(),
+              total_raised: zod.number().nullish(),
             })
-            .optional(),
-          created_at: zod.string().optional(),
+            .nullish(),
+          created_at: zod.string().nullish(),
           users: zod
             .array(
               zod.object({
@@ -278,9 +278,9 @@ export namespace ZTypes {
                 photo: zod.string(),
               }),
             )
-            .optional(),
+            .nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Organization model"),
       user: zod
         .object({
@@ -291,7 +291,7 @@ export namespace ZTypes {
           admin: zod.boolean(),
           photo: zod.string(),
         })
-        .optional(),
+        .nullish(),
       tags: zod
         .array(
           zod.object({
@@ -300,24 +300,30 @@ export namespace ZTypes {
             label: zod.string(),
           }),
         )
-        .optional(),
-      card_charge: zod.unknown().optional(),
-      ach_transfer: zod.unknown().optional(),
+        .nullish(),
+      card_charge: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+        })
+        .nullish(),
+      ach_transfer: zod.unknown().nullish(),
       check: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          memo: zod.string().optional(),
-          transaction: zod.unknown().optional(),
+          memo: zod.string().nullish(),
+          transaction: zod.unknown().nullish(),
           organization: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              name: zod.string().optional(),
-              slug: zod.string().optional(),
-              website: zod.string().optional(),
+              name: zod.string().nullish(),
+              slug: zod.string().nullish(),
+              website: zod.string().nullish(),
               category: zod
                 .enum([
                   "hack_club_hq",
@@ -327,24 +333,24 @@ export namespace ZTypes {
                   "climate",
                   "nonprofit",
                 ])
-                .optional(),
-              transparent: zod.boolean().optional(),
-              demo_mode: zod.boolean().optional(),
-              financially_frozen: zod.boolean().optional(),
-              logo: zod.string().optional(),
-              donation_header: zod.string().optional(),
-              background_image: zod.string().optional(),
-              public_message: zod.string().optional(),
-              donation_link: zod.string().optional(),
+                .nullish(),
+              transparent: zod.boolean().nullish(),
+              demo_mode: zod.boolean().nullish(),
+              financially_frozen: zod.boolean().nullish(),
+              logo: zod.string().nullish(),
+              donation_header: zod.string().nullish(),
+              background_image: zod.string().nullish(),
+              public_message: zod.string().nullish(),
+              donation_link: zod.string().nullish(),
               balances: zod
                 .object({
-                  balance_cents: zod.number().optional(),
-                  fee_balance_cents: zod.number().optional(),
-                  incoming_balance_cents: zod.number().optional(),
-                  total_raised: zod.number().optional(),
+                  balance_cents: zod.number().nullish(),
+                  fee_balance_cents: zod.number().nullish(),
+                  incoming_balance_cents: zod.number().nullish(),
+                  total_raised: zod.number().nullish(),
                 })
-                .optional(),
-              created_at: zod.string().optional(),
+                .nullish(),
+              created_at: zod.string().nullish(),
               users: zod
                 .array(
                   zod.object({
@@ -356,12 +362,12 @@ export namespace ZTypes {
                     photo: zod.string(),
                   }),
                 )
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Organization model"),
-          amount_cents: zod.number().optional(),
-          date: zod.string().optional(),
+          amount_cents: zod.number().nullish(),
+          date: zod.string().nullish(),
           status: zod
             .enum([
               "scheduled",
@@ -372,25 +378,25 @@ export namespace ZTypes {
               "voided",
               "refunded",
             ])
-            .optional(),
+            .nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Check model"),
       donation: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          memo: zod.string().optional(),
-          transaction: zod.unknown().optional(),
+          memo: zod.string().nullish(),
+          transaction: zod.unknown().nullish(),
           organization: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              name: zod.string().optional(),
-              slug: zod.string().optional(),
-              website: zod.string().optional(),
+              name: zod.string().nullish(),
+              slug: zod.string().nullish(),
+              website: zod.string().nullish(),
               category: zod
                 .enum([
                   "hack_club_hq",
@@ -400,24 +406,24 @@ export namespace ZTypes {
                   "climate",
                   "nonprofit",
                 ])
-                .optional(),
-              transparent: zod.boolean().optional(),
-              demo_mode: zod.boolean().optional(),
-              financially_frozen: zod.boolean().optional(),
-              logo: zod.string().optional(),
-              donation_header: zod.string().optional(),
-              background_image: zod.string().optional(),
-              public_message: zod.string().optional(),
-              donation_link: zod.string().optional(),
+                .nullish(),
+              transparent: zod.boolean().nullish(),
+              demo_mode: zod.boolean().nullish(),
+              financially_frozen: zod.boolean().nullish(),
+              logo: zod.string().nullish(),
+              donation_header: zod.string().nullish(),
+              background_image: zod.string().nullish(),
+              public_message: zod.string().nullish(),
+              donation_link: zod.string().nullish(),
               balances: zod
                 .object({
-                  balance_cents: zod.number().optional(),
-                  fee_balance_cents: zod.number().optional(),
-                  incoming_balance_cents: zod.number().optional(),
-                  total_raised: zod.number().optional(),
+                  balance_cents: zod.number().nullish(),
+                  fee_balance_cents: zod.number().nullish(),
+                  incoming_balance_cents: zod.number().nullish(),
+                  total_raised: zod.number().nullish(),
                 })
-                .optional(),
-              created_at: zod.string().optional(),
+                .nullish(),
+              created_at: zod.string().nullish(),
               users: zod
                 .array(
                   zod.object({
@@ -429,41 +435,41 @@ export namespace ZTypes {
                     photo: zod.string(),
                   }),
                 )
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Organization model"),
-          amount_cents: zod.number().optional(),
+          amount_cents: zod.number().nullish(),
           donor: zod
             .object({
-              name: zod.string().optional(),
-              anonymous: zod.boolean().optional(),
-              avatar: zod.string().optional(),
+              name: zod.string().nullish(),
+              anonymous: zod.boolean().nullish(),
+              avatar: zod.string().nullish(),
             })
-            .optional(),
-          date: zod.string().optional(),
+            .nullish(),
+          date: zod.string().nullish(),
           status: zod
             .enum(["pending", "in_transit", "deposited", "failed", "refunded"])
-            .optional(),
-          recurring: zod.boolean().optional(),
+            .nullish(),
+          recurring: zod.boolean().nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Donation model"),
       invoice: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          memo: zod.string().optional(),
-          transaction: zod.unknown().optional(),
+          memo: zod.string().nullish(),
+          transaction: zod.unknown().nullish(),
           organization: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              name: zod.string().optional(),
-              slug: zod.string().optional(),
-              website: zod.string().optional(),
+              name: zod.string().nullish(),
+              slug: zod.string().nullish(),
+              website: zod.string().nullish(),
               category: zod
                 .enum([
                   "hack_club_hq",
@@ -473,24 +479,24 @@ export namespace ZTypes {
                   "climate",
                   "nonprofit",
                 ])
-                .optional(),
-              transparent: zod.boolean().optional(),
-              demo_mode: zod.boolean().optional(),
-              financially_frozen: zod.boolean().optional(),
-              logo: zod.string().optional(),
-              donation_header: zod.string().optional(),
-              background_image: zod.string().optional(),
-              public_message: zod.string().optional(),
-              donation_link: zod.string().optional(),
+                .nullish(),
+              transparent: zod.boolean().nullish(),
+              demo_mode: zod.boolean().nullish(),
+              financially_frozen: zod.boolean().nullish(),
+              logo: zod.string().nullish(),
+              donation_header: zod.string().nullish(),
+              background_image: zod.string().nullish(),
+              public_message: zod.string().nullish(),
+              donation_link: zod.string().nullish(),
               balances: zod
                 .object({
-                  balance_cents: zod.number().optional(),
-                  fee_balance_cents: zod.number().optional(),
-                  incoming_balance_cents: zod.number().optional(),
-                  total_raised: zod.number().optional(),
+                  balance_cents: zod.number().nullish(),
+                  fee_balance_cents: zod.number().nullish(),
+                  incoming_balance_cents: zod.number().nullish(),
+                  total_raised: zod.number().nullish(),
                 })
-                .optional(),
-              created_at: zod.string().optional(),
+                .nullish(),
+              created_at: zod.string().nullish(),
               users: zod
                 .array(
                   zod.object({
@@ -502,37 +508,37 @@ export namespace ZTypes {
                     photo: zod.string(),
                   }),
                 )
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Organization model"),
-          amount_cents: zod.string().optional(),
+          amount_cents: zod.string().nullish(),
           sponsor: zod
             .object({
-              id: zod.string().optional(),
-              name: zod.string().optional(),
+              id: zod.string().nullish(),
+              name: zod.string().nullish(),
             })
-            .optional(),
-          date: zod.string().optional(),
-          status: zod.enum(["open", "paid", "void"]).optional(),
+            .nullish(),
+          date: zod.string().nullish(),
+          status: zod.enum(["open", "paid", "void"]).nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Invoice model"),
       transfer: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          memo: zod.string().optional(),
-          transaction: zod.unknown().optional(),
+          memo: zod.string().nullish(),
+          transaction: zod.unknown().nullish(),
           organization: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              name: zod.string().optional(),
-              slug: zod.string().optional(),
-              website: zod.string().optional(),
+              name: zod.string().nullish(),
+              slug: zod.string().nullish(),
+              website: zod.string().nullish(),
               category: zod
                 .enum([
                   "hack_club_hq",
@@ -542,24 +548,24 @@ export namespace ZTypes {
                   "climate",
                   "nonprofit",
                 ])
-                .optional(),
-              transparent: zod.boolean().optional(),
-              demo_mode: zod.boolean().optional(),
-              financially_frozen: zod.boolean().optional(),
-              logo: zod.string().optional(),
-              donation_header: zod.string().optional(),
-              background_image: zod.string().optional(),
-              public_message: zod.string().optional(),
-              donation_link: zod.string().optional(),
+                .nullish(),
+              transparent: zod.boolean().nullish(),
+              demo_mode: zod.boolean().nullish(),
+              financially_frozen: zod.boolean().nullish(),
+              logo: zod.string().nullish(),
+              donation_header: zod.string().nullish(),
+              background_image: zod.string().nullish(),
+              public_message: zod.string().nullish(),
+              donation_link: zod.string().nullish(),
               balances: zod
                 .object({
-                  balance_cents: zod.number().optional(),
-                  fee_balance_cents: zod.number().optional(),
-                  incoming_balance_cents: zod.number().optional(),
-                  total_raised: zod.number().optional(),
+                  balance_cents: zod.number().nullish(),
+                  fee_balance_cents: zod.number().nullish(),
+                  incoming_balance_cents: zod.number().nullish(),
+                  total_raised: zod.number().nullish(),
                 })
-                .optional(),
-              created_at: zod.string().optional(),
+                .nullish(),
+              created_at: zod.string().nullish(),
               users: zod
                 .array(
                   zod.object({
@@ -571,12 +577,12 @@ export namespace ZTypes {
                     photo: zod.string(),
                   }),
                 )
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Organization model"),
-          amount_cents: zod.string().optional(),
-          date: zod.string().optional(),
+          amount_cents: zod.string().nullish(),
+          date: zod.string().nullish(),
           status: zod
             .enum([
               "fulfilled",
@@ -587,15 +593,15 @@ export namespace ZTypes {
               "under_review",
               "pending",
             ])
-            .optional(),
+            .nullish(),
           source_organization: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              name: zod.string().optional(),
-              slug: zod.string().optional(),
-              website: zod.string().optional(),
+              name: zod.string().nullish(),
+              slug: zod.string().nullish(),
+              website: zod.string().nullish(),
               category: zod
                 .enum([
                   "hack_club_hq",
@@ -605,24 +611,24 @@ export namespace ZTypes {
                   "climate",
                   "nonprofit",
                 ])
-                .optional(),
-              transparent: zod.boolean().optional(),
-              demo_mode: zod.boolean().optional(),
-              financially_frozen: zod.boolean().optional(),
-              logo: zod.string().optional(),
-              donation_header: zod.string().optional(),
-              background_image: zod.string().optional(),
-              public_message: zod.string().optional(),
-              donation_link: zod.string().optional(),
+                .nullish(),
+              transparent: zod.boolean().nullish(),
+              demo_mode: zod.boolean().nullish(),
+              financially_frozen: zod.boolean().nullish(),
+              logo: zod.string().nullish(),
+              donation_header: zod.string().nullish(),
+              background_image: zod.string().nullish(),
+              public_message: zod.string().nullish(),
+              donation_link: zod.string().nullish(),
               balances: zod
                 .object({
-                  balance_cents: zod.number().optional(),
-                  fee_balance_cents: zod.number().optional(),
-                  incoming_balance_cents: zod.number().optional(),
-                  total_raised: zod.number().optional(),
+                  balance_cents: zod.number().nullish(),
+                  fee_balance_cents: zod.number().nullish(),
+                  incoming_balance_cents: zod.number().nullish(),
+                  total_raised: zod.number().nullish(),
                 })
-                .optional(),
-              created_at: zod.string().optional(),
+                .nullish(),
+              created_at: zod.string().nullish(),
               users: zod
                 .array(
                   zod.object({
@@ -634,18 +640,18 @@ export namespace ZTypes {
                     photo: zod.string(),
                   }),
                 )
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Organization model"),
         })
-        .optional()
+        .nullish()
         .describe("Transfer model"),
-      wire_transfer: zod.unknown().optional(),
-      wise_transfer: zod.unknown().optional(),
-      check_deposit: zod.unknown().optional(),
-      reimbursed_expense: zod.unknown().optional(),
-      hcb_fee: zod.unknown().optional(),
+      wire_transfer: zod.unknown().nullish(),
+      wise_transfer: zod.unknown().nullish(),
+      check_deposit: zod.unknown().nullish(),
+      reimbursed_expense: zod.unknown().nullish(),
+      hcb_fee: zod.unknown().nullish(),
     })
     .describe("Transaction model");
   export const ListAnOrganizationsTransactionsResponse = zod.array(
@@ -667,7 +673,7 @@ export namespace ZTypes {
   export const ListAnOrganizationsCardChargesQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -704,7 +710,7 @@ export namespace ZTypes {
   export const ListAnOrganizationsDonationsQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -727,15 +733,15 @@ export namespace ZTypes {
       id: zod.string(),
       object: zod.string(),
       href: zod.string(),
-      memo: zod.string().optional(),
+      memo: zod.string().nullish(),
       transaction: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          amount_cents: zod.number().optional(),
-          memo: zod.string().optional(),
-          date: zod.string().optional(),
+          amount_cents: zod.number().nullish(),
+          memo: zod.string().nullish(),
+          date: zod.string().nullish(),
           type: zod
             .enum([
               "invoice",
@@ -751,27 +757,27 @@ export namespace ZTypes {
               "reimbursed_expense",
               "hcb_fee",
             ])
-            .optional(),
-          pending: zod.boolean().optional(),
+            .nullish(),
+          pending: zod.boolean().nullish(),
           receipts: zod
             .object({
-              count: zod.number().optional(),
-              missing: zod.boolean().optional(),
+              count: zod.number().nullish(),
+              missing: zod.boolean().nullish(),
             })
-            .optional(),
+            .nullish(),
           comments: zod
             .object({
-              count: zod.number().optional(),
+              count: zod.number().nullish(),
             })
-            .optional(),
+            .nullish(),
           organization: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              name: zod.string().optional(),
-              slug: zod.string().optional(),
-              website: zod.string().optional(),
+              name: zod.string().nullish(),
+              slug: zod.string().nullish(),
+              website: zod.string().nullish(),
               category: zod
                 .enum([
                   "hack_club_hq",
@@ -781,24 +787,24 @@ export namespace ZTypes {
                   "climate",
                   "nonprofit",
                 ])
-                .optional(),
-              transparent: zod.boolean().optional(),
-              demo_mode: zod.boolean().optional(),
-              financially_frozen: zod.boolean().optional(),
-              logo: zod.string().optional(),
-              donation_header: zod.string().optional(),
-              background_image: zod.string().optional(),
-              public_message: zod.string().optional(),
-              donation_link: zod.string().optional(),
+                .nullish(),
+              transparent: zod.boolean().nullish(),
+              demo_mode: zod.boolean().nullish(),
+              financially_frozen: zod.boolean().nullish(),
+              logo: zod.string().nullish(),
+              donation_header: zod.string().nullish(),
+              background_image: zod.string().nullish(),
+              public_message: zod.string().nullish(),
+              donation_link: zod.string().nullish(),
               balances: zod
                 .object({
-                  balance_cents: zod.number().optional(),
-                  fee_balance_cents: zod.number().optional(),
-                  incoming_balance_cents: zod.number().optional(),
-                  total_raised: zod.number().optional(),
+                  balance_cents: zod.number().nullish(),
+                  fee_balance_cents: zod.number().nullish(),
+                  incoming_balance_cents: zod.number().nullish(),
+                  total_raised: zod.number().nullish(),
                 })
-                .optional(),
-              created_at: zod.string().optional(),
+                .nullish(),
+              created_at: zod.string().nullish(),
               users: zod
                 .array(
                   zod.object({
@@ -810,9 +816,9 @@ export namespace ZTypes {
                     photo: zod.string(),
                   }),
                 )
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Organization model"),
           user: zod
             .object({
@@ -823,7 +829,7 @@ export namespace ZTypes {
               admin: zod.boolean(),
               photo: zod.string(),
             })
-            .optional(),
+            .nullish(),
           tags: zod
             .array(
               zod.object({
@@ -832,24 +838,30 @@ export namespace ZTypes {
                 label: zod.string(),
               }),
             )
-            .optional(),
-          card_charge: zod.unknown().optional(),
-          ach_transfer: zod.unknown().optional(),
+            .nullish(),
+          card_charge: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+            })
+            .nullish(),
+          ach_transfer: zod.unknown().nullish(),
           check: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -859,24 +871,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -888,12 +900,12 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.number().optional(),
-              date: zod.string().optional(),
+              amount_cents: zod.number().nullish(),
+              date: zod.string().nullish(),
               status: zod
                 .enum([
                   "scheduled",
@@ -904,26 +916,26 @@ export namespace ZTypes {
                   "voided",
                   "refunded",
                 ])
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Check model"),
-          donation: zod.unknown().optional(),
+          donation: zod.unknown().nullish(),
           invoice: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -933,24 +945,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -962,37 +974,37 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.string().optional(),
+              amount_cents: zod.string().nullish(),
               sponsor: zod
                 .object({
-                  id: zod.string().optional(),
-                  name: zod.string().optional(),
+                  id: zod.string().nullish(),
+                  name: zod.string().nullish(),
                 })
-                .optional(),
-              date: zod.string().optional(),
-              status: zod.enum(["open", "paid", "void"]).optional(),
+                .nullish(),
+              date: zod.string().nullish(),
+              status: zod.enum(["open", "paid", "void"]).nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Invoice model"),
           transfer: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -1002,24 +1014,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -1031,12 +1043,12 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.string().optional(),
-              date: zod.string().optional(),
+              amount_cents: zod.string().nullish(),
+              date: zod.string().nullish(),
               status: zod
                 .enum([
                   "fulfilled",
@@ -1047,15 +1059,15 @@ export namespace ZTypes {
                   "under_review",
                   "pending",
                 ])
-                .optional(),
+                .nullish(),
               source_organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -1065,24 +1077,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -1094,29 +1106,29 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
             })
-            .optional()
+            .nullish()
             .describe("Transfer model"),
-          wire_transfer: zod.unknown().optional(),
-          wise_transfer: zod.unknown().optional(),
-          check_deposit: zod.unknown().optional(),
-          reimbursed_expense: zod.unknown().optional(),
-          hcb_fee: zod.unknown().optional(),
+          wire_transfer: zod.unknown().nullish(),
+          wise_transfer: zod.unknown().nullish(),
+          check_deposit: zod.unknown().nullish(),
+          reimbursed_expense: zod.unknown().nullish(),
+          hcb_fee: zod.unknown().nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Transaction model"),
       organization: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          name: zod.string().optional(),
-          slug: zod.string().optional(),
-          website: zod.string().optional(),
+          name: zod.string().nullish(),
+          slug: zod.string().nullish(),
+          website: zod.string().nullish(),
           category: zod
             .enum([
               "hack_club_hq",
@@ -1126,24 +1138,24 @@ export namespace ZTypes {
               "climate",
               "nonprofit",
             ])
-            .optional(),
-          transparent: zod.boolean().optional(),
-          demo_mode: zod.boolean().optional(),
-          financially_frozen: zod.boolean().optional(),
-          logo: zod.string().optional(),
-          donation_header: zod.string().optional(),
-          background_image: zod.string().optional(),
-          public_message: zod.string().optional(),
-          donation_link: zod.string().optional(),
+            .nullish(),
+          transparent: zod.boolean().nullish(),
+          demo_mode: zod.boolean().nullish(),
+          financially_frozen: zod.boolean().nullish(),
+          logo: zod.string().nullish(),
+          donation_header: zod.string().nullish(),
+          background_image: zod.string().nullish(),
+          public_message: zod.string().nullish(),
+          donation_link: zod.string().nullish(),
           balances: zod
             .object({
-              balance_cents: zod.number().optional(),
-              fee_balance_cents: zod.number().optional(),
-              incoming_balance_cents: zod.number().optional(),
-              total_raised: zod.number().optional(),
+              balance_cents: zod.number().nullish(),
+              fee_balance_cents: zod.number().nullish(),
+              incoming_balance_cents: zod.number().nullish(),
+              total_raised: zod.number().nullish(),
             })
-            .optional(),
-          created_at: zod.string().optional(),
+            .nullish(),
+          created_at: zod.string().nullish(),
           users: zod
             .array(
               zod.object({
@@ -1155,23 +1167,23 @@ export namespace ZTypes {
                 photo: zod.string(),
               }),
             )
-            .optional(),
+            .nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Organization model"),
-      amount_cents: zod.number().optional(),
+      amount_cents: zod.number().nullish(),
       donor: zod
         .object({
-          name: zod.string().optional(),
-          anonymous: zod.boolean().optional(),
-          avatar: zod.string().optional(),
+          name: zod.string().nullish(),
+          anonymous: zod.boolean().nullish(),
+          avatar: zod.string().nullish(),
         })
-        .optional(),
-      date: zod.string().optional(),
+        .nullish(),
+      date: zod.string().nullish(),
       status: zod
         .enum(["pending", "in_transit", "deposited", "failed", "refunded"])
-        .optional(),
-      recurring: zod.boolean().optional(),
+        .nullish(),
+      recurring: zod.boolean().nullish(),
     })
     .describe("Donation model");
   export const ListAnOrganizationsDonationsResponse = zod.array(
@@ -1192,7 +1204,7 @@ export namespace ZTypes {
   export const ListAnOrganizationsTransfersQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -1215,15 +1227,15 @@ export namespace ZTypes {
       id: zod.string(),
       object: zod.string(),
       href: zod.string(),
-      memo: zod.string().optional(),
+      memo: zod.string().nullish(),
       transaction: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          amount_cents: zod.number().optional(),
-          memo: zod.string().optional(),
-          date: zod.string().optional(),
+          amount_cents: zod.number().nullish(),
+          memo: zod.string().nullish(),
+          date: zod.string().nullish(),
           type: zod
             .enum([
               "invoice",
@@ -1239,27 +1251,27 @@ export namespace ZTypes {
               "reimbursed_expense",
               "hcb_fee",
             ])
-            .optional(),
-          pending: zod.boolean().optional(),
+            .nullish(),
+          pending: zod.boolean().nullish(),
           receipts: zod
             .object({
-              count: zod.number().optional(),
-              missing: zod.boolean().optional(),
+              count: zod.number().nullish(),
+              missing: zod.boolean().nullish(),
             })
-            .optional(),
+            .nullish(),
           comments: zod
             .object({
-              count: zod.number().optional(),
+              count: zod.number().nullish(),
             })
-            .optional(),
+            .nullish(),
           organization: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              name: zod.string().optional(),
-              slug: zod.string().optional(),
-              website: zod.string().optional(),
+              name: zod.string().nullish(),
+              slug: zod.string().nullish(),
+              website: zod.string().nullish(),
               category: zod
                 .enum([
                   "hack_club_hq",
@@ -1269,24 +1281,24 @@ export namespace ZTypes {
                   "climate",
                   "nonprofit",
                 ])
-                .optional(),
-              transparent: zod.boolean().optional(),
-              demo_mode: zod.boolean().optional(),
-              financially_frozen: zod.boolean().optional(),
-              logo: zod.string().optional(),
-              donation_header: zod.string().optional(),
-              background_image: zod.string().optional(),
-              public_message: zod.string().optional(),
-              donation_link: zod.string().optional(),
+                .nullish(),
+              transparent: zod.boolean().nullish(),
+              demo_mode: zod.boolean().nullish(),
+              financially_frozen: zod.boolean().nullish(),
+              logo: zod.string().nullish(),
+              donation_header: zod.string().nullish(),
+              background_image: zod.string().nullish(),
+              public_message: zod.string().nullish(),
+              donation_link: zod.string().nullish(),
               balances: zod
                 .object({
-                  balance_cents: zod.number().optional(),
-                  fee_balance_cents: zod.number().optional(),
-                  incoming_balance_cents: zod.number().optional(),
-                  total_raised: zod.number().optional(),
+                  balance_cents: zod.number().nullish(),
+                  fee_balance_cents: zod.number().nullish(),
+                  incoming_balance_cents: zod.number().nullish(),
+                  total_raised: zod.number().nullish(),
                 })
-                .optional(),
-              created_at: zod.string().optional(),
+                .nullish(),
+              created_at: zod.string().nullish(),
               users: zod
                 .array(
                   zod.object({
@@ -1298,9 +1310,9 @@ export namespace ZTypes {
                     photo: zod.string(),
                   }),
                 )
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Organization model"),
           user: zod
             .object({
@@ -1311,7 +1323,7 @@ export namespace ZTypes {
               admin: zod.boolean(),
               photo: zod.string(),
             })
-            .optional(),
+            .nullish(),
           tags: zod
             .array(
               zod.object({
@@ -1320,24 +1332,30 @@ export namespace ZTypes {
                 label: zod.string(),
               }),
             )
-            .optional(),
-          card_charge: zod.unknown().optional(),
-          ach_transfer: zod.unknown().optional(),
+            .nullish(),
+          card_charge: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+            })
+            .nullish(),
+          ach_transfer: zod.unknown().nullish(),
           check: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -1347,24 +1365,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -1376,12 +1394,12 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.number().optional(),
-              date: zod.string().optional(),
+              amount_cents: zod.number().nullish(),
+              date: zod.string().nullish(),
               status: zod
                 .enum([
                   "scheduled",
@@ -1392,25 +1410,25 @@ export namespace ZTypes {
                   "voided",
                   "refunded",
                 ])
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Check model"),
           donation: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -1420,24 +1438,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -1449,19 +1467,19 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.number().optional(),
+              amount_cents: zod.number().nullish(),
               donor: zod
                 .object({
-                  name: zod.string().optional(),
-                  anonymous: zod.boolean().optional(),
-                  avatar: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  anonymous: zod.boolean().nullish(),
+                  avatar: zod.string().nullish(),
                 })
-                .optional(),
-              date: zod.string().optional(),
+                .nullish(),
+              date: zod.string().nullish(),
               status: zod
                 .enum([
                   "pending",
@@ -1470,26 +1488,26 @@ export namespace ZTypes {
                   "failed",
                   "refunded",
                 ])
-                .optional(),
-              recurring: zod.boolean().optional(),
+                .nullish(),
+              recurring: zod.boolean().nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Donation model"),
           invoice: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -1499,24 +1517,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -1528,39 +1546,39 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.string().optional(),
+              amount_cents: zod.string().nullish(),
               sponsor: zod
                 .object({
-                  id: zod.string().optional(),
-                  name: zod.string().optional(),
+                  id: zod.string().nullish(),
+                  name: zod.string().nullish(),
                 })
-                .optional(),
-              date: zod.string().optional(),
-              status: zod.enum(["open", "paid", "void"]).optional(),
+                .nullish(),
+              date: zod.string().nullish(),
+              status: zod.enum(["open", "paid", "void"]).nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Invoice model"),
-          transfer: zod.unknown().optional(),
-          wire_transfer: zod.unknown().optional(),
-          wise_transfer: zod.unknown().optional(),
-          check_deposit: zod.unknown().optional(),
-          reimbursed_expense: zod.unknown().optional(),
-          hcb_fee: zod.unknown().optional(),
+          transfer: zod.unknown().nullish(),
+          wire_transfer: zod.unknown().nullish(),
+          wise_transfer: zod.unknown().nullish(),
+          check_deposit: zod.unknown().nullish(),
+          reimbursed_expense: zod.unknown().nullish(),
+          hcb_fee: zod.unknown().nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Transaction model"),
       organization: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          name: zod.string().optional(),
-          slug: zod.string().optional(),
-          website: zod.string().optional(),
+          name: zod.string().nullish(),
+          slug: zod.string().nullish(),
+          website: zod.string().nullish(),
           category: zod
             .enum([
               "hack_club_hq",
@@ -1570,24 +1588,24 @@ export namespace ZTypes {
               "climate",
               "nonprofit",
             ])
-            .optional(),
-          transparent: zod.boolean().optional(),
-          demo_mode: zod.boolean().optional(),
-          financially_frozen: zod.boolean().optional(),
-          logo: zod.string().optional(),
-          donation_header: zod.string().optional(),
-          background_image: zod.string().optional(),
-          public_message: zod.string().optional(),
-          donation_link: zod.string().optional(),
+            .nullish(),
+          transparent: zod.boolean().nullish(),
+          demo_mode: zod.boolean().nullish(),
+          financially_frozen: zod.boolean().nullish(),
+          logo: zod.string().nullish(),
+          donation_header: zod.string().nullish(),
+          background_image: zod.string().nullish(),
+          public_message: zod.string().nullish(),
+          donation_link: zod.string().nullish(),
           balances: zod
             .object({
-              balance_cents: zod.number().optional(),
-              fee_balance_cents: zod.number().optional(),
-              incoming_balance_cents: zod.number().optional(),
-              total_raised: zod.number().optional(),
+              balance_cents: zod.number().nullish(),
+              fee_balance_cents: zod.number().nullish(),
+              incoming_balance_cents: zod.number().nullish(),
+              total_raised: zod.number().nullish(),
             })
-            .optional(),
-          created_at: zod.string().optional(),
+            .nullish(),
+          created_at: zod.string().nullish(),
           users: zod
             .array(
               zod.object({
@@ -1599,12 +1617,12 @@ export namespace ZTypes {
                 photo: zod.string(),
               }),
             )
-            .optional(),
+            .nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Organization model"),
-      amount_cents: zod.string().optional(),
-      date: zod.string().optional(),
+      amount_cents: zod.string().nullish(),
+      date: zod.string().nullish(),
       status: zod
         .enum([
           "fulfilled",
@@ -1615,15 +1633,15 @@ export namespace ZTypes {
           "under_review",
           "pending",
         ])
-        .optional(),
+        .nullish(),
       source_organization: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          name: zod.string().optional(),
-          slug: zod.string().optional(),
-          website: zod.string().optional(),
+          name: zod.string().nullish(),
+          slug: zod.string().nullish(),
+          website: zod.string().nullish(),
           category: zod
             .enum([
               "hack_club_hq",
@@ -1633,24 +1651,24 @@ export namespace ZTypes {
               "climate",
               "nonprofit",
             ])
-            .optional(),
-          transparent: zod.boolean().optional(),
-          demo_mode: zod.boolean().optional(),
-          financially_frozen: zod.boolean().optional(),
-          logo: zod.string().optional(),
-          donation_header: zod.string().optional(),
-          background_image: zod.string().optional(),
-          public_message: zod.string().optional(),
-          donation_link: zod.string().optional(),
+            .nullish(),
+          transparent: zod.boolean().nullish(),
+          demo_mode: zod.boolean().nullish(),
+          financially_frozen: zod.boolean().nullish(),
+          logo: zod.string().nullish(),
+          donation_header: zod.string().nullish(),
+          background_image: zod.string().nullish(),
+          public_message: zod.string().nullish(),
+          donation_link: zod.string().nullish(),
           balances: zod
             .object({
-              balance_cents: zod.number().optional(),
-              fee_balance_cents: zod.number().optional(),
-              incoming_balance_cents: zod.number().optional(),
-              total_raised: zod.number().optional(),
+              balance_cents: zod.number().nullish(),
+              fee_balance_cents: zod.number().nullish(),
+              incoming_balance_cents: zod.number().nullish(),
+              total_raised: zod.number().nullish(),
             })
-            .optional(),
-          created_at: zod.string().optional(),
+            .nullish(),
+          created_at: zod.string().nullish(),
           users: zod
             .array(
               zod.object({
@@ -1662,9 +1680,9 @@ export namespace ZTypes {
                 photo: zod.string(),
               }),
             )
-            .optional(),
+            .nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Organization model"),
     })
     .describe("Transfer model");
@@ -1686,7 +1704,7 @@ export namespace ZTypes {
   export const ListAnOrganizationsWireTransfersQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -1723,7 +1741,7 @@ export namespace ZTypes {
   export const ListAnOrganizationsWiseTransfersQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -1760,7 +1778,7 @@ export namespace ZTypes {
   export const ListAnOrganizationsCheckDepositsQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -1797,7 +1815,7 @@ export namespace ZTypes {
   export const ListAnOrganizationsReimbursedExpensesQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -1835,7 +1853,7 @@ export namespace ZTypes {
   export const ListAnOrganizationsHcbFeesQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -1872,7 +1890,7 @@ export namespace ZTypes {
   export const ListAnOrganizationsInvoicesQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -1895,15 +1913,15 @@ export namespace ZTypes {
       id: zod.string(),
       object: zod.string(),
       href: zod.string(),
-      memo: zod.string().optional(),
+      memo: zod.string().nullish(),
       transaction: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          amount_cents: zod.number().optional(),
-          memo: zod.string().optional(),
-          date: zod.string().optional(),
+          amount_cents: zod.number().nullish(),
+          memo: zod.string().nullish(),
+          date: zod.string().nullish(),
           type: zod
             .enum([
               "invoice",
@@ -1919,27 +1937,27 @@ export namespace ZTypes {
               "reimbursed_expense",
               "hcb_fee",
             ])
-            .optional(),
-          pending: zod.boolean().optional(),
+            .nullish(),
+          pending: zod.boolean().nullish(),
           receipts: zod
             .object({
-              count: zod.number().optional(),
-              missing: zod.boolean().optional(),
+              count: zod.number().nullish(),
+              missing: zod.boolean().nullish(),
             })
-            .optional(),
+            .nullish(),
           comments: zod
             .object({
-              count: zod.number().optional(),
+              count: zod.number().nullish(),
             })
-            .optional(),
+            .nullish(),
           organization: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              name: zod.string().optional(),
-              slug: zod.string().optional(),
-              website: zod.string().optional(),
+              name: zod.string().nullish(),
+              slug: zod.string().nullish(),
+              website: zod.string().nullish(),
               category: zod
                 .enum([
                   "hack_club_hq",
@@ -1949,24 +1967,24 @@ export namespace ZTypes {
                   "climate",
                   "nonprofit",
                 ])
-                .optional(),
-              transparent: zod.boolean().optional(),
-              demo_mode: zod.boolean().optional(),
-              financially_frozen: zod.boolean().optional(),
-              logo: zod.string().optional(),
-              donation_header: zod.string().optional(),
-              background_image: zod.string().optional(),
-              public_message: zod.string().optional(),
-              donation_link: zod.string().optional(),
+                .nullish(),
+              transparent: zod.boolean().nullish(),
+              demo_mode: zod.boolean().nullish(),
+              financially_frozen: zod.boolean().nullish(),
+              logo: zod.string().nullish(),
+              donation_header: zod.string().nullish(),
+              background_image: zod.string().nullish(),
+              public_message: zod.string().nullish(),
+              donation_link: zod.string().nullish(),
               balances: zod
                 .object({
-                  balance_cents: zod.number().optional(),
-                  fee_balance_cents: zod.number().optional(),
-                  incoming_balance_cents: zod.number().optional(),
-                  total_raised: zod.number().optional(),
+                  balance_cents: zod.number().nullish(),
+                  fee_balance_cents: zod.number().nullish(),
+                  incoming_balance_cents: zod.number().nullish(),
+                  total_raised: zod.number().nullish(),
                 })
-                .optional(),
-              created_at: zod.string().optional(),
+                .nullish(),
+              created_at: zod.string().nullish(),
               users: zod
                 .array(
                   zod.object({
@@ -1978,9 +1996,9 @@ export namespace ZTypes {
                     photo: zod.string(),
                   }),
                 )
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Organization model"),
           user: zod
             .object({
@@ -1991,7 +2009,7 @@ export namespace ZTypes {
               admin: zod.boolean(),
               photo: zod.string(),
             })
-            .optional(),
+            .nullish(),
           tags: zod
             .array(
               zod.object({
@@ -2000,24 +2018,30 @@ export namespace ZTypes {
                 label: zod.string(),
               }),
             )
-            .optional(),
-          card_charge: zod.unknown().optional(),
-          ach_transfer: zod.unknown().optional(),
+            .nullish(),
+          card_charge: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+            })
+            .nullish(),
+          ach_transfer: zod.unknown().nullish(),
           check: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -2027,24 +2051,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -2056,12 +2080,12 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.number().optional(),
-              date: zod.string().optional(),
+              amount_cents: zod.number().nullish(),
+              date: zod.string().nullish(),
               status: zod
                 .enum([
                   "scheduled",
@@ -2072,25 +2096,25 @@ export namespace ZTypes {
                   "voided",
                   "refunded",
                 ])
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Check model"),
           donation: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -2100,24 +2124,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -2129,19 +2153,19 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.number().optional(),
+              amount_cents: zod.number().nullish(),
               donor: zod
                 .object({
-                  name: zod.string().optional(),
-                  anonymous: zod.boolean().optional(),
-                  avatar: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  anonymous: zod.boolean().nullish(),
+                  avatar: zod.string().nullish(),
                 })
-                .optional(),
-              date: zod.string().optional(),
+                .nullish(),
+              date: zod.string().nullish(),
               status: zod
                 .enum([
                   "pending",
@@ -2150,27 +2174,27 @@ export namespace ZTypes {
                   "failed",
                   "refunded",
                 ])
-                .optional(),
-              recurring: zod.boolean().optional(),
+                .nullish(),
+              recurring: zod.boolean().nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Donation model"),
-          invoice: zod.unknown().optional(),
+          invoice: zod.unknown().nullish(),
           transfer: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -2180,24 +2204,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -2209,12 +2233,12 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.string().optional(),
-              date: zod.string().optional(),
+              amount_cents: zod.string().nullish(),
+              date: zod.string().nullish(),
               status: zod
                 .enum([
                   "fulfilled",
@@ -2225,15 +2249,15 @@ export namespace ZTypes {
                   "under_review",
                   "pending",
                 ])
-                .optional(),
+                .nullish(),
               source_organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -2243,24 +2267,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -2272,29 +2296,29 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
             })
-            .optional()
+            .nullish()
             .describe("Transfer model"),
-          wire_transfer: zod.unknown().optional(),
-          wise_transfer: zod.unknown().optional(),
-          check_deposit: zod.unknown().optional(),
-          reimbursed_expense: zod.unknown().optional(),
-          hcb_fee: zod.unknown().optional(),
+          wire_transfer: zod.unknown().nullish(),
+          wise_transfer: zod.unknown().nullish(),
+          check_deposit: zod.unknown().nullish(),
+          reimbursed_expense: zod.unknown().nullish(),
+          hcb_fee: zod.unknown().nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Transaction model"),
       organization: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          name: zod.string().optional(),
-          slug: zod.string().optional(),
-          website: zod.string().optional(),
+          name: zod.string().nullish(),
+          slug: zod.string().nullish(),
+          website: zod.string().nullish(),
           category: zod
             .enum([
               "hack_club_hq",
@@ -2304,24 +2328,24 @@ export namespace ZTypes {
               "climate",
               "nonprofit",
             ])
-            .optional(),
-          transparent: zod.boolean().optional(),
-          demo_mode: zod.boolean().optional(),
-          financially_frozen: zod.boolean().optional(),
-          logo: zod.string().optional(),
-          donation_header: zod.string().optional(),
-          background_image: zod.string().optional(),
-          public_message: zod.string().optional(),
-          donation_link: zod.string().optional(),
+            .nullish(),
+          transparent: zod.boolean().nullish(),
+          demo_mode: zod.boolean().nullish(),
+          financially_frozen: zod.boolean().nullish(),
+          logo: zod.string().nullish(),
+          donation_header: zod.string().nullish(),
+          background_image: zod.string().nullish(),
+          public_message: zod.string().nullish(),
+          donation_link: zod.string().nullish(),
           balances: zod
             .object({
-              balance_cents: zod.number().optional(),
-              fee_balance_cents: zod.number().optional(),
-              incoming_balance_cents: zod.number().optional(),
-              total_raised: zod.number().optional(),
+              balance_cents: zod.number().nullish(),
+              fee_balance_cents: zod.number().nullish(),
+              incoming_balance_cents: zod.number().nullish(),
+              total_raised: zod.number().nullish(),
             })
-            .optional(),
-          created_at: zod.string().optional(),
+            .nullish(),
+          created_at: zod.string().nullish(),
           users: zod
             .array(
               zod.object({
@@ -2333,19 +2357,19 @@ export namespace ZTypes {
                 photo: zod.string(),
               }),
             )
-            .optional(),
+            .nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Organization model"),
-      amount_cents: zod.string().optional(),
+      amount_cents: zod.string().nullish(),
       sponsor: zod
         .object({
-          id: zod.string().optional(),
-          name: zod.string().optional(),
+          id: zod.string().nullish(),
+          name: zod.string().nullish(),
         })
-        .optional(),
-      date: zod.string().optional(),
-      status: zod.enum(["open", "paid", "void"]).optional(),
+        .nullish(),
+      date: zod.string().nullish(),
+      status: zod.enum(["open", "paid", "void"]).nullish(),
     })
     .describe("Invoice model");
   export const ListAnOrganizationsInvoicesResponse = zod.array(
@@ -2366,7 +2390,7 @@ export namespace ZTypes {
   export const ListAnOrganizationsAchTransfersQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -2403,7 +2427,7 @@ export namespace ZTypes {
   export const ListAnOrganizationsChecksQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -2426,15 +2450,15 @@ export namespace ZTypes {
       id: zod.string(),
       object: zod.string(),
       href: zod.string(),
-      memo: zod.string().optional(),
+      memo: zod.string().nullish(),
       transaction: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          amount_cents: zod.number().optional(),
-          memo: zod.string().optional(),
-          date: zod.string().optional(),
+          amount_cents: zod.number().nullish(),
+          memo: zod.string().nullish(),
+          date: zod.string().nullish(),
           type: zod
             .enum([
               "invoice",
@@ -2450,27 +2474,27 @@ export namespace ZTypes {
               "reimbursed_expense",
               "hcb_fee",
             ])
-            .optional(),
-          pending: zod.boolean().optional(),
+            .nullish(),
+          pending: zod.boolean().nullish(),
           receipts: zod
             .object({
-              count: zod.number().optional(),
-              missing: zod.boolean().optional(),
+              count: zod.number().nullish(),
+              missing: zod.boolean().nullish(),
             })
-            .optional(),
+            .nullish(),
           comments: zod
             .object({
-              count: zod.number().optional(),
+              count: zod.number().nullish(),
             })
-            .optional(),
+            .nullish(),
           organization: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              name: zod.string().optional(),
-              slug: zod.string().optional(),
-              website: zod.string().optional(),
+              name: zod.string().nullish(),
+              slug: zod.string().nullish(),
+              website: zod.string().nullish(),
               category: zod
                 .enum([
                   "hack_club_hq",
@@ -2480,24 +2504,24 @@ export namespace ZTypes {
                   "climate",
                   "nonprofit",
                 ])
-                .optional(),
-              transparent: zod.boolean().optional(),
-              demo_mode: zod.boolean().optional(),
-              financially_frozen: zod.boolean().optional(),
-              logo: zod.string().optional(),
-              donation_header: zod.string().optional(),
-              background_image: zod.string().optional(),
-              public_message: zod.string().optional(),
-              donation_link: zod.string().optional(),
+                .nullish(),
+              transparent: zod.boolean().nullish(),
+              demo_mode: zod.boolean().nullish(),
+              financially_frozen: zod.boolean().nullish(),
+              logo: zod.string().nullish(),
+              donation_header: zod.string().nullish(),
+              background_image: zod.string().nullish(),
+              public_message: zod.string().nullish(),
+              donation_link: zod.string().nullish(),
               balances: zod
                 .object({
-                  balance_cents: zod.number().optional(),
-                  fee_balance_cents: zod.number().optional(),
-                  incoming_balance_cents: zod.number().optional(),
-                  total_raised: zod.number().optional(),
+                  balance_cents: zod.number().nullish(),
+                  fee_balance_cents: zod.number().nullish(),
+                  incoming_balance_cents: zod.number().nullish(),
+                  total_raised: zod.number().nullish(),
                 })
-                .optional(),
-              created_at: zod.string().optional(),
+                .nullish(),
+              created_at: zod.string().nullish(),
               users: zod
                 .array(
                   zod.object({
@@ -2509,9 +2533,9 @@ export namespace ZTypes {
                     photo: zod.string(),
                   }),
                 )
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Organization model"),
           user: zod
             .object({
@@ -2522,7 +2546,7 @@ export namespace ZTypes {
               admin: zod.boolean(),
               photo: zod.string(),
             })
-            .optional(),
+            .nullish(),
           tags: zod
             .array(
               zod.object({
@@ -2531,25 +2555,31 @@ export namespace ZTypes {
                 label: zod.string(),
               }),
             )
-            .optional(),
-          card_charge: zod.unknown().optional(),
-          ach_transfer: zod.unknown().optional(),
-          check: zod.unknown().optional(),
+            .nullish(),
+          card_charge: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+            })
+            .nullish(),
+          ach_transfer: zod.unknown().nullish(),
+          check: zod.unknown().nullish(),
           donation: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -2559,24 +2589,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -2588,19 +2618,19 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.number().optional(),
+              amount_cents: zod.number().nullish(),
               donor: zod
                 .object({
-                  name: zod.string().optional(),
-                  anonymous: zod.boolean().optional(),
-                  avatar: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  anonymous: zod.boolean().nullish(),
+                  avatar: zod.string().nullish(),
                 })
-                .optional(),
-              date: zod.string().optional(),
+                .nullish(),
+              date: zod.string().nullish(),
               status: zod
                 .enum([
                   "pending",
@@ -2609,26 +2639,26 @@ export namespace ZTypes {
                   "failed",
                   "refunded",
                 ])
-                .optional(),
-              recurring: zod.boolean().optional(),
+                .nullish(),
+              recurring: zod.boolean().nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Donation model"),
           invoice: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -2638,24 +2668,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -2667,37 +2697,37 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.string().optional(),
+              amount_cents: zod.string().nullish(),
               sponsor: zod
                 .object({
-                  id: zod.string().optional(),
-                  name: zod.string().optional(),
+                  id: zod.string().nullish(),
+                  name: zod.string().nullish(),
                 })
-                .optional(),
-              date: zod.string().optional(),
-              status: zod.enum(["open", "paid", "void"]).optional(),
+                .nullish(),
+              date: zod.string().nullish(),
+              status: zod.enum(["open", "paid", "void"]).nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Invoice model"),
           transfer: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -2707,24 +2737,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -2736,12 +2766,12 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.string().optional(),
-              date: zod.string().optional(),
+              amount_cents: zod.string().nullish(),
+              date: zod.string().nullish(),
               status: zod
                 .enum([
                   "fulfilled",
@@ -2752,15 +2782,15 @@ export namespace ZTypes {
                   "under_review",
                   "pending",
                 ])
-                .optional(),
+                .nullish(),
               source_organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -2770,24 +2800,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -2799,29 +2829,29 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
             })
-            .optional()
+            .nullish()
             .describe("Transfer model"),
-          wire_transfer: zod.unknown().optional(),
-          wise_transfer: zod.unknown().optional(),
-          check_deposit: zod.unknown().optional(),
-          reimbursed_expense: zod.unknown().optional(),
-          hcb_fee: zod.unknown().optional(),
+          wire_transfer: zod.unknown().nullish(),
+          wise_transfer: zod.unknown().nullish(),
+          check_deposit: zod.unknown().nullish(),
+          reimbursed_expense: zod.unknown().nullish(),
+          hcb_fee: zod.unknown().nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Transaction model"),
       organization: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          name: zod.string().optional(),
-          slug: zod.string().optional(),
-          website: zod.string().optional(),
+          name: zod.string().nullish(),
+          slug: zod.string().nullish(),
+          website: zod.string().nullish(),
           category: zod
             .enum([
               "hack_club_hq",
@@ -2831,24 +2861,24 @@ export namespace ZTypes {
               "climate",
               "nonprofit",
             ])
-            .optional(),
-          transparent: zod.boolean().optional(),
-          demo_mode: zod.boolean().optional(),
-          financially_frozen: zod.boolean().optional(),
-          logo: zod.string().optional(),
-          donation_header: zod.string().optional(),
-          background_image: zod.string().optional(),
-          public_message: zod.string().optional(),
-          donation_link: zod.string().optional(),
+            .nullish(),
+          transparent: zod.boolean().nullish(),
+          demo_mode: zod.boolean().nullish(),
+          financially_frozen: zod.boolean().nullish(),
+          logo: zod.string().nullish(),
+          donation_header: zod.string().nullish(),
+          background_image: zod.string().nullish(),
+          public_message: zod.string().nullish(),
+          donation_link: zod.string().nullish(),
           balances: zod
             .object({
-              balance_cents: zod.number().optional(),
-              fee_balance_cents: zod.number().optional(),
-              incoming_balance_cents: zod.number().optional(),
-              total_raised: zod.number().optional(),
+              balance_cents: zod.number().nullish(),
+              fee_balance_cents: zod.number().nullish(),
+              incoming_balance_cents: zod.number().nullish(),
+              total_raised: zod.number().nullish(),
             })
-            .optional(),
-          created_at: zod.string().optional(),
+            .nullish(),
+          created_at: zod.string().nullish(),
           users: zod
             .array(
               zod.object({
@@ -2860,12 +2890,12 @@ export namespace ZTypes {
                 photo: zod.string(),
               }),
             )
-            .optional(),
+            .nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Organization model"),
-      amount_cents: zod.number().optional(),
-      date: zod.string().optional(),
+      amount_cents: zod.number().nullish(),
+      date: zod.string().nullish(),
       status: zod
         .enum([
           "scheduled",
@@ -2876,7 +2906,7 @@ export namespace ZTypes {
           "voided",
           "refunded",
         ])
-        .optional(),
+        .nullish(),
     })
     .describe("Check model");
   export const ListAnOrganizationsChecksResponse = zod.array(
@@ -2897,7 +2927,7 @@ export namespace ZTypes {
   export const ListAnOrganizationsCardsQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -2920,10 +2950,10 @@ export namespace ZTypes {
       id: zod.string(),
       object: zod.string(),
       href: zod.string(),
-      name: zod.string().optional(),
-      type: zod.enum(["virtual", "physical"]).optional(),
-      status: zod.enum(["active", "inactive", "frozen", "canceled"]).optional(),
-      issued_at: zod.string().optional(),
+      name: zod.string().nullish(),
+      type: zod.enum(["virtual", "physical"]).nullish(),
+      status: zod.enum(["active", "inactive", "frozen", "canceled"]).nullish(),
+      issued_at: zod.string().nullish(),
       owner: zod
         .object({
           id: zod.string(),
@@ -2933,15 +2963,15 @@ export namespace ZTypes {
           admin: zod.boolean(),
           photo: zod.string(),
         })
-        .optional(),
+        .nullish(),
       organization: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          name: zod.string().optional(),
-          slug: zod.string().optional(),
-          website: zod.string().optional(),
+          name: zod.string().nullish(),
+          slug: zod.string().nullish(),
+          website: zod.string().nullish(),
           category: zod
             .enum([
               "hack_club_hq",
@@ -2951,24 +2981,24 @@ export namespace ZTypes {
               "climate",
               "nonprofit",
             ])
-            .optional(),
-          transparent: zod.boolean().optional(),
-          demo_mode: zod.boolean().optional(),
-          financially_frozen: zod.boolean().optional(),
-          logo: zod.string().optional(),
-          donation_header: zod.string().optional(),
-          background_image: zod.string().optional(),
-          public_message: zod.string().optional(),
-          donation_link: zod.string().optional(),
+            .nullish(),
+          transparent: zod.boolean().nullish(),
+          demo_mode: zod.boolean().nullish(),
+          financially_frozen: zod.boolean().nullish(),
+          logo: zod.string().nullish(),
+          donation_header: zod.string().nullish(),
+          background_image: zod.string().nullish(),
+          public_message: zod.string().nullish(),
+          donation_link: zod.string().nullish(),
           balances: zod
             .object({
-              balance_cents: zod.number().optional(),
-              fee_balance_cents: zod.number().optional(),
-              incoming_balance_cents: zod.number().optional(),
-              total_raised: zod.number().optional(),
+              balance_cents: zod.number().nullish(),
+              fee_balance_cents: zod.number().nullish(),
+              incoming_balance_cents: zod.number().nullish(),
+              total_raised: zod.number().nullish(),
             })
-            .optional(),
-          created_at: zod.string().optional(),
+            .nullish(),
+          created_at: zod.string().nullish(),
           users: zod
             .array(
               zod.object({
@@ -2980,9 +3010,9 @@ export namespace ZTypes {
                 photo: zod.string(),
               }),
             )
-            .optional(),
+            .nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Organization model"),
     })
     .describe("Card model");
@@ -3000,13 +3030,51 @@ export namespace ZTypes {
   export const GetACardChargeQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
   });
 
-  export const GetACardChargeResponse = zod.unknown();
+  export const GetACardChargeResponse = zod.object({
+    id: zod.string(),
+    object: zod.string(),
+    href: zod.string(),
+    transaction: zod.object({
+      id: zod.string(),
+      object: zod.string(),
+      href: zod.string(),
+      user: zod.object({
+        id: zod.string(),
+        object: zod.string(),
+        full_name: zod.string(),
+        auditor: zod.boolean(),
+        admin: zod.boolean(),
+        photo: zod.string(),
+      }),
+      tags: zod.array(zod.string()),
+    }),
+    organization: zod.object({
+      id: zod.string(),
+      object: zod.string(),
+      href: zod.string(),
+    }),
+    amount_cents: zod.number(),
+    date: zod.string(),
+    card: zod.object({
+      id: zod.string(),
+      object: zod.string(),
+      href: zod.string(),
+    }),
+    user: zod.object({
+      id: zod.string(),
+      object: zod.string(),
+      full_name: zod.string(),
+      auditor: zod.boolean(),
+      admin: zod.boolean(),
+      photo: zod.string(),
+    }),
+  });
 
   /**
    * @summary Get a single donation
@@ -3018,7 +3086,7 @@ export namespace ZTypes {
   export const GetASingleDonationQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -3029,15 +3097,15 @@ export namespace ZTypes {
       id: zod.string(),
       object: zod.string(),
       href: zod.string(),
-      memo: zod.string().optional(),
+      memo: zod.string().nullish(),
       transaction: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          amount_cents: zod.number().optional(),
-          memo: zod.string().optional(),
-          date: zod.string().optional(),
+          amount_cents: zod.number().nullish(),
+          memo: zod.string().nullish(),
+          date: zod.string().nullish(),
           type: zod
             .enum([
               "invoice",
@@ -3053,27 +3121,27 @@ export namespace ZTypes {
               "reimbursed_expense",
               "hcb_fee",
             ])
-            .optional(),
-          pending: zod.boolean().optional(),
+            .nullish(),
+          pending: zod.boolean().nullish(),
           receipts: zod
             .object({
-              count: zod.number().optional(),
-              missing: zod.boolean().optional(),
+              count: zod.number().nullish(),
+              missing: zod.boolean().nullish(),
             })
-            .optional(),
+            .nullish(),
           comments: zod
             .object({
-              count: zod.number().optional(),
+              count: zod.number().nullish(),
             })
-            .optional(),
+            .nullish(),
           organization: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              name: zod.string().optional(),
-              slug: zod.string().optional(),
-              website: zod.string().optional(),
+              name: zod.string().nullish(),
+              slug: zod.string().nullish(),
+              website: zod.string().nullish(),
               category: zod
                 .enum([
                   "hack_club_hq",
@@ -3083,24 +3151,24 @@ export namespace ZTypes {
                   "climate",
                   "nonprofit",
                 ])
-                .optional(),
-              transparent: zod.boolean().optional(),
-              demo_mode: zod.boolean().optional(),
-              financially_frozen: zod.boolean().optional(),
-              logo: zod.string().optional(),
-              donation_header: zod.string().optional(),
-              background_image: zod.string().optional(),
-              public_message: zod.string().optional(),
-              donation_link: zod.string().optional(),
+                .nullish(),
+              transparent: zod.boolean().nullish(),
+              demo_mode: zod.boolean().nullish(),
+              financially_frozen: zod.boolean().nullish(),
+              logo: zod.string().nullish(),
+              donation_header: zod.string().nullish(),
+              background_image: zod.string().nullish(),
+              public_message: zod.string().nullish(),
+              donation_link: zod.string().nullish(),
               balances: zod
                 .object({
-                  balance_cents: zod.number().optional(),
-                  fee_balance_cents: zod.number().optional(),
-                  incoming_balance_cents: zod.number().optional(),
-                  total_raised: zod.number().optional(),
+                  balance_cents: zod.number().nullish(),
+                  fee_balance_cents: zod.number().nullish(),
+                  incoming_balance_cents: zod.number().nullish(),
+                  total_raised: zod.number().nullish(),
                 })
-                .optional(),
-              created_at: zod.string().optional(),
+                .nullish(),
+              created_at: zod.string().nullish(),
               users: zod
                 .array(
                   zod.object({
@@ -3112,9 +3180,9 @@ export namespace ZTypes {
                     photo: zod.string(),
                   }),
                 )
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Organization model"),
           user: zod
             .object({
@@ -3125,7 +3193,7 @@ export namespace ZTypes {
               admin: zod.boolean(),
               photo: zod.string(),
             })
-            .optional(),
+            .nullish(),
           tags: zod
             .array(
               zod.object({
@@ -3134,24 +3202,30 @@ export namespace ZTypes {
                 label: zod.string(),
               }),
             )
-            .optional(),
-          card_charge: zod.unknown().optional(),
-          ach_transfer: zod.unknown().optional(),
+            .nullish(),
+          card_charge: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+            })
+            .nullish(),
+          ach_transfer: zod.unknown().nullish(),
           check: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -3161,24 +3235,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -3190,12 +3264,12 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.number().optional(),
-              date: zod.string().optional(),
+              amount_cents: zod.number().nullish(),
+              date: zod.string().nullish(),
               status: zod
                 .enum([
                   "scheduled",
@@ -3206,26 +3280,26 @@ export namespace ZTypes {
                   "voided",
                   "refunded",
                 ])
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Check model"),
-          donation: zod.unknown().optional(),
+          donation: zod.unknown().nullish(),
           invoice: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -3235,24 +3309,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -3264,37 +3338,37 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.string().optional(),
+              amount_cents: zod.string().nullish(),
               sponsor: zod
                 .object({
-                  id: zod.string().optional(),
-                  name: zod.string().optional(),
+                  id: zod.string().nullish(),
+                  name: zod.string().nullish(),
                 })
-                .optional(),
-              date: zod.string().optional(),
-              status: zod.enum(["open", "paid", "void"]).optional(),
+                .nullish(),
+              date: zod.string().nullish(),
+              status: zod.enum(["open", "paid", "void"]).nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Invoice model"),
           transfer: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -3304,24 +3378,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -3333,12 +3407,12 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.string().optional(),
-              date: zod.string().optional(),
+              amount_cents: zod.string().nullish(),
+              date: zod.string().nullish(),
               status: zod
                 .enum([
                   "fulfilled",
@@ -3349,15 +3423,15 @@ export namespace ZTypes {
                   "under_review",
                   "pending",
                 ])
-                .optional(),
+                .nullish(),
               source_organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -3367,24 +3441,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -3396,29 +3470,29 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
             })
-            .optional()
+            .nullish()
             .describe("Transfer model"),
-          wire_transfer: zod.unknown().optional(),
-          wise_transfer: zod.unknown().optional(),
-          check_deposit: zod.unknown().optional(),
-          reimbursed_expense: zod.unknown().optional(),
-          hcb_fee: zod.unknown().optional(),
+          wire_transfer: zod.unknown().nullish(),
+          wise_transfer: zod.unknown().nullish(),
+          check_deposit: zod.unknown().nullish(),
+          reimbursed_expense: zod.unknown().nullish(),
+          hcb_fee: zod.unknown().nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Transaction model"),
       organization: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          name: zod.string().optional(),
-          slug: zod.string().optional(),
-          website: zod.string().optional(),
+          name: zod.string().nullish(),
+          slug: zod.string().nullish(),
+          website: zod.string().nullish(),
           category: zod
             .enum([
               "hack_club_hq",
@@ -3428,24 +3502,24 @@ export namespace ZTypes {
               "climate",
               "nonprofit",
             ])
-            .optional(),
-          transparent: zod.boolean().optional(),
-          demo_mode: zod.boolean().optional(),
-          financially_frozen: zod.boolean().optional(),
-          logo: zod.string().optional(),
-          donation_header: zod.string().optional(),
-          background_image: zod.string().optional(),
-          public_message: zod.string().optional(),
-          donation_link: zod.string().optional(),
+            .nullish(),
+          transparent: zod.boolean().nullish(),
+          demo_mode: zod.boolean().nullish(),
+          financially_frozen: zod.boolean().nullish(),
+          logo: zod.string().nullish(),
+          donation_header: zod.string().nullish(),
+          background_image: zod.string().nullish(),
+          public_message: zod.string().nullish(),
+          donation_link: zod.string().nullish(),
           balances: zod
             .object({
-              balance_cents: zod.number().optional(),
-              fee_balance_cents: zod.number().optional(),
-              incoming_balance_cents: zod.number().optional(),
-              total_raised: zod.number().optional(),
+              balance_cents: zod.number().nullish(),
+              fee_balance_cents: zod.number().nullish(),
+              incoming_balance_cents: zod.number().nullish(),
+              total_raised: zod.number().nullish(),
             })
-            .optional(),
-          created_at: zod.string().optional(),
+            .nullish(),
+          created_at: zod.string().nullish(),
           users: zod
             .array(
               zod.object({
@@ -3457,23 +3531,23 @@ export namespace ZTypes {
                 photo: zod.string(),
               }),
             )
-            .optional(),
+            .nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Organization model"),
-      amount_cents: zod.number().optional(),
+      amount_cents: zod.number().nullish(),
       donor: zod
         .object({
-          name: zod.string().optional(),
-          anonymous: zod.boolean().optional(),
-          avatar: zod.string().optional(),
+          name: zod.string().nullish(),
+          anonymous: zod.boolean().nullish(),
+          avatar: zod.string().nullish(),
         })
-        .optional(),
-      date: zod.string().optional(),
+        .nullish(),
+      date: zod.string().nullish(),
       status: zod
         .enum(["pending", "in_transit", "deposited", "failed", "refunded"])
-        .optional(),
-      recurring: zod.boolean().optional(),
+        .nullish(),
+      recurring: zod.boolean().nullish(),
     })
     .describe("Donation model");
 
@@ -3487,7 +3561,7 @@ export namespace ZTypes {
   export const GetASingleTransferQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -3498,15 +3572,15 @@ export namespace ZTypes {
       id: zod.string(),
       object: zod.string(),
       href: zod.string(),
-      memo: zod.string().optional(),
+      memo: zod.string().nullish(),
       transaction: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          amount_cents: zod.number().optional(),
-          memo: zod.string().optional(),
-          date: zod.string().optional(),
+          amount_cents: zod.number().nullish(),
+          memo: zod.string().nullish(),
+          date: zod.string().nullish(),
           type: zod
             .enum([
               "invoice",
@@ -3522,27 +3596,27 @@ export namespace ZTypes {
               "reimbursed_expense",
               "hcb_fee",
             ])
-            .optional(),
-          pending: zod.boolean().optional(),
+            .nullish(),
+          pending: zod.boolean().nullish(),
           receipts: zod
             .object({
-              count: zod.number().optional(),
-              missing: zod.boolean().optional(),
+              count: zod.number().nullish(),
+              missing: zod.boolean().nullish(),
             })
-            .optional(),
+            .nullish(),
           comments: zod
             .object({
-              count: zod.number().optional(),
+              count: zod.number().nullish(),
             })
-            .optional(),
+            .nullish(),
           organization: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              name: zod.string().optional(),
-              slug: zod.string().optional(),
-              website: zod.string().optional(),
+              name: zod.string().nullish(),
+              slug: zod.string().nullish(),
+              website: zod.string().nullish(),
               category: zod
                 .enum([
                   "hack_club_hq",
@@ -3552,24 +3626,24 @@ export namespace ZTypes {
                   "climate",
                   "nonprofit",
                 ])
-                .optional(),
-              transparent: zod.boolean().optional(),
-              demo_mode: zod.boolean().optional(),
-              financially_frozen: zod.boolean().optional(),
-              logo: zod.string().optional(),
-              donation_header: zod.string().optional(),
-              background_image: zod.string().optional(),
-              public_message: zod.string().optional(),
-              donation_link: zod.string().optional(),
+                .nullish(),
+              transparent: zod.boolean().nullish(),
+              demo_mode: zod.boolean().nullish(),
+              financially_frozen: zod.boolean().nullish(),
+              logo: zod.string().nullish(),
+              donation_header: zod.string().nullish(),
+              background_image: zod.string().nullish(),
+              public_message: zod.string().nullish(),
+              donation_link: zod.string().nullish(),
               balances: zod
                 .object({
-                  balance_cents: zod.number().optional(),
-                  fee_balance_cents: zod.number().optional(),
-                  incoming_balance_cents: zod.number().optional(),
-                  total_raised: zod.number().optional(),
+                  balance_cents: zod.number().nullish(),
+                  fee_balance_cents: zod.number().nullish(),
+                  incoming_balance_cents: zod.number().nullish(),
+                  total_raised: zod.number().nullish(),
                 })
-                .optional(),
-              created_at: zod.string().optional(),
+                .nullish(),
+              created_at: zod.string().nullish(),
               users: zod
                 .array(
                   zod.object({
@@ -3581,9 +3655,9 @@ export namespace ZTypes {
                     photo: zod.string(),
                   }),
                 )
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Organization model"),
           user: zod
             .object({
@@ -3594,7 +3668,7 @@ export namespace ZTypes {
               admin: zod.boolean(),
               photo: zod.string(),
             })
-            .optional(),
+            .nullish(),
           tags: zod
             .array(
               zod.object({
@@ -3603,24 +3677,30 @@ export namespace ZTypes {
                 label: zod.string(),
               }),
             )
-            .optional(),
-          card_charge: zod.unknown().optional(),
-          ach_transfer: zod.unknown().optional(),
+            .nullish(),
+          card_charge: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+            })
+            .nullish(),
+          ach_transfer: zod.unknown().nullish(),
           check: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -3630,24 +3710,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -3659,12 +3739,12 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.number().optional(),
-              date: zod.string().optional(),
+              amount_cents: zod.number().nullish(),
+              date: zod.string().nullish(),
               status: zod
                 .enum([
                   "scheduled",
@@ -3675,25 +3755,25 @@ export namespace ZTypes {
                   "voided",
                   "refunded",
                 ])
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Check model"),
           donation: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -3703,24 +3783,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -3732,19 +3812,19 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.number().optional(),
+              amount_cents: zod.number().nullish(),
               donor: zod
                 .object({
-                  name: zod.string().optional(),
-                  anonymous: zod.boolean().optional(),
-                  avatar: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  anonymous: zod.boolean().nullish(),
+                  avatar: zod.string().nullish(),
                 })
-                .optional(),
-              date: zod.string().optional(),
+                .nullish(),
+              date: zod.string().nullish(),
               status: zod
                 .enum([
                   "pending",
@@ -3753,26 +3833,26 @@ export namespace ZTypes {
                   "failed",
                   "refunded",
                 ])
-                .optional(),
-              recurring: zod.boolean().optional(),
+                .nullish(),
+              recurring: zod.boolean().nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Donation model"),
           invoice: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -3782,24 +3862,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -3811,39 +3891,39 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.string().optional(),
+              amount_cents: zod.string().nullish(),
               sponsor: zod
                 .object({
-                  id: zod.string().optional(),
-                  name: zod.string().optional(),
+                  id: zod.string().nullish(),
+                  name: zod.string().nullish(),
                 })
-                .optional(),
-              date: zod.string().optional(),
-              status: zod.enum(["open", "paid", "void"]).optional(),
+                .nullish(),
+              date: zod.string().nullish(),
+              status: zod.enum(["open", "paid", "void"]).nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Invoice model"),
-          transfer: zod.unknown().optional(),
-          wire_transfer: zod.unknown().optional(),
-          wise_transfer: zod.unknown().optional(),
-          check_deposit: zod.unknown().optional(),
-          reimbursed_expense: zod.unknown().optional(),
-          hcb_fee: zod.unknown().optional(),
+          transfer: zod.unknown().nullish(),
+          wire_transfer: zod.unknown().nullish(),
+          wise_transfer: zod.unknown().nullish(),
+          check_deposit: zod.unknown().nullish(),
+          reimbursed_expense: zod.unknown().nullish(),
+          hcb_fee: zod.unknown().nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Transaction model"),
       organization: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          name: zod.string().optional(),
-          slug: zod.string().optional(),
-          website: zod.string().optional(),
+          name: zod.string().nullish(),
+          slug: zod.string().nullish(),
+          website: zod.string().nullish(),
           category: zod
             .enum([
               "hack_club_hq",
@@ -3853,24 +3933,24 @@ export namespace ZTypes {
               "climate",
               "nonprofit",
             ])
-            .optional(),
-          transparent: zod.boolean().optional(),
-          demo_mode: zod.boolean().optional(),
-          financially_frozen: zod.boolean().optional(),
-          logo: zod.string().optional(),
-          donation_header: zod.string().optional(),
-          background_image: zod.string().optional(),
-          public_message: zod.string().optional(),
-          donation_link: zod.string().optional(),
+            .nullish(),
+          transparent: zod.boolean().nullish(),
+          demo_mode: zod.boolean().nullish(),
+          financially_frozen: zod.boolean().nullish(),
+          logo: zod.string().nullish(),
+          donation_header: zod.string().nullish(),
+          background_image: zod.string().nullish(),
+          public_message: zod.string().nullish(),
+          donation_link: zod.string().nullish(),
           balances: zod
             .object({
-              balance_cents: zod.number().optional(),
-              fee_balance_cents: zod.number().optional(),
-              incoming_balance_cents: zod.number().optional(),
-              total_raised: zod.number().optional(),
+              balance_cents: zod.number().nullish(),
+              fee_balance_cents: zod.number().nullish(),
+              incoming_balance_cents: zod.number().nullish(),
+              total_raised: zod.number().nullish(),
             })
-            .optional(),
-          created_at: zod.string().optional(),
+            .nullish(),
+          created_at: zod.string().nullish(),
           users: zod
             .array(
               zod.object({
@@ -3882,12 +3962,12 @@ export namespace ZTypes {
                 photo: zod.string(),
               }),
             )
-            .optional(),
+            .nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Organization model"),
-      amount_cents: zod.string().optional(),
-      date: zod.string().optional(),
+      amount_cents: zod.string().nullish(),
+      date: zod.string().nullish(),
       status: zod
         .enum([
           "fulfilled",
@@ -3898,15 +3978,15 @@ export namespace ZTypes {
           "under_review",
           "pending",
         ])
-        .optional(),
+        .nullish(),
       source_organization: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          name: zod.string().optional(),
-          slug: zod.string().optional(),
-          website: zod.string().optional(),
+          name: zod.string().nullish(),
+          slug: zod.string().nullish(),
+          website: zod.string().nullish(),
           category: zod
             .enum([
               "hack_club_hq",
@@ -3916,24 +3996,24 @@ export namespace ZTypes {
               "climate",
               "nonprofit",
             ])
-            .optional(),
-          transparent: zod.boolean().optional(),
-          demo_mode: zod.boolean().optional(),
-          financially_frozen: zod.boolean().optional(),
-          logo: zod.string().optional(),
-          donation_header: zod.string().optional(),
-          background_image: zod.string().optional(),
-          public_message: zod.string().optional(),
-          donation_link: zod.string().optional(),
+            .nullish(),
+          transparent: zod.boolean().nullish(),
+          demo_mode: zod.boolean().nullish(),
+          financially_frozen: zod.boolean().nullish(),
+          logo: zod.string().nullish(),
+          donation_header: zod.string().nullish(),
+          background_image: zod.string().nullish(),
+          public_message: zod.string().nullish(),
+          donation_link: zod.string().nullish(),
           balances: zod
             .object({
-              balance_cents: zod.number().optional(),
-              fee_balance_cents: zod.number().optional(),
-              incoming_balance_cents: zod.number().optional(),
-              total_raised: zod.number().optional(),
+              balance_cents: zod.number().nullish(),
+              fee_balance_cents: zod.number().nullish(),
+              incoming_balance_cents: zod.number().nullish(),
+              total_raised: zod.number().nullish(),
             })
-            .optional(),
-          created_at: zod.string().optional(),
+            .nullish(),
+          created_at: zod.string().nullish(),
           users: zod
             .array(
               zod.object({
@@ -3945,9 +4025,9 @@ export namespace ZTypes {
                 photo: zod.string(),
               }),
             )
-            .optional(),
+            .nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Organization model"),
     })
     .describe("Transfer model");
@@ -3962,7 +4042,7 @@ export namespace ZTypes {
   export const GetASingleWireTransferQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -3980,7 +4060,7 @@ export namespace ZTypes {
   export const GetASingleWiseTransferQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -3998,7 +4078,7 @@ export namespace ZTypes {
   export const GetASingleCheckDepositQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -4016,7 +4096,7 @@ export namespace ZTypes {
   export const GetASingleReimbursedExpenseQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -4034,7 +4114,7 @@ export namespace ZTypes {
   export const GetASingleHcbFeeQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -4052,7 +4132,7 @@ export namespace ZTypes {
   export const GetASingleInvoiceQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -4063,15 +4143,15 @@ export namespace ZTypes {
       id: zod.string(),
       object: zod.string(),
       href: zod.string(),
-      memo: zod.string().optional(),
+      memo: zod.string().nullish(),
       transaction: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          amount_cents: zod.number().optional(),
-          memo: zod.string().optional(),
-          date: zod.string().optional(),
+          amount_cents: zod.number().nullish(),
+          memo: zod.string().nullish(),
+          date: zod.string().nullish(),
           type: zod
             .enum([
               "invoice",
@@ -4087,27 +4167,27 @@ export namespace ZTypes {
               "reimbursed_expense",
               "hcb_fee",
             ])
-            .optional(),
-          pending: zod.boolean().optional(),
+            .nullish(),
+          pending: zod.boolean().nullish(),
           receipts: zod
             .object({
-              count: zod.number().optional(),
-              missing: zod.boolean().optional(),
+              count: zod.number().nullish(),
+              missing: zod.boolean().nullish(),
             })
-            .optional(),
+            .nullish(),
           comments: zod
             .object({
-              count: zod.number().optional(),
+              count: zod.number().nullish(),
             })
-            .optional(),
+            .nullish(),
           organization: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              name: zod.string().optional(),
-              slug: zod.string().optional(),
-              website: zod.string().optional(),
+              name: zod.string().nullish(),
+              slug: zod.string().nullish(),
+              website: zod.string().nullish(),
               category: zod
                 .enum([
                   "hack_club_hq",
@@ -4117,24 +4197,24 @@ export namespace ZTypes {
                   "climate",
                   "nonprofit",
                 ])
-                .optional(),
-              transparent: zod.boolean().optional(),
-              demo_mode: zod.boolean().optional(),
-              financially_frozen: zod.boolean().optional(),
-              logo: zod.string().optional(),
-              donation_header: zod.string().optional(),
-              background_image: zod.string().optional(),
-              public_message: zod.string().optional(),
-              donation_link: zod.string().optional(),
+                .nullish(),
+              transparent: zod.boolean().nullish(),
+              demo_mode: zod.boolean().nullish(),
+              financially_frozen: zod.boolean().nullish(),
+              logo: zod.string().nullish(),
+              donation_header: zod.string().nullish(),
+              background_image: zod.string().nullish(),
+              public_message: zod.string().nullish(),
+              donation_link: zod.string().nullish(),
               balances: zod
                 .object({
-                  balance_cents: zod.number().optional(),
-                  fee_balance_cents: zod.number().optional(),
-                  incoming_balance_cents: zod.number().optional(),
-                  total_raised: zod.number().optional(),
+                  balance_cents: zod.number().nullish(),
+                  fee_balance_cents: zod.number().nullish(),
+                  incoming_balance_cents: zod.number().nullish(),
+                  total_raised: zod.number().nullish(),
                 })
-                .optional(),
-              created_at: zod.string().optional(),
+                .nullish(),
+              created_at: zod.string().nullish(),
               users: zod
                 .array(
                   zod.object({
@@ -4146,9 +4226,9 @@ export namespace ZTypes {
                     photo: zod.string(),
                   }),
                 )
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Organization model"),
           user: zod
             .object({
@@ -4159,7 +4239,7 @@ export namespace ZTypes {
               admin: zod.boolean(),
               photo: zod.string(),
             })
-            .optional(),
+            .nullish(),
           tags: zod
             .array(
               zod.object({
@@ -4168,24 +4248,30 @@ export namespace ZTypes {
                 label: zod.string(),
               }),
             )
-            .optional(),
-          card_charge: zod.unknown().optional(),
-          ach_transfer: zod.unknown().optional(),
+            .nullish(),
+          card_charge: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+            })
+            .nullish(),
+          ach_transfer: zod.unknown().nullish(),
           check: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -4195,24 +4281,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -4224,12 +4310,12 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.number().optional(),
-              date: zod.string().optional(),
+              amount_cents: zod.number().nullish(),
+              date: zod.string().nullish(),
               status: zod
                 .enum([
                   "scheduled",
@@ -4240,25 +4326,25 @@ export namespace ZTypes {
                   "voided",
                   "refunded",
                 ])
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Check model"),
           donation: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -4268,24 +4354,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -4297,19 +4383,19 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.number().optional(),
+              amount_cents: zod.number().nullish(),
               donor: zod
                 .object({
-                  name: zod.string().optional(),
-                  anonymous: zod.boolean().optional(),
-                  avatar: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  anonymous: zod.boolean().nullish(),
+                  avatar: zod.string().nullish(),
                 })
-                .optional(),
-              date: zod.string().optional(),
+                .nullish(),
+              date: zod.string().nullish(),
               status: zod
                 .enum([
                   "pending",
@@ -4318,27 +4404,27 @@ export namespace ZTypes {
                   "failed",
                   "refunded",
                 ])
-                .optional(),
-              recurring: zod.boolean().optional(),
+                .nullish(),
+              recurring: zod.boolean().nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Donation model"),
-          invoice: zod.unknown().optional(),
+          invoice: zod.unknown().nullish(),
           transfer: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -4348,24 +4434,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -4377,12 +4463,12 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.string().optional(),
-              date: zod.string().optional(),
+              amount_cents: zod.string().nullish(),
+              date: zod.string().nullish(),
               status: zod
                 .enum([
                   "fulfilled",
@@ -4393,15 +4479,15 @@ export namespace ZTypes {
                   "under_review",
                   "pending",
                 ])
-                .optional(),
+                .nullish(),
               source_organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -4411,24 +4497,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -4440,29 +4526,29 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
             })
-            .optional()
+            .nullish()
             .describe("Transfer model"),
-          wire_transfer: zod.unknown().optional(),
-          wise_transfer: zod.unknown().optional(),
-          check_deposit: zod.unknown().optional(),
-          reimbursed_expense: zod.unknown().optional(),
-          hcb_fee: zod.unknown().optional(),
+          wire_transfer: zod.unknown().nullish(),
+          wise_transfer: zod.unknown().nullish(),
+          check_deposit: zod.unknown().nullish(),
+          reimbursed_expense: zod.unknown().nullish(),
+          hcb_fee: zod.unknown().nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Transaction model"),
       organization: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          name: zod.string().optional(),
-          slug: zod.string().optional(),
-          website: zod.string().optional(),
+          name: zod.string().nullish(),
+          slug: zod.string().nullish(),
+          website: zod.string().nullish(),
           category: zod
             .enum([
               "hack_club_hq",
@@ -4472,24 +4558,24 @@ export namespace ZTypes {
               "climate",
               "nonprofit",
             ])
-            .optional(),
-          transparent: zod.boolean().optional(),
-          demo_mode: zod.boolean().optional(),
-          financially_frozen: zod.boolean().optional(),
-          logo: zod.string().optional(),
-          donation_header: zod.string().optional(),
-          background_image: zod.string().optional(),
-          public_message: zod.string().optional(),
-          donation_link: zod.string().optional(),
+            .nullish(),
+          transparent: zod.boolean().nullish(),
+          demo_mode: zod.boolean().nullish(),
+          financially_frozen: zod.boolean().nullish(),
+          logo: zod.string().nullish(),
+          donation_header: zod.string().nullish(),
+          background_image: zod.string().nullish(),
+          public_message: zod.string().nullish(),
+          donation_link: zod.string().nullish(),
           balances: zod
             .object({
-              balance_cents: zod.number().optional(),
-              fee_balance_cents: zod.number().optional(),
-              incoming_balance_cents: zod.number().optional(),
-              total_raised: zod.number().optional(),
+              balance_cents: zod.number().nullish(),
+              fee_balance_cents: zod.number().nullish(),
+              incoming_balance_cents: zod.number().nullish(),
+              total_raised: zod.number().nullish(),
             })
-            .optional(),
-          created_at: zod.string().optional(),
+            .nullish(),
+          created_at: zod.string().nullish(),
           users: zod
             .array(
               zod.object({
@@ -4501,19 +4587,19 @@ export namespace ZTypes {
                 photo: zod.string(),
               }),
             )
-            .optional(),
+            .nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Organization model"),
-      amount_cents: zod.string().optional(),
+      amount_cents: zod.string().nullish(),
       sponsor: zod
         .object({
-          id: zod.string().optional(),
-          name: zod.string().optional(),
+          id: zod.string().nullish(),
+          name: zod.string().nullish(),
         })
-        .optional(),
-      date: zod.string().optional(),
-      status: zod.enum(["open", "paid", "void"]).optional(),
+        .nullish(),
+      date: zod.string().nullish(),
+      status: zod.enum(["open", "paid", "void"]).nullish(),
     })
     .describe("Invoice model");
 
@@ -4527,7 +4613,7 @@ export namespace ZTypes {
   export const GetASingleAchTransferQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -4545,7 +4631,7 @@ export namespace ZTypes {
   export const GetASingleCheckQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -4556,15 +4642,15 @@ export namespace ZTypes {
       id: zod.string(),
       object: zod.string(),
       href: zod.string(),
-      memo: zod.string().optional(),
+      memo: zod.string().nullish(),
       transaction: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          amount_cents: zod.number().optional(),
-          memo: zod.string().optional(),
-          date: zod.string().optional(),
+          amount_cents: zod.number().nullish(),
+          memo: zod.string().nullish(),
+          date: zod.string().nullish(),
           type: zod
             .enum([
               "invoice",
@@ -4580,27 +4666,27 @@ export namespace ZTypes {
               "reimbursed_expense",
               "hcb_fee",
             ])
-            .optional(),
-          pending: zod.boolean().optional(),
+            .nullish(),
+          pending: zod.boolean().nullish(),
           receipts: zod
             .object({
-              count: zod.number().optional(),
-              missing: zod.boolean().optional(),
+              count: zod.number().nullish(),
+              missing: zod.boolean().nullish(),
             })
-            .optional(),
+            .nullish(),
           comments: zod
             .object({
-              count: zod.number().optional(),
+              count: zod.number().nullish(),
             })
-            .optional(),
+            .nullish(),
           organization: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              name: zod.string().optional(),
-              slug: zod.string().optional(),
-              website: zod.string().optional(),
+              name: zod.string().nullish(),
+              slug: zod.string().nullish(),
+              website: zod.string().nullish(),
               category: zod
                 .enum([
                   "hack_club_hq",
@@ -4610,24 +4696,24 @@ export namespace ZTypes {
                   "climate",
                   "nonprofit",
                 ])
-                .optional(),
-              transparent: zod.boolean().optional(),
-              demo_mode: zod.boolean().optional(),
-              financially_frozen: zod.boolean().optional(),
-              logo: zod.string().optional(),
-              donation_header: zod.string().optional(),
-              background_image: zod.string().optional(),
-              public_message: zod.string().optional(),
-              donation_link: zod.string().optional(),
+                .nullish(),
+              transparent: zod.boolean().nullish(),
+              demo_mode: zod.boolean().nullish(),
+              financially_frozen: zod.boolean().nullish(),
+              logo: zod.string().nullish(),
+              donation_header: zod.string().nullish(),
+              background_image: zod.string().nullish(),
+              public_message: zod.string().nullish(),
+              donation_link: zod.string().nullish(),
               balances: zod
                 .object({
-                  balance_cents: zod.number().optional(),
-                  fee_balance_cents: zod.number().optional(),
-                  incoming_balance_cents: zod.number().optional(),
-                  total_raised: zod.number().optional(),
+                  balance_cents: zod.number().nullish(),
+                  fee_balance_cents: zod.number().nullish(),
+                  incoming_balance_cents: zod.number().nullish(),
+                  total_raised: zod.number().nullish(),
                 })
-                .optional(),
-              created_at: zod.string().optional(),
+                .nullish(),
+              created_at: zod.string().nullish(),
               users: zod
                 .array(
                   zod.object({
@@ -4639,9 +4725,9 @@ export namespace ZTypes {
                     photo: zod.string(),
                   }),
                 )
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Organization model"),
           user: zod
             .object({
@@ -4652,7 +4738,7 @@ export namespace ZTypes {
               admin: zod.boolean(),
               photo: zod.string(),
             })
-            .optional(),
+            .nullish(),
           tags: zod
             .array(
               zod.object({
@@ -4661,25 +4747,31 @@ export namespace ZTypes {
                 label: zod.string(),
               }),
             )
-            .optional(),
-          card_charge: zod.unknown().optional(),
-          ach_transfer: zod.unknown().optional(),
-          check: zod.unknown().optional(),
+            .nullish(),
+          card_charge: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+            })
+            .nullish(),
+          ach_transfer: zod.unknown().nullish(),
+          check: zod.unknown().nullish(),
           donation: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -4689,24 +4781,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -4718,19 +4810,19 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.number().optional(),
+              amount_cents: zod.number().nullish(),
               donor: zod
                 .object({
-                  name: zod.string().optional(),
-                  anonymous: zod.boolean().optional(),
-                  avatar: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  anonymous: zod.boolean().nullish(),
+                  avatar: zod.string().nullish(),
                 })
-                .optional(),
-              date: zod.string().optional(),
+                .nullish(),
+              date: zod.string().nullish(),
               status: zod
                 .enum([
                   "pending",
@@ -4739,26 +4831,26 @@ export namespace ZTypes {
                   "failed",
                   "refunded",
                 ])
-                .optional(),
-              recurring: zod.boolean().optional(),
+                .nullish(),
+              recurring: zod.boolean().nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Donation model"),
           invoice: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -4768,24 +4860,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -4797,37 +4889,37 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.string().optional(),
+              amount_cents: zod.string().nullish(),
               sponsor: zod
                 .object({
-                  id: zod.string().optional(),
-                  name: zod.string().optional(),
+                  id: zod.string().nullish(),
+                  name: zod.string().nullish(),
                 })
-                .optional(),
-              date: zod.string().optional(),
-              status: zod.enum(["open", "paid", "void"]).optional(),
+                .nullish(),
+              date: zod.string().nullish(),
+              status: zod.enum(["open", "paid", "void"]).nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Invoice model"),
           transfer: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -4837,24 +4929,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -4866,12 +4958,12 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.string().optional(),
-              date: zod.string().optional(),
+              amount_cents: zod.string().nullish(),
+              date: zod.string().nullish(),
               status: zod
                 .enum([
                   "fulfilled",
@@ -4882,15 +4974,15 @@ export namespace ZTypes {
                   "under_review",
                   "pending",
                 ])
-                .optional(),
+                .nullish(),
               source_organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -4900,24 +4992,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -4929,29 +5021,29 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
             })
-            .optional()
+            .nullish()
             .describe("Transfer model"),
-          wire_transfer: zod.unknown().optional(),
-          wise_transfer: zod.unknown().optional(),
-          check_deposit: zod.unknown().optional(),
-          reimbursed_expense: zod.unknown().optional(),
-          hcb_fee: zod.unknown().optional(),
+          wire_transfer: zod.unknown().nullish(),
+          wise_transfer: zod.unknown().nullish(),
+          check_deposit: zod.unknown().nullish(),
+          reimbursed_expense: zod.unknown().nullish(),
+          hcb_fee: zod.unknown().nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Transaction model"),
       organization: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          name: zod.string().optional(),
-          slug: zod.string().optional(),
-          website: zod.string().optional(),
+          name: zod.string().nullish(),
+          slug: zod.string().nullish(),
+          website: zod.string().nullish(),
           category: zod
             .enum([
               "hack_club_hq",
@@ -4961,24 +5053,24 @@ export namespace ZTypes {
               "climate",
               "nonprofit",
             ])
-            .optional(),
-          transparent: zod.boolean().optional(),
-          demo_mode: zod.boolean().optional(),
-          financially_frozen: zod.boolean().optional(),
-          logo: zod.string().optional(),
-          donation_header: zod.string().optional(),
-          background_image: zod.string().optional(),
-          public_message: zod.string().optional(),
-          donation_link: zod.string().optional(),
+            .nullish(),
+          transparent: zod.boolean().nullish(),
+          demo_mode: zod.boolean().nullish(),
+          financially_frozen: zod.boolean().nullish(),
+          logo: zod.string().nullish(),
+          donation_header: zod.string().nullish(),
+          background_image: zod.string().nullish(),
+          public_message: zod.string().nullish(),
+          donation_link: zod.string().nullish(),
           balances: zod
             .object({
-              balance_cents: zod.number().optional(),
-              fee_balance_cents: zod.number().optional(),
-              incoming_balance_cents: zod.number().optional(),
-              total_raised: zod.number().optional(),
+              balance_cents: zod.number().nullish(),
+              fee_balance_cents: zod.number().nullish(),
+              incoming_balance_cents: zod.number().nullish(),
+              total_raised: zod.number().nullish(),
             })
-            .optional(),
-          created_at: zod.string().optional(),
+            .nullish(),
+          created_at: zod.string().nullish(),
           users: zod
             .array(
               zod.object({
@@ -4990,12 +5082,12 @@ export namespace ZTypes {
                 photo: zod.string(),
               }),
             )
-            .optional(),
+            .nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Organization model"),
-      amount_cents: zod.number().optional(),
-      date: zod.string().optional(),
+      amount_cents: zod.number().nullish(),
+      date: zod.string().nullish(),
       status: zod
         .enum([
           "scheduled",
@@ -5006,7 +5098,7 @@ export namespace ZTypes {
           "voided",
           "refunded",
         ])
-        .optional(),
+        .nullish(),
     })
     .describe("Check model");
 
@@ -5020,7 +5112,7 @@ export namespace ZTypes {
   export const GetASingleCardQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -5031,10 +5123,10 @@ export namespace ZTypes {
       id: zod.string(),
       object: zod.string(),
       href: zod.string(),
-      name: zod.string().optional(),
-      type: zod.enum(["virtual", "physical"]).optional(),
-      status: zod.enum(["active", "inactive", "frozen", "canceled"]).optional(),
-      issued_at: zod.string().optional(),
+      name: zod.string().nullish(),
+      type: zod.enum(["virtual", "physical"]).nullish(),
+      status: zod.enum(["active", "inactive", "frozen", "canceled"]).nullish(),
+      issued_at: zod.string().nullish(),
       owner: zod
         .object({
           id: zod.string(),
@@ -5044,15 +5136,15 @@ export namespace ZTypes {
           admin: zod.boolean(),
           photo: zod.string(),
         })
-        .optional(),
+        .nullish(),
       organization: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          name: zod.string().optional(),
-          slug: zod.string().optional(),
-          website: zod.string().optional(),
+          name: zod.string().nullish(),
+          slug: zod.string().nullish(),
+          website: zod.string().nullish(),
           category: zod
             .enum([
               "hack_club_hq",
@@ -5062,24 +5154,24 @@ export namespace ZTypes {
               "climate",
               "nonprofit",
             ])
-            .optional(),
-          transparent: zod.boolean().optional(),
-          demo_mode: zod.boolean().optional(),
-          financially_frozen: zod.boolean().optional(),
-          logo: zod.string().optional(),
-          donation_header: zod.string().optional(),
-          background_image: zod.string().optional(),
-          public_message: zod.string().optional(),
-          donation_link: zod.string().optional(),
+            .nullish(),
+          transparent: zod.boolean().nullish(),
+          demo_mode: zod.boolean().nullish(),
+          financially_frozen: zod.boolean().nullish(),
+          logo: zod.string().nullish(),
+          donation_header: zod.string().nullish(),
+          background_image: zod.string().nullish(),
+          public_message: zod.string().nullish(),
+          donation_link: zod.string().nullish(),
           balances: zod
             .object({
-              balance_cents: zod.number().optional(),
-              fee_balance_cents: zod.number().optional(),
-              incoming_balance_cents: zod.number().optional(),
-              total_raised: zod.number().optional(),
+              balance_cents: zod.number().nullish(),
+              fee_balance_cents: zod.number().nullish(),
+              incoming_balance_cents: zod.number().nullish(),
+              total_raised: zod.number().nullish(),
             })
-            .optional(),
-          created_at: zod.string().optional(),
+            .nullish(),
+          created_at: zod.string().nullish(),
           users: zod
             .array(
               zod.object({
@@ -5091,9 +5183,9 @@ export namespace ZTypes {
                 photo: zod.string(),
               }),
             )
-            .optional(),
+            .nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Organization model"),
     })
     .describe("Card model");
@@ -5108,7 +5200,7 @@ export namespace ZTypes {
   export const GetASingleTransactionQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -5119,9 +5211,9 @@ export namespace ZTypes {
       id: zod.string(),
       object: zod.string(),
       href: zod.string(),
-      amount_cents: zod.number().optional(),
-      memo: zod.string().optional(),
-      date: zod.string().optional(),
+      amount_cents: zod.number().nullish(),
+      memo: zod.string().nullish(),
+      date: zod.string().nullish(),
       type: zod
         .enum([
           "invoice",
@@ -5137,27 +5229,27 @@ export namespace ZTypes {
           "reimbursed_expense",
           "hcb_fee",
         ])
-        .optional(),
-      pending: zod.boolean().optional(),
+        .nullish(),
+      pending: zod.boolean().nullish(),
       receipts: zod
         .object({
-          count: zod.number().optional(),
-          missing: zod.boolean().optional(),
+          count: zod.number().nullish(),
+          missing: zod.boolean().nullish(),
         })
-        .optional(),
+        .nullish(),
       comments: zod
         .object({
-          count: zod.number().optional(),
+          count: zod.number().nullish(),
         })
-        .optional(),
+        .nullish(),
       organization: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          name: zod.string().optional(),
-          slug: zod.string().optional(),
-          website: zod.string().optional(),
+          name: zod.string().nullish(),
+          slug: zod.string().nullish(),
+          website: zod.string().nullish(),
           category: zod
             .enum([
               "hack_club_hq",
@@ -5167,24 +5259,24 @@ export namespace ZTypes {
               "climate",
               "nonprofit",
             ])
-            .optional(),
-          transparent: zod.boolean().optional(),
-          demo_mode: zod.boolean().optional(),
-          financially_frozen: zod.boolean().optional(),
-          logo: zod.string().optional(),
-          donation_header: zod.string().optional(),
-          background_image: zod.string().optional(),
-          public_message: zod.string().optional(),
-          donation_link: zod.string().optional(),
+            .nullish(),
+          transparent: zod.boolean().nullish(),
+          demo_mode: zod.boolean().nullish(),
+          financially_frozen: zod.boolean().nullish(),
+          logo: zod.string().nullish(),
+          donation_header: zod.string().nullish(),
+          background_image: zod.string().nullish(),
+          public_message: zod.string().nullish(),
+          donation_link: zod.string().nullish(),
           balances: zod
             .object({
-              balance_cents: zod.number().optional(),
-              fee_balance_cents: zod.number().optional(),
-              incoming_balance_cents: zod.number().optional(),
-              total_raised: zod.number().optional(),
+              balance_cents: zod.number().nullish(),
+              fee_balance_cents: zod.number().nullish(),
+              incoming_balance_cents: zod.number().nullish(),
+              total_raised: zod.number().nullish(),
             })
-            .optional(),
-          created_at: zod.string().optional(),
+            .nullish(),
+          created_at: zod.string().nullish(),
           users: zod
             .array(
               zod.object({
@@ -5196,9 +5288,9 @@ export namespace ZTypes {
                 photo: zod.string(),
               }),
             )
-            .optional(),
+            .nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Organization model"),
       user: zod
         .object({
@@ -5209,7 +5301,7 @@ export namespace ZTypes {
           admin: zod.boolean(),
           photo: zod.string(),
         })
-        .optional(),
+        .nullish(),
       tags: zod
         .array(
           zod.object({
@@ -5218,24 +5310,30 @@ export namespace ZTypes {
             label: zod.string(),
           }),
         )
-        .optional(),
-      card_charge: zod.unknown().optional(),
-      ach_transfer: zod.unknown().optional(),
+        .nullish(),
+      card_charge: zod
+        .object({
+          id: zod.string(),
+          object: zod.string(),
+          href: zod.string(),
+        })
+        .nullish(),
+      ach_transfer: zod.unknown().nullish(),
       check: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          memo: zod.string().optional(),
-          transaction: zod.unknown().optional(),
+          memo: zod.string().nullish(),
+          transaction: zod.unknown().nullish(),
           organization: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              name: zod.string().optional(),
-              slug: zod.string().optional(),
-              website: zod.string().optional(),
+              name: zod.string().nullish(),
+              slug: zod.string().nullish(),
+              website: zod.string().nullish(),
               category: zod
                 .enum([
                   "hack_club_hq",
@@ -5245,24 +5343,24 @@ export namespace ZTypes {
                   "climate",
                   "nonprofit",
                 ])
-                .optional(),
-              transparent: zod.boolean().optional(),
-              demo_mode: zod.boolean().optional(),
-              financially_frozen: zod.boolean().optional(),
-              logo: zod.string().optional(),
-              donation_header: zod.string().optional(),
-              background_image: zod.string().optional(),
-              public_message: zod.string().optional(),
-              donation_link: zod.string().optional(),
+                .nullish(),
+              transparent: zod.boolean().nullish(),
+              demo_mode: zod.boolean().nullish(),
+              financially_frozen: zod.boolean().nullish(),
+              logo: zod.string().nullish(),
+              donation_header: zod.string().nullish(),
+              background_image: zod.string().nullish(),
+              public_message: zod.string().nullish(),
+              donation_link: zod.string().nullish(),
               balances: zod
                 .object({
-                  balance_cents: zod.number().optional(),
-                  fee_balance_cents: zod.number().optional(),
-                  incoming_balance_cents: zod.number().optional(),
-                  total_raised: zod.number().optional(),
+                  balance_cents: zod.number().nullish(),
+                  fee_balance_cents: zod.number().nullish(),
+                  incoming_balance_cents: zod.number().nullish(),
+                  total_raised: zod.number().nullish(),
                 })
-                .optional(),
-              created_at: zod.string().optional(),
+                .nullish(),
+              created_at: zod.string().nullish(),
               users: zod
                 .array(
                   zod.object({
@@ -5274,12 +5372,12 @@ export namespace ZTypes {
                     photo: zod.string(),
                   }),
                 )
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Organization model"),
-          amount_cents: zod.number().optional(),
-          date: zod.string().optional(),
+          amount_cents: zod.number().nullish(),
+          date: zod.string().nullish(),
           status: zod
             .enum([
               "scheduled",
@@ -5290,25 +5388,25 @@ export namespace ZTypes {
               "voided",
               "refunded",
             ])
-            .optional(),
+            .nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Check model"),
       donation: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          memo: zod.string().optional(),
-          transaction: zod.unknown().optional(),
+          memo: zod.string().nullish(),
+          transaction: zod.unknown().nullish(),
           organization: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              name: zod.string().optional(),
-              slug: zod.string().optional(),
-              website: zod.string().optional(),
+              name: zod.string().nullish(),
+              slug: zod.string().nullish(),
+              website: zod.string().nullish(),
               category: zod
                 .enum([
                   "hack_club_hq",
@@ -5318,24 +5416,24 @@ export namespace ZTypes {
                   "climate",
                   "nonprofit",
                 ])
-                .optional(),
-              transparent: zod.boolean().optional(),
-              demo_mode: zod.boolean().optional(),
-              financially_frozen: zod.boolean().optional(),
-              logo: zod.string().optional(),
-              donation_header: zod.string().optional(),
-              background_image: zod.string().optional(),
-              public_message: zod.string().optional(),
-              donation_link: zod.string().optional(),
+                .nullish(),
+              transparent: zod.boolean().nullish(),
+              demo_mode: zod.boolean().nullish(),
+              financially_frozen: zod.boolean().nullish(),
+              logo: zod.string().nullish(),
+              donation_header: zod.string().nullish(),
+              background_image: zod.string().nullish(),
+              public_message: zod.string().nullish(),
+              donation_link: zod.string().nullish(),
               balances: zod
                 .object({
-                  balance_cents: zod.number().optional(),
-                  fee_balance_cents: zod.number().optional(),
-                  incoming_balance_cents: zod.number().optional(),
-                  total_raised: zod.number().optional(),
+                  balance_cents: zod.number().nullish(),
+                  fee_balance_cents: zod.number().nullish(),
+                  incoming_balance_cents: zod.number().nullish(),
+                  total_raised: zod.number().nullish(),
                 })
-                .optional(),
-              created_at: zod.string().optional(),
+                .nullish(),
+              created_at: zod.string().nullish(),
               users: zod
                 .array(
                   zod.object({
@@ -5347,41 +5445,41 @@ export namespace ZTypes {
                     photo: zod.string(),
                   }),
                 )
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Organization model"),
-          amount_cents: zod.number().optional(),
+          amount_cents: zod.number().nullish(),
           donor: zod
             .object({
-              name: zod.string().optional(),
-              anonymous: zod.boolean().optional(),
-              avatar: zod.string().optional(),
+              name: zod.string().nullish(),
+              anonymous: zod.boolean().nullish(),
+              avatar: zod.string().nullish(),
             })
-            .optional(),
-          date: zod.string().optional(),
+            .nullish(),
+          date: zod.string().nullish(),
           status: zod
             .enum(["pending", "in_transit", "deposited", "failed", "refunded"])
-            .optional(),
-          recurring: zod.boolean().optional(),
+            .nullish(),
+          recurring: zod.boolean().nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Donation model"),
       invoice: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          memo: zod.string().optional(),
-          transaction: zod.unknown().optional(),
+          memo: zod.string().nullish(),
+          transaction: zod.unknown().nullish(),
           organization: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              name: zod.string().optional(),
-              slug: zod.string().optional(),
-              website: zod.string().optional(),
+              name: zod.string().nullish(),
+              slug: zod.string().nullish(),
+              website: zod.string().nullish(),
               category: zod
                 .enum([
                   "hack_club_hq",
@@ -5391,24 +5489,24 @@ export namespace ZTypes {
                   "climate",
                   "nonprofit",
                 ])
-                .optional(),
-              transparent: zod.boolean().optional(),
-              demo_mode: zod.boolean().optional(),
-              financially_frozen: zod.boolean().optional(),
-              logo: zod.string().optional(),
-              donation_header: zod.string().optional(),
-              background_image: zod.string().optional(),
-              public_message: zod.string().optional(),
-              donation_link: zod.string().optional(),
+                .nullish(),
+              transparent: zod.boolean().nullish(),
+              demo_mode: zod.boolean().nullish(),
+              financially_frozen: zod.boolean().nullish(),
+              logo: zod.string().nullish(),
+              donation_header: zod.string().nullish(),
+              background_image: zod.string().nullish(),
+              public_message: zod.string().nullish(),
+              donation_link: zod.string().nullish(),
               balances: zod
                 .object({
-                  balance_cents: zod.number().optional(),
-                  fee_balance_cents: zod.number().optional(),
-                  incoming_balance_cents: zod.number().optional(),
-                  total_raised: zod.number().optional(),
+                  balance_cents: zod.number().nullish(),
+                  fee_balance_cents: zod.number().nullish(),
+                  incoming_balance_cents: zod.number().nullish(),
+                  total_raised: zod.number().nullish(),
                 })
-                .optional(),
-              created_at: zod.string().optional(),
+                .nullish(),
+              created_at: zod.string().nullish(),
               users: zod
                 .array(
                   zod.object({
@@ -5420,37 +5518,37 @@ export namespace ZTypes {
                     photo: zod.string(),
                   }),
                 )
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Organization model"),
-          amount_cents: zod.string().optional(),
+          amount_cents: zod.string().nullish(),
           sponsor: zod
             .object({
-              id: zod.string().optional(),
-              name: zod.string().optional(),
+              id: zod.string().nullish(),
+              name: zod.string().nullish(),
             })
-            .optional(),
-          date: zod.string().optional(),
-          status: zod.enum(["open", "paid", "void"]).optional(),
+            .nullish(),
+          date: zod.string().nullish(),
+          status: zod.enum(["open", "paid", "void"]).nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Invoice model"),
       transfer: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          memo: zod.string().optional(),
-          transaction: zod.unknown().optional(),
+          memo: zod.string().nullish(),
+          transaction: zod.unknown().nullish(),
           organization: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              name: zod.string().optional(),
-              slug: zod.string().optional(),
-              website: zod.string().optional(),
+              name: zod.string().nullish(),
+              slug: zod.string().nullish(),
+              website: zod.string().nullish(),
               category: zod
                 .enum([
                   "hack_club_hq",
@@ -5460,24 +5558,24 @@ export namespace ZTypes {
                   "climate",
                   "nonprofit",
                 ])
-                .optional(),
-              transparent: zod.boolean().optional(),
-              demo_mode: zod.boolean().optional(),
-              financially_frozen: zod.boolean().optional(),
-              logo: zod.string().optional(),
-              donation_header: zod.string().optional(),
-              background_image: zod.string().optional(),
-              public_message: zod.string().optional(),
-              donation_link: zod.string().optional(),
+                .nullish(),
+              transparent: zod.boolean().nullish(),
+              demo_mode: zod.boolean().nullish(),
+              financially_frozen: zod.boolean().nullish(),
+              logo: zod.string().nullish(),
+              donation_header: zod.string().nullish(),
+              background_image: zod.string().nullish(),
+              public_message: zod.string().nullish(),
+              donation_link: zod.string().nullish(),
               balances: zod
                 .object({
-                  balance_cents: zod.number().optional(),
-                  fee_balance_cents: zod.number().optional(),
-                  incoming_balance_cents: zod.number().optional(),
-                  total_raised: zod.number().optional(),
+                  balance_cents: zod.number().nullish(),
+                  fee_balance_cents: zod.number().nullish(),
+                  incoming_balance_cents: zod.number().nullish(),
+                  total_raised: zod.number().nullish(),
                 })
-                .optional(),
-              created_at: zod.string().optional(),
+                .nullish(),
+              created_at: zod.string().nullish(),
               users: zod
                 .array(
                   zod.object({
@@ -5489,12 +5587,12 @@ export namespace ZTypes {
                     photo: zod.string(),
                   }),
                 )
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Organization model"),
-          amount_cents: zod.string().optional(),
-          date: zod.string().optional(),
+          amount_cents: zod.string().nullish(),
+          date: zod.string().nullish(),
           status: zod
             .enum([
               "fulfilled",
@@ -5505,15 +5603,15 @@ export namespace ZTypes {
               "under_review",
               "pending",
             ])
-            .optional(),
+            .nullish(),
           source_organization: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              name: zod.string().optional(),
-              slug: zod.string().optional(),
-              website: zod.string().optional(),
+              name: zod.string().nullish(),
+              slug: zod.string().nullish(),
+              website: zod.string().nullish(),
               category: zod
                 .enum([
                   "hack_club_hq",
@@ -5523,24 +5621,24 @@ export namespace ZTypes {
                   "climate",
                   "nonprofit",
                 ])
-                .optional(),
-              transparent: zod.boolean().optional(),
-              demo_mode: zod.boolean().optional(),
-              financially_frozen: zod.boolean().optional(),
-              logo: zod.string().optional(),
-              donation_header: zod.string().optional(),
-              background_image: zod.string().optional(),
-              public_message: zod.string().optional(),
-              donation_link: zod.string().optional(),
+                .nullish(),
+              transparent: zod.boolean().nullish(),
+              demo_mode: zod.boolean().nullish(),
+              financially_frozen: zod.boolean().nullish(),
+              logo: zod.string().nullish(),
+              donation_header: zod.string().nullish(),
+              background_image: zod.string().nullish(),
+              public_message: zod.string().nullish(),
+              donation_link: zod.string().nullish(),
               balances: zod
                 .object({
-                  balance_cents: zod.number().optional(),
-                  fee_balance_cents: zod.number().optional(),
-                  incoming_balance_cents: zod.number().optional(),
-                  total_raised: zod.number().optional(),
+                  balance_cents: zod.number().nullish(),
+                  fee_balance_cents: zod.number().nullish(),
+                  incoming_balance_cents: zod.number().nullish(),
+                  total_raised: zod.number().nullish(),
                 })
-                .optional(),
-              created_at: zod.string().optional(),
+                .nullish(),
+              created_at: zod.string().nullish(),
               users: zod
                 .array(
                   zod.object({
@@ -5552,18 +5650,18 @@ export namespace ZTypes {
                     photo: zod.string(),
                   }),
                 )
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Organization model"),
         })
-        .optional()
+        .nullish()
         .describe("Transfer model"),
-      wire_transfer: zod.unknown().optional(),
-      wise_transfer: zod.unknown().optional(),
-      check_deposit: zod.unknown().optional(),
-      reimbursed_expense: zod.unknown().optional(),
-      hcb_fee: zod.unknown().optional(),
+      wire_transfer: zod.unknown().nullish(),
+      wise_transfer: zod.unknown().nullish(),
+      check_deposit: zod.unknown().nullish(),
+      reimbursed_expense: zod.unknown().nullish(),
+      hcb_fee: zod.unknown().nullish(),
     })
     .describe("Transaction model");
 
@@ -5590,7 +5688,7 @@ export namespace ZTypes {
       .describe("Pad a number of results."),
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -5608,9 +5706,9 @@ export namespace ZTypes {
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          name: zod.string().optional(),
-          slug: zod.string().optional(),
-          website: zod.string().optional(),
+          name: zod.string().nullish(),
+          slug: zod.string().nullish(),
+          website: zod.string().nullish(),
           category: zod
             .enum([
               "hack_club_hq",
@@ -5620,24 +5718,24 @@ export namespace ZTypes {
               "climate",
               "nonprofit",
             ])
-            .optional(),
-          transparent: zod.boolean().optional(),
-          demo_mode: zod.boolean().optional(),
-          financially_frozen: zod.boolean().optional(),
-          logo: zod.string().optional(),
-          donation_header: zod.string().optional(),
-          background_image: zod.string().optional(),
-          public_message: zod.string().optional(),
-          donation_link: zod.string().optional(),
+            .nullish(),
+          transparent: zod.boolean().nullish(),
+          demo_mode: zod.boolean().nullish(),
+          financially_frozen: zod.boolean().nullish(),
+          logo: zod.string().nullish(),
+          donation_header: zod.string().nullish(),
+          background_image: zod.string().nullish(),
+          public_message: zod.string().nullish(),
+          donation_link: zod.string().nullish(),
           balances: zod
             .object({
-              balance_cents: zod.number().optional(),
-              fee_balance_cents: zod.number().optional(),
-              incoming_balance_cents: zod.number().optional(),
-              total_raised: zod.number().optional(),
+              balance_cents: zod.number().nullish(),
+              fee_balance_cents: zod.number().nullish(),
+              incoming_balance_cents: zod.number().nullish(),
+              total_raised: zod.number().nullish(),
             })
-            .optional(),
-          created_at: zod.string().optional(),
+            .nullish(),
+          created_at: zod.string().nullish(),
           users: zod
             .array(
               zod.object({
@@ -5649,9 +5747,9 @@ export namespace ZTypes {
                 photo: zod.string(),
               }),
             )
-            .optional(),
+            .nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Organization model"),
       user: zod
         .object({
@@ -5662,15 +5760,15 @@ export namespace ZTypes {
           admin: zod.boolean(),
           photo: zod.string(),
         })
-        .optional(),
+        .nullish(),
       transaction: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          amount_cents: zod.number().optional(),
-          memo: zod.string().optional(),
-          date: zod.string().optional(),
+          amount_cents: zod.number().nullish(),
+          memo: zod.string().nullish(),
+          date: zod.string().nullish(),
           type: zod
             .enum([
               "invoice",
@@ -5686,27 +5784,27 @@ export namespace ZTypes {
               "reimbursed_expense",
               "hcb_fee",
             ])
-            .optional(),
-          pending: zod.boolean().optional(),
+            .nullish(),
+          pending: zod.boolean().nullish(),
           receipts: zod
             .object({
-              count: zod.number().optional(),
-              missing: zod.boolean().optional(),
+              count: zod.number().nullish(),
+              missing: zod.boolean().nullish(),
             })
-            .optional(),
+            .nullish(),
           comments: zod
             .object({
-              count: zod.number().optional(),
+              count: zod.number().nullish(),
             })
-            .optional(),
+            .nullish(),
           organization: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              name: zod.string().optional(),
-              slug: zod.string().optional(),
-              website: zod.string().optional(),
+              name: zod.string().nullish(),
+              slug: zod.string().nullish(),
+              website: zod.string().nullish(),
               category: zod
                 .enum([
                   "hack_club_hq",
@@ -5716,24 +5814,24 @@ export namespace ZTypes {
                   "climate",
                   "nonprofit",
                 ])
-                .optional(),
-              transparent: zod.boolean().optional(),
-              demo_mode: zod.boolean().optional(),
-              financially_frozen: zod.boolean().optional(),
-              logo: zod.string().optional(),
-              donation_header: zod.string().optional(),
-              background_image: zod.string().optional(),
-              public_message: zod.string().optional(),
-              donation_link: zod.string().optional(),
+                .nullish(),
+              transparent: zod.boolean().nullish(),
+              demo_mode: zod.boolean().nullish(),
+              financially_frozen: zod.boolean().nullish(),
+              logo: zod.string().nullish(),
+              donation_header: zod.string().nullish(),
+              background_image: zod.string().nullish(),
+              public_message: zod.string().nullish(),
+              donation_link: zod.string().nullish(),
               balances: zod
                 .object({
-                  balance_cents: zod.number().optional(),
-                  fee_balance_cents: zod.number().optional(),
-                  incoming_balance_cents: zod.number().optional(),
-                  total_raised: zod.number().optional(),
+                  balance_cents: zod.number().nullish(),
+                  fee_balance_cents: zod.number().nullish(),
+                  incoming_balance_cents: zod.number().nullish(),
+                  total_raised: zod.number().nullish(),
                 })
-                .optional(),
-              created_at: zod.string().optional(),
+                .nullish(),
+              created_at: zod.string().nullish(),
               users: zod
                 .array(
                   zod.object({
@@ -5745,9 +5843,9 @@ export namespace ZTypes {
                     photo: zod.string(),
                   }),
                 )
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Organization model"),
           user: zod
             .object({
@@ -5758,7 +5856,7 @@ export namespace ZTypes {
               admin: zod.boolean(),
               photo: zod.string(),
             })
-            .optional(),
+            .nullish(),
           tags: zod
             .array(
               zod.object({
@@ -5767,24 +5865,30 @@ export namespace ZTypes {
                 label: zod.string(),
               }),
             )
-            .optional(),
-          card_charge: zod.unknown().optional(),
-          ach_transfer: zod.unknown().optional(),
+            .nullish(),
+          card_charge: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+            })
+            .nullish(),
+          ach_transfer: zod.unknown().nullish(),
           check: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -5794,24 +5898,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -5823,12 +5927,12 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.number().optional(),
-              date: zod.string().optional(),
+              amount_cents: zod.number().nullish(),
+              date: zod.string().nullish(),
               status: zod
                 .enum([
                   "scheduled",
@@ -5839,25 +5943,25 @@ export namespace ZTypes {
                   "voided",
                   "refunded",
                 ])
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Check model"),
           donation: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -5867,24 +5971,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -5896,19 +6000,19 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.number().optional(),
+              amount_cents: zod.number().nullish(),
               donor: zod
                 .object({
-                  name: zod.string().optional(),
-                  anonymous: zod.boolean().optional(),
-                  avatar: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  anonymous: zod.boolean().nullish(),
+                  avatar: zod.string().nullish(),
                 })
-                .optional(),
-              date: zod.string().optional(),
+                .nullish(),
+              date: zod.string().nullish(),
               status: zod
                 .enum([
                   "pending",
@@ -5917,26 +6021,26 @@ export namespace ZTypes {
                   "failed",
                   "refunded",
                 ])
-                .optional(),
-              recurring: zod.boolean().optional(),
+                .nullish(),
+              recurring: zod.boolean().nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Donation model"),
           invoice: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -5946,24 +6050,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -5975,37 +6079,37 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.string().optional(),
+              amount_cents: zod.string().nullish(),
               sponsor: zod
                 .object({
-                  id: zod.string().optional(),
-                  name: zod.string().optional(),
+                  id: zod.string().nullish(),
+                  name: zod.string().nullish(),
                 })
-                .optional(),
-              date: zod.string().optional(),
-              status: zod.enum(["open", "paid", "void"]).optional(),
+                .nullish(),
+              date: zod.string().nullish(),
+              status: zod.enum(["open", "paid", "void"]).nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Invoice model"),
           transfer: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -6015,24 +6119,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -6044,12 +6148,12 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.string().optional(),
-              date: zod.string().optional(),
+              amount_cents: zod.string().nullish(),
+              date: zod.string().nullish(),
               status: zod
                 .enum([
                   "fulfilled",
@@ -6060,15 +6164,15 @@ export namespace ZTypes {
                   "under_review",
                   "pending",
                 ])
-                .optional(),
+                .nullish(),
               source_organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -6078,24 +6182,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -6107,20 +6211,20 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
             })
-            .optional()
+            .nullish()
             .describe("Transfer model"),
-          wire_transfer: zod.unknown().optional(),
-          wise_transfer: zod.unknown().optional(),
-          check_deposit: zod.unknown().optional(),
-          reimbursed_expense: zod.unknown().optional(),
-          hcb_fee: zod.unknown().optional(),
+          wire_transfer: zod.unknown().nullish(),
+          wise_transfer: zod.unknown().nullish(),
+          check_deposit: zod.unknown().nullish(),
+          reimbursed_expense: zod.unknown().nullish(),
+          hcb_fee: zod.unknown().nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Transaction model"),
     })
     .describe("Activity model");
@@ -6136,7 +6240,7 @@ export namespace ZTypes {
   export const GetASingleActivityQueryParams = zod.object({
     expand: zod
       .string()
-      .optional()
+      .nullish()
       .describe(
         "Object types to expand in the API response (separated by commas)",
       ),
@@ -6154,9 +6258,9 @@ export namespace ZTypes {
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          name: zod.string().optional(),
-          slug: zod.string().optional(),
-          website: zod.string().optional(),
+          name: zod.string().nullish(),
+          slug: zod.string().nullish(),
+          website: zod.string().nullish(),
           category: zod
             .enum([
               "hack_club_hq",
@@ -6166,24 +6270,24 @@ export namespace ZTypes {
               "climate",
               "nonprofit",
             ])
-            .optional(),
-          transparent: zod.boolean().optional(),
-          demo_mode: zod.boolean().optional(),
-          financially_frozen: zod.boolean().optional(),
-          logo: zod.string().optional(),
-          donation_header: zod.string().optional(),
-          background_image: zod.string().optional(),
-          public_message: zod.string().optional(),
-          donation_link: zod.string().optional(),
+            .nullish(),
+          transparent: zod.boolean().nullish(),
+          demo_mode: zod.boolean().nullish(),
+          financially_frozen: zod.boolean().nullish(),
+          logo: zod.string().nullish(),
+          donation_header: zod.string().nullish(),
+          background_image: zod.string().nullish(),
+          public_message: zod.string().nullish(),
+          donation_link: zod.string().nullish(),
           balances: zod
             .object({
-              balance_cents: zod.number().optional(),
-              fee_balance_cents: zod.number().optional(),
-              incoming_balance_cents: zod.number().optional(),
-              total_raised: zod.number().optional(),
+              balance_cents: zod.number().nullish(),
+              fee_balance_cents: zod.number().nullish(),
+              incoming_balance_cents: zod.number().nullish(),
+              total_raised: zod.number().nullish(),
             })
-            .optional(),
-          created_at: zod.string().optional(),
+            .nullish(),
+          created_at: zod.string().nullish(),
           users: zod
             .array(
               zod.object({
@@ -6195,9 +6299,9 @@ export namespace ZTypes {
                 photo: zod.string(),
               }),
             )
-            .optional(),
+            .nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Organization model"),
       user: zod
         .object({
@@ -6208,15 +6312,15 @@ export namespace ZTypes {
           admin: zod.boolean(),
           photo: zod.string(),
         })
-        .optional(),
+        .nullish(),
       transaction: zod
         .object({
           id: zod.string(),
           object: zod.string(),
           href: zod.string(),
-          amount_cents: zod.number().optional(),
-          memo: zod.string().optional(),
-          date: zod.string().optional(),
+          amount_cents: zod.number().nullish(),
+          memo: zod.string().nullish(),
+          date: zod.string().nullish(),
           type: zod
             .enum([
               "invoice",
@@ -6232,27 +6336,27 @@ export namespace ZTypes {
               "reimbursed_expense",
               "hcb_fee",
             ])
-            .optional(),
-          pending: zod.boolean().optional(),
+            .nullish(),
+          pending: zod.boolean().nullish(),
           receipts: zod
             .object({
-              count: zod.number().optional(),
-              missing: zod.boolean().optional(),
+              count: zod.number().nullish(),
+              missing: zod.boolean().nullish(),
             })
-            .optional(),
+            .nullish(),
           comments: zod
             .object({
-              count: zod.number().optional(),
+              count: zod.number().nullish(),
             })
-            .optional(),
+            .nullish(),
           organization: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              name: zod.string().optional(),
-              slug: zod.string().optional(),
-              website: zod.string().optional(),
+              name: zod.string().nullish(),
+              slug: zod.string().nullish(),
+              website: zod.string().nullish(),
               category: zod
                 .enum([
                   "hack_club_hq",
@@ -6262,24 +6366,24 @@ export namespace ZTypes {
                   "climate",
                   "nonprofit",
                 ])
-                .optional(),
-              transparent: zod.boolean().optional(),
-              demo_mode: zod.boolean().optional(),
-              financially_frozen: zod.boolean().optional(),
-              logo: zod.string().optional(),
-              donation_header: zod.string().optional(),
-              background_image: zod.string().optional(),
-              public_message: zod.string().optional(),
-              donation_link: zod.string().optional(),
+                .nullish(),
+              transparent: zod.boolean().nullish(),
+              demo_mode: zod.boolean().nullish(),
+              financially_frozen: zod.boolean().nullish(),
+              logo: zod.string().nullish(),
+              donation_header: zod.string().nullish(),
+              background_image: zod.string().nullish(),
+              public_message: zod.string().nullish(),
+              donation_link: zod.string().nullish(),
               balances: zod
                 .object({
-                  balance_cents: zod.number().optional(),
-                  fee_balance_cents: zod.number().optional(),
-                  incoming_balance_cents: zod.number().optional(),
-                  total_raised: zod.number().optional(),
+                  balance_cents: zod.number().nullish(),
+                  fee_balance_cents: zod.number().nullish(),
+                  incoming_balance_cents: zod.number().nullish(),
+                  total_raised: zod.number().nullish(),
                 })
-                .optional(),
-              created_at: zod.string().optional(),
+                .nullish(),
+              created_at: zod.string().nullish(),
               users: zod
                 .array(
                   zod.object({
@@ -6291,9 +6395,9 @@ export namespace ZTypes {
                     photo: zod.string(),
                   }),
                 )
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Organization model"),
           user: zod
             .object({
@@ -6304,7 +6408,7 @@ export namespace ZTypes {
               admin: zod.boolean(),
               photo: zod.string(),
             })
-            .optional(),
+            .nullish(),
           tags: zod
             .array(
               zod.object({
@@ -6313,24 +6417,30 @@ export namespace ZTypes {
                 label: zod.string(),
               }),
             )
-            .optional(),
-          card_charge: zod.unknown().optional(),
-          ach_transfer: zod.unknown().optional(),
+            .nullish(),
+          card_charge: zod
+            .object({
+              id: zod.string(),
+              object: zod.string(),
+              href: zod.string(),
+            })
+            .nullish(),
+          ach_transfer: zod.unknown().nullish(),
           check: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -6340,24 +6450,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -6369,12 +6479,12 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.number().optional(),
-              date: zod.string().optional(),
+              amount_cents: zod.number().nullish(),
+              date: zod.string().nullish(),
               status: zod
                 .enum([
                   "scheduled",
@@ -6385,25 +6495,25 @@ export namespace ZTypes {
                   "voided",
                   "refunded",
                 ])
-                .optional(),
+                .nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Check model"),
           donation: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -6413,24 +6523,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -6442,19 +6552,19 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.number().optional(),
+              amount_cents: zod.number().nullish(),
               donor: zod
                 .object({
-                  name: zod.string().optional(),
-                  anonymous: zod.boolean().optional(),
-                  avatar: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  anonymous: zod.boolean().nullish(),
+                  avatar: zod.string().nullish(),
                 })
-                .optional(),
-              date: zod.string().optional(),
+                .nullish(),
+              date: zod.string().nullish(),
               status: zod
                 .enum([
                   "pending",
@@ -6463,26 +6573,26 @@ export namespace ZTypes {
                   "failed",
                   "refunded",
                 ])
-                .optional(),
-              recurring: zod.boolean().optional(),
+                .nullish(),
+              recurring: zod.boolean().nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Donation model"),
           invoice: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -6492,24 +6602,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -6521,37 +6631,37 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.string().optional(),
+              amount_cents: zod.string().nullish(),
               sponsor: zod
                 .object({
-                  id: zod.string().optional(),
-                  name: zod.string().optional(),
+                  id: zod.string().nullish(),
+                  name: zod.string().nullish(),
                 })
-                .optional(),
-              date: zod.string().optional(),
-              status: zod.enum(["open", "paid", "void"]).optional(),
+                .nullish(),
+              date: zod.string().nullish(),
+              status: zod.enum(["open", "paid", "void"]).nullish(),
             })
-            .optional()
+            .nullish()
             .describe("Invoice model"),
           transfer: zod
             .object({
               id: zod.string(),
               object: zod.string(),
               href: zod.string(),
-              memo: zod.string().optional(),
-              transaction: zod.unknown().optional(),
+              memo: zod.string().nullish(),
+              transaction: zod.unknown().nullish(),
               organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -6561,24 +6671,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -6590,12 +6700,12 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
-              amount_cents: zod.string().optional(),
-              date: zod.string().optional(),
+              amount_cents: zod.string().nullish(),
+              date: zod.string().nullish(),
               status: zod
                 .enum([
                   "fulfilled",
@@ -6606,15 +6716,15 @@ export namespace ZTypes {
                   "under_review",
                   "pending",
                 ])
-                .optional(),
+                .nullish(),
               source_organization: zod
                 .object({
                   id: zod.string(),
                   object: zod.string(),
                   href: zod.string(),
-                  name: zod.string().optional(),
-                  slug: zod.string().optional(),
-                  website: zod.string().optional(),
+                  name: zod.string().nullish(),
+                  slug: zod.string().nullish(),
+                  website: zod.string().nullish(),
                   category: zod
                     .enum([
                       "hack_club_hq",
@@ -6624,24 +6734,24 @@ export namespace ZTypes {
                       "climate",
                       "nonprofit",
                     ])
-                    .optional(),
-                  transparent: zod.boolean().optional(),
-                  demo_mode: zod.boolean().optional(),
-                  financially_frozen: zod.boolean().optional(),
-                  logo: zod.string().optional(),
-                  donation_header: zod.string().optional(),
-                  background_image: zod.string().optional(),
-                  public_message: zod.string().optional(),
-                  donation_link: zod.string().optional(),
+                    .nullish(),
+                  transparent: zod.boolean().nullish(),
+                  demo_mode: zod.boolean().nullish(),
+                  financially_frozen: zod.boolean().nullish(),
+                  logo: zod.string().nullish(),
+                  donation_header: zod.string().nullish(),
+                  background_image: zod.string().nullish(),
+                  public_message: zod.string().nullish(),
+                  donation_link: zod.string().nullish(),
                   balances: zod
                     .object({
-                      balance_cents: zod.number().optional(),
-                      fee_balance_cents: zod.number().optional(),
-                      incoming_balance_cents: zod.number().optional(),
-                      total_raised: zod.number().optional(),
+                      balance_cents: zod.number().nullish(),
+                      fee_balance_cents: zod.number().nullish(),
+                      incoming_balance_cents: zod.number().nullish(),
+                      total_raised: zod.number().nullish(),
                     })
-                    .optional(),
-                  created_at: zod.string().optional(),
+                    .nullish(),
+                  created_at: zod.string().nullish(),
                   users: zod
                     .array(
                       zod.object({
@@ -6653,20 +6763,20 @@ export namespace ZTypes {
                         photo: zod.string(),
                       }),
                     )
-                    .optional(),
+                    .nullish(),
                 })
-                .optional()
+                .nullish()
                 .describe("Organization model"),
             })
-            .optional()
+            .nullish()
             .describe("Transfer model"),
-          wire_transfer: zod.unknown().optional(),
-          wise_transfer: zod.unknown().optional(),
-          check_deposit: zod.unknown().optional(),
-          reimbursed_expense: zod.unknown().optional(),
-          hcb_fee: zod.unknown().optional(),
+          wire_transfer: zod.unknown().nullish(),
+          wise_transfer: zod.unknown().nullish(),
+          check_deposit: zod.unknown().nullish(),
+          reimbursed_expense: zod.unknown().nullish(),
+          hcb_fee: zod.unknown().nullish(),
         })
-        .optional()
+        .nullish()
         .describe("Transaction model"),
     })
     .describe("Activity model");

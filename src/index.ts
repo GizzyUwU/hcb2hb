@@ -95,7 +95,7 @@ const logLevel = {
 const configuredLogLevel = Number(process.env["LOG_LEVEL"]);
 await configure({
   sinks: {
-    sentry: sentryAdapter,
+    ...(process.env["SENTRY_DSN"] ? { sentry: sentryAdapter } : {}),
     console: consoleAdapter,
   },
   loggers: [
@@ -105,7 +105,7 @@ await configure({
       lowestLevel: "error",
     },
     {
-      category: ["hc2hb"],
+      category: ["HC2HB"],
       sinks: [...(process.env["SENTRY_DSN"] ? ["sentry"] : []), "console"],
       lowestLevel:
         logLevel[configuredLogLevel as keyof typeof logLevel] ?? "info",
@@ -113,7 +113,7 @@ await configure({
   ],
 });
 
-export const logger = getLogger(["logpheus"]);
+export const logger = getLogger(["HC2HB"]);
 const jobsRunning = new Map<string, boolean>();
 const jobsLastRun = new Map<string, number>();
 async function jobRunner() {
@@ -142,8 +142,8 @@ async function jobRunner() {
           file: job,
         },
       });
+      console.log("meow", mod)
 
-      promises.push(
         mod
           .execute({
             logger: ctxLogger,
@@ -157,8 +157,7 @@ async function jobRunner() {
           })
           .finally(() => {
             jobsRunning.delete(mod.name);
-          }),
-      );
+          })
     } catch (e) {
       logger
         .with({
@@ -169,7 +168,7 @@ async function jobRunner() {
         .error("Failed to execute handler");
     }
   }
-  await Promise.allSettled(promises);
+  await Promise.all(promises);
 }
 
 (async () => {
@@ -177,7 +176,8 @@ async function jobRunner() {
     await jobRunner();
     setTimeout(jobLoop, 10 * 1000);
   };
-  jobLoop();
+  await jobLoop();
+  console.log("[HC2HB] Started running jobs successfully!");
 })();
 
 process.on("SIGTERM", async () => {
