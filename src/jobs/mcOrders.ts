@@ -54,8 +54,7 @@ export default {
 
     if (
       !mcEntitiesRaw.ok ||
-      !mcEntitiesRaw.data ||
-      mcEntitiesRaw.data.items?.length === 0
+      !mcEntitiesRaw.data
     )
       return;
 

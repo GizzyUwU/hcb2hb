@@ -60,8 +60,7 @@ export default {
     });
     if (
       !grantEntitesRaw.ok ||
-      !grantEntitesRaw.data ||
-      grantEntitesRaw.data.items?.length === 0
+      !grantEntitesRaw.data
     )
       return;
     const grantEntities = grantEntitesRaw.data.items ?? [];
@@ -145,6 +144,7 @@ export default {
             {
               name: `${activity.id} - ${cardCharge.data.card.id} - ${activityData.data.transaction.memo}`,
               tagIds: [grantTag],
+              quantity: 1,
               purchasePrice:
                 Math.abs(activityData.data.transaction.amount_cents) / 100,
             },
