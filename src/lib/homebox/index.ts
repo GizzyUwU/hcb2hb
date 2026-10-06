@@ -81,10 +81,15 @@ export default class HomeBox {
           status = 408;
         }
         this.lastCode = status ?? 0;
+        const responseData = (err.response?.data as unknown) ?? null;
+        const msg =
+          responseData !== null && responseData !== undefined
+            ? `${err.message} - ${typeof responseData === "string" ? responseData : JSON.stringify(responseData)}`
+            : err.message;
         return {
           ok: false,
           status,
-          msg: err.message,
+          msg,
         };
       } else return { ok: false, status: 0, msg: err };
     }
