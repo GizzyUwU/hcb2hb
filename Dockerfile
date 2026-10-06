@@ -1,4 +1,4 @@
-FROM oven/bun:alpine
+FROM oven/bun:1.3.9-alpine
 WORKDIR /usr/src/app
 RUN apk add curl su-exec jq 
 COPY package.json bun.lock ./
