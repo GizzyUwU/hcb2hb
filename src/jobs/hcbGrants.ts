@@ -3,6 +3,120 @@ import HCB from "@/lib/hcb";
 import HCBScan from "@/lib/hcbscan";
 import HomeBox from "@/lib/homebox";
 
+export const GRANT_CHARGE_MARKER = "charge:";
+export const GRANT_TXN_MARKER = "txn:";
+export const GRANT_ENTITY_NAME_MAX = 255;
+
+export interface GrantIdentityKeys {
+  activityId: string;
+  chargeId: string;
+  transactionId: string;
+}
+
+/**
+ * Extract machine-readable dedup keys from a HomeBox grant entity name.
+ * Handles both the legacy ("{activityId} - {cardId} - {memo}") and current
+ * ("{activityId} - {cardId} - charge:{chargeId} - txn:{transactionId} - {memo}")
+ * formats. Legacy names yield only an activityId.
+ */
+export function parseGrantEntityKeys(name: string): GrantIdentityKeys {
+  const parts = name.split(" - ");
+  const keys: GrantIdentityKeys = {
+    activityId: parts[0]?.trim() ?? "",
+    chargeId: "",
+    transactionId: "",
+  };
+  // Marker segments live after activityId/cardId. A memo segment would have
+  // to literally start with "charge:"/"txn:" to false-positive here.
+  for (const part of parts.slice(2)) {
+    const seg = part.trim();
+    if (
+      seg.startsWith(GRANT_CHARGE_MARKER) &&
+      seg.length > GRANT_CHARGE_MARKER.length
+    ) {
+      keys.chargeId = seg.slice(GRANT_CHARGE_MARKER.length);
+    } else if (
+      seg.startsWith(GRANT_TXN_MARKER) &&
+      seg.length > GRANT_TXN_MARKER.length
+    ) {
+      keys.transactionId = seg.slice(GRANT_TXN_MARKER.length);
+    }
+  }
+  return keys;
+}
+
+/**
+ * Build a grant entity name with dedup keys leading, so the 255-char
+ * truncation only ever cuts the human-readable memo tail.
+ */
+export function buildGrantEntityName(input: {
+  activityId: string;
+  cardId: string;
+  chargeId: string;
+  transactionId: string;
+  memo: string;
+}): string {
+  const raw = [
+    input.activityId,
+    input.cardId,
+    ...(input.chargeId ? [`${GRANT_CHARGE_MARKER}${input.chargeId}`] : []),
+    ...(input.transactionId ? [`${GRANT_TXN_MARKER}${input.transactionId}`] : []),
+    input.memo,
+  ].join(" - ");
+  return raw.length > GRANT_ENTITY_NAME_MAX
+    ? raw.slice(0, GRANT_ENTITY_NAME_MAX)
+    : raw;
+}
+
+export interface GrantDupeGroup {
+  kind: "activityId" | "chargeId" | "transactionId";
+  key: string;
+  entities: { id: string; name: string }[];
+}
+
+/**
+ * Find duplicate groups among already-created HomeBox entities: 2+ entities
+ * sharing one identity key means the same money was recorded twice (e.g. by
+ * runs predating the charge/transaction key system). Report-only helper -
+ * the job logs groups but never deletes anything automatically.
+ */
+export function findGrantDupeGroups(
+  entities: { id: string; name: string }[],
+): GrantDupeGroup[] {
+  const groups: GrantDupeGroup[] = [];
+  const kinds = ["activityId", "chargeId", "transactionId"] as const;
+  for (const kind of kinds) {
+    const buckets = new Map<string, { id: string; name: string }[]>();
+    for (const e of entities) {
+      const key = parseGrantEntityKeys(e.name)[kind];
+      if (!key) continue;
+      const list = buckets.get(key);
+      if (list) list.push({ id: e.id, name: e.name });
+      else buckets.set(key, [{ id: e.id, name: e.name }]);
+    }
+    for (const [key, members] of buckets) {
+      if (members.length > 1) groups.push({ kind, key, entities: members });
+    }
+  }
+  return groups;
+}
+
+/**
+ * Human-readable multi-line rendering of dupe groups. Embedded in the log
+ * MESSAGE (not just `.with()` properties) because the console sink only
+ * renders message text - properties are invisible there.
+ */
+export function formatGrantDupeGroups(groups: GrantDupeGroup[]): string {
+  return groups
+    .map((g, i) => {
+      const members = g.entities
+        .map((e) => `      - ${e.id} :: ${e.name}`)
+        .join("\n");
+      return `  ${i + 1}. [${g.kind}=${g.key}] ${g.entities.length} entities:\n${members}`;
+    })
+    .join("\n");
+}
+
 export default {
   name: "hcbGrants",
   interval: 300,
@@ -167,26 +281,57 @@ export default {
       logger.info("hcbGrants: no existing grant entities, no watermark will be applied");
     }
 
-    // Build dedup set from already-created HomeBox entities.
-    // Entity name is `${activityId} - ${cardId} - ${memo}`, so split on " - ".
+    // Build dedup key sets from already-created HomeBox entities.
+    // Entity names carry machine-readable identity segments:
+    //   legacy:  "{activityId} - {cardId} - {memo}"
+    //   current: "{activityId} - {cardId} - charge:{chargeId} - txn:{transactionId} - {memo}"
+    // Keys, strongest first:
+    //   1. chargeId      - same card charge = same money, even across re-emitted
+    //                      activities (e.g. pending -> settled). Strongest key.
+    //   2. transactionId - same ledger entry = same money.
+    //   3. activityId    - the HCBScan/HCB event id. Legacy entities can only
+    //                      match on this - no backfill needed.
+    // NOTE: a cardId is deliberately NOT a dedup key - one card can receive
+    // multiple grants, so matching on it drops real, never-recorded money.
     const existingActivityIds = new Set<string>();
-    const existingCardIds = new Set<string>();
+    const existingChargeIds = new Set<string>();
+    const existingTransactionIds = new Set<string>();
     for (const g of grantEntities) {
-      const parts = g.name.split(" - ");
-      if (parts[0]) existingActivityIds.add(parts[0].trim());
-      if (parts[1]) existingCardIds.add(parts[1].trim());
+      const keys = parseGrantEntityKeys(g.name);
+      if (keys.activityId) existingActivityIds.add(keys.activityId);
+      if (keys.chargeId) existingChargeIds.add(keys.chargeId);
+      if (keys.transactionId) existingTransactionIds.add(keys.transactionId);
+    }
+
+    // Audit what's already in HomeBox for duplicates left behind by earlier
+    // runs (predating the charge/transaction key system). Report-only: runs
+    // on every pass, even when there is nothing new to add, and never deletes.
+    const dupeGroups = findGrantDupeGroups(grantEntities);
+    if (dupeGroups.length > 0) {
+      logger
+        .with({
+          dupeGroupCount: dupeGroups.length,
+          dupeGroups,
+        })
+        .warn(
+          `hcbGrants: found ${dupeGroups.length} duplicate grant group(s) already in HomeBox (report-only, nothing was deleted):\n${formatGrantDupeGroups(dupeGroups)}`,
+        );
+    } else {
+      logger
+        .with({ grantEntitiesCount: grantEntities.length })
+        .info("hcbGrants: no duplicates among existing grant entities");
     }
 
     // Filter to only activities not yet in HomeBox - this is the source of
     // truth for resume. Date watermark is only for logging / optional spam
     // reduction; we MUST NOT drop missing activities that are older than
     // lastGrantDate or we will lose work when the job stops mid-loop.
-    let filteredByKey = 0;
+    let filteredByEvent = 0;
     let filteredByExisting = 0;
     let filteredByDateIfStrict = 0;
     let candidates = activities.filter((a: any) => {
       if (a.key !== "raw_pending_stripe_transaction.create" || !a.id) {
-        filteredByKey++;
+        filteredByEvent++;
         return false;
       }
       if (existingActivityIds.has(a.id)) {
@@ -234,7 +379,7 @@ export default {
     logger
       .with({
         total: activities.length,
-        filteredByKey,
+        filteredByEvent,
         filteredByExisting,
         filteredByDateIfStrict,
         remaining: filteredActivities.length,
@@ -244,7 +389,7 @@ export default {
 
     if (filteredActivities.length === 0) {
       logger
-        .with({ total: activities.length, filteredByKey, filteredByExisting, lastGrantDate: lastGrantDate?.toISOString() ?? null })
+        .with({ total: activities.length, filteredByEvent, filteredByExisting, lastGrantDate: lastGrantDate?.toISOString() ?? null })
         .info("hcbGrants: no new activities since last grant, skipping HCB fetches");
       return;
     }
@@ -255,6 +400,8 @@ export default {
     let skippedByKey = 0;
     let processed = 0;
     let created = 0;
+    let dupeSkipped = 0;
+    const dupeSkippedBy = { activityId: 0, chargeId: 0, transactionId: 0 };
     for (const activity of filteredActivities) {
       logger
         .with({ activityId: activity.id, key: (activity as any).key, created_at: (activity as any).created_at })
@@ -370,20 +517,61 @@ export default {
         }
 
         if (cardCharge.ok) {
-          const existing = grantEntities.find(
-            (g) =>
-              g.name.includes(activity.id ?? crypto.randomUUID()) ||
-              g.name.includes(cardCharge.data.card.id ?? crypto.randomUUID()),
-          );
-          if (existing) {
+          const aid = activity.id ?? "";
+          // Identity of the money behind this activity. chargeId is the
+          // strongest key: HCB can emit several activities (pending, settled,
+          // re-polls) for one charge, and they must map to one entity.
+          const chargeId =
+            activityData.data.transaction?.card_charge?.id ?? "";
+          const transactionId = activityData.data.transaction?.id ?? "";
+          let dupeReason: string | null = null;
+          if (aid && existingActivityIds.has(aid)) {
+            dupeReason = `activityId=${aid}`;
+            dupeSkippedBy.activityId++;
+          } else if (chargeId && existingChargeIds.has(chargeId)) {
+            dupeReason = `chargeId=${chargeId}`;
+            dupeSkippedBy.chargeId++;
+          } else if (transactionId && existingTransactionIds.has(transactionId)) {
+            dupeReason = `transactionId=${transactionId}`;
+            dupeSkippedBy.transactionId++;
+          } else if (
+            aid &&
+            grantEntities.some((g) => g.name.includes(aid))
+          ) {
+            // Legacy substring fallback for entities whose names don't split cleanly
+            dupeReason = `activityId-substring=${aid}`;
+            dupeSkippedBy.activityId++;
+          }
+          if (dupeReason) {
+            dupeSkipped++;
             logger
-              .with({ activityId: activity.id, existingName: existing.name, cardId: cardCharge.data.card.id })
-              .debug("hcbGrants: skipping - grant entity already exists");
+              .with({
+                activityId: activity.id,
+                chargeId: chargeId || null,
+                transactionId: transactionId || null,
+                cardId: cardCharge.data.card.id,
+                dupeReason,
+              })
+              .debug("hcbGrants: skipping - duplicate grant entity already exists");
             continue;
           }
-          logger.with({ activityId: activity.id, cardId: cardCharge.data.card.id }).debug("hcbGrants: no existing entity, creating new entity");
-          const rawEntityName = `${activity.id} - ${cardCharge.data.card.id} - ${activityData.data.transaction.memo ?? ""}`;
-          const entityName = rawEntityName.length > 255 ? rawEntityName.slice(0, 255) : rawEntityName;
+          logger.with({ activityId: activity.id, chargeId: chargeId || null, transactionId: transactionId || null, cardId: cardCharge.data.card.id }).debug("hcbGrants: no existing entity, creating new entity");
+          // IDs lead the name so truncation only ever cuts the memo tail.
+          const memo = activityData.data.transaction?.memo ?? "";
+          const rawEntityName = [
+            activity.id,
+            cardCharge.data.card.id,
+            ...(chargeId ? [`${GRANT_CHARGE_MARKER}${chargeId}`] : []),
+            ...(transactionId ? [`${GRANT_TXN_MARKER}${transactionId}`] : []),
+            memo,
+          ].join(" - ");
+          const entityName = buildGrantEntityName({
+            activityId: activity.id ?? "",
+            cardId: cardCharge.data.card.id,
+            chargeId,
+            transactionId,
+            memo,
+          });
           if (rawEntityName.length > 255) {
             logger
               .with({
@@ -451,6 +639,12 @@ export default {
             continue;
           }
 
+          // Register keys immediately: the entity (with its key-bearing name)
+          // already exists in HomeBox, so later dupes in this run must match
+          // even if the price/tag update below fails.
+          if (aid) existingActivityIds.add(aid);
+          if (chargeId) existingChargeIds.add(chargeId);
+          if (transactionId) existingTransactionIds.add(transactionId);
           logger.with({ activityId: activity.id, entityId: creationOfEntity.data.id }).debug("hcbGrants: updating entity with purchasePrice and tags");
           const updateTheEntity = await hb.updateEntity(
             {
@@ -501,9 +695,6 @@ export default {
             continue;
           }
           created++;
-          // Update dedup sets so later duplicates in same run are skipped
-          existingActivityIds.add(activity.id);
-          if (cardCharge.data.card.id) existingCardIds.add(cardCharge.data.card.id);
           logger
             .with({
               activityId: activity.id,
@@ -534,7 +725,7 @@ export default {
       processed++;
     }
     logger
-      .with({ total: activities.length, filtered: filteredActivities.length, processed, skippedByKey, created, grantEntitiesCount: grantEntities.length, lastGrantDate: lastGrantDate?.toISOString() ?? null })
+      .with({ total: activities.length, filtered: filteredActivities.length, processed, skippedByKey, created, dupeSkipped, dupeSkippedBy, grantEntitiesCount: grantEntities.length, lastGrantDate: lastGrantDate?.toISOString() ?? null })
       .info("hcbGrants: finished processing activities");
   },
 };

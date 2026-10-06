@@ -1,4 +1,10 @@
-import { configure, getConsoleSink, getLogger } from "@logtape/logtape";
+import {
+  type ConsoleFormatter,
+  configure,
+  defaultConsoleFormatter,
+  getConsoleSink,
+  getLogger,
+} from "@logtape/logtape";
 import { DEFAULT_REDACT_FIELDS, redactByField } from "@logtape/redaction";
 import { getSentrySink } from "@logtape/sentry";
 import * as Sentry from "@sentry/bun";
@@ -40,7 +46,24 @@ const sentryAdapter = redactByField(
   },
 );
 
-const consoleAdapter = redactByField(getConsoleSink(), {
+const consoleFormatter: ConsoleFormatter = (record) => {
+  // The default console formatter renders timestamp/level/category/message
+  // only - `.with()` properties are silently dropped. Append them, but ONLY
+  // for verbose levels (debug/trace): at info and above the operator asked
+  // for clean operational lines, not data dumps. (Redaction still applies, as
+  // it wraps the sink around this formatter.)
+  const formatted = [...defaultConsoleFormatter(record)];
+  if (
+    (record.level === "debug" || record.level === "trace") &&
+    record.properties &&
+    Object.keys(record.properties).length > 0
+  ) {
+    formatted.push(record.properties);
+  }
+  return formatted;
+};
+
+const consoleAdapter = redactByField(getConsoleSink({ formatter: consoleFormatter }), {
   fieldPatterns: [
     /api[-_]?key/i,
     /ft_sk_[A-Za-z0-9_-]*'/gi,

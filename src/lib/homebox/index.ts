@@ -159,14 +159,40 @@ export default class HomeBox {
   public async queryEntities(
     query?: z.infer<(typeof ZTypes)["QueryAllEntitiesQueryParams"]>,
   ) {
-    return this.req(
+    const res = await this.req(
       {
         method: "GET",
         url: "/entities",
         params: query,
+        // HomeBox expects repeated `?tags=id1&tags=id2`. Axios' default
+        // `?tags[]=id` serialization is silently ignored server-side and
+        // returns EVERY entity unfiltered.
+        paramsSerializer: { indexes: null },
       },
       ZTypes["QueryAllEntitiesResponse"],
     );
+    // Defense in depth: never trust the server-side tag filter. If it ever
+    // silently stops filtering again, enforce the requested tags here so
+    // callers only ever see entities that actually carry them.
+    if (res.ok && query?.tags && query.tags.length > 0) {
+      const wanted = new Set(query.tags);
+      const items = res.data.items.filter((e) =>
+        (e.tags ?? []).some((t) => wanted.has(t.id)),
+      );
+      if (items.length !== res.data.items.length) {
+        const ctx = this.logger.with({
+          requestedTags: query.tags,
+          serverItems: res.data.items.length,
+          serverTotal: res.data.total,
+          keptItems: items.length,
+        });
+        ctx.error(
+          "HomeBox queryEntities ignored the tag filter server-side, enforced client-side",
+        );
+      }
+      return { ...res, data: { ...res.data, items, total: items.length } };
+    }
+    return res;
   }
 
   /**
