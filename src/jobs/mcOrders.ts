@@ -85,13 +85,42 @@ export default {
 
         continue;
       }
-      if (
-        orderEntities.find((o) =>
-          o.name.includes(String(order.order.id) ?? crypto.randomUUID()),
-        ) ||
-        order.order.status == "cancelled"
-      )
+      const photoUrl =
+        order.order.item_snapshot.image_url ||
+        order.item.image_url ||
+        null;
+      const attachPhoto = async (entityId: string) => {
+        if (!photoUrl) return false;
+        const photo = await hb.addPhotoFromUrl(
+          entityId,
+          photoUrl,
+          `macondo-${order.order.id}.png`,
+        );
+        logger
+          .with({
+            orderId: order.order.id,
+            entityId,
+            ok: photo.ok,
+            status: (photo as any).status,
+            msg: (photo as any).msg,
+          })
+          .debug("mcOrders: attached item photo");
+        return photo.ok;
+      };
+      if (alrExist) {
+        if (!alrExist.imageId) {
+          const photoAttached = await attachPhoto(alrExist.id);
+          logger
+            .with({
+              orderId: order.order.id,
+              entityId: alrExist.id,
+              photoAttached,
+            })
+            .info("mcOrders: backfilled item photo on existing entity");
+        }
         continue;
+      }
+      if (order.order.status == "cancelled") continue;
       const createTheEntity = await hb.createEntity({
         description:
           order.item.description ?? `Macondo Order ${order.order.id}`,
@@ -108,11 +137,13 @@ export default {
       )
         continue;
 
+      const photoAttached = await attachPhoto(createTheEntity.data.id);
       logger
         .with({
           orderId: order.order.id,
           ysws: "Macondo",
           itemName: order.order.item_snapshot.name,
+          photoAttached,
         })
         .info("Created new entity from a macondo order");
 

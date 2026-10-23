@@ -7,6 +7,19 @@ import type { logger as LogTape } from "@/index";
 import { ZTypes } from "./types.ts";
 import { z } from "zod";
 
+function attachmentNameFromUrl(url: string, fallbackName: string): string {
+  try {
+    const raw = new URL(url).pathname.split("/").pop() ?? "";
+    const name = decodeURIComponent(raw);
+    if (/^[^/\\]+$/.test(name) && /\.[A-Za-z0-9]+$/.test(name)) {
+      return name;
+    }
+  } catch {
+    return fallbackName;
+  }
+  return fallbackName;
+}
+
 export default class HomeBox {
   public lastCode: number = 200;
   private fetch: AxiosInstance;
@@ -114,6 +127,52 @@ export default class HomeBox {
       },
       ZTypes["PostCreateEntityResponse"],
     );
+  }
+
+  /**
+   * Attach a photo to an entity and make it the primary image.
+   */
+  public async addPhoto(entityId: string, file: Blob, name: string) {
+    const form = new FormData();
+    form.append("file", file, name);
+    form.append("name", name);
+    form.append("type", "photo");
+    form.append("primary", "true");
+    return this.req(
+      {
+        method: "POST",
+        url: "/entities/" + entityId + "/attachments",
+        data: form,
+      },
+      z.unknown(),
+    );
+  }
+
+  /**
+   * Download an image and attach it to an entity as its primary photo.
+   */
+  public async addPhotoFromUrl(
+    entityId: string,
+    url: string,
+    fallbackName = "photo.png",
+  ) {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        return {
+          ok: false as const,
+          status: response.status,
+          msg: `Failed to download photo from ${url}: ${response.status} ${response.statusText}`,
+        };
+      }
+      return this.addPhoto(
+        entityId,
+        await response.blob(),
+        attachmentNameFromUrl(url, fallbackName),
+      );
+    } catch (err) {
+      return { ok: false as const, status: 0, msg: err };
+    }
   }
 
   /**

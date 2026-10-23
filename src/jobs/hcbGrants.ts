@@ -6,6 +6,7 @@ import HomeBox from "@/lib/homebox";
 export const GRANT_CHARGE_MARKER = "charge:";
 export const GRANT_TXN_MARKER = "txn:";
 export const GRANT_ENTITY_NAME_MAX = 255;
+export const GRANT_PHOTO_URL = "http://fileupload.gizzy.tech/grantimg.png";
 
 export interface GrantIdentityKeys {
   activityId: string;
@@ -147,6 +148,46 @@ export default {
       process.env["HOMEBOX_API_KEY"],
       logger,
     );
+
+    let grantPhotoBlob: Blob | null | undefined;
+    const getGrantPhotoBlob = async (): Promise<Blob | null> => {
+      if (grantPhotoBlob !== undefined) return grantPhotoBlob;
+      try {
+        const response = await fetch(GRANT_PHOTO_URL);
+        if (!response.ok) {
+          logger
+            .with({ status: response.status, url: GRANT_PHOTO_URL })
+            .warn("hcbGrants: failed to download grant photo");
+          grantPhotoBlob = null;
+          return null;
+        }
+        grantPhotoBlob = await response.blob();
+        return grantPhotoBlob;
+      } catch (err) {
+        logger
+          .with({ err, url: GRANT_PHOTO_URL })
+          .warn("hcbGrants: failed to download grant photo");
+        grantPhotoBlob = null;
+        return null;
+      }
+    };
+    const attachGrantPhoto = async (entityId: string): Promise<boolean> => {
+      const blob = await getGrantPhotoBlob();
+      if (!blob) return false;
+      const photo = await hb.addPhoto(entityId, blob, "grantimg.png");
+      if (!photo.ok) {
+        logger
+          .with({
+            entityId,
+            status: (photo as any).status,
+            msg: (photo as any).msg,
+          })
+          .warn("hcbGrants: failed to attach grant photo");
+        return false;
+      }
+      return true;
+    };
+
     logger
       .with({ hcbScanId: process.env["HCBSCAN_ID"] })
       .info("hcbGrants: fetching userActivities from HCBScan");
@@ -253,6 +294,19 @@ export default {
       return;
     }
     const grantEntities = grantEntitesRaw.data.items ?? [];
+
+    const entitiesMissingPhoto = grantEntities.filter((e) => !e.imageId);
+    if (entitiesMissingPhoto.length > 0) {
+      logger
+        .with({ count: entitiesMissingPhoto.length })
+        .info("hcbGrants: attaching grant photo to existing entities without one");
+      for (const entity of entitiesMissingPhoto) {
+        const attached = await attachGrantPhoto(entity.id);
+        logger
+          .with({ entityId: entity.id, attached })
+          .debug("hcbGrants: backfilled entity photo");
+      }
+    }
 
     // Determine last grant date watermark (for spam reduction) but also build
     // existence set so we can resume if the job stops mid-check.
@@ -694,6 +748,16 @@ export default {
               .error("hcbGrants: updateEntity failed details");
             continue;
           }
+          const photoAttached = await attachGrantPhoto(
+            creationOfEntity.data.id,
+          );
+          logger
+            .with({
+              activityId: activity.id,
+              entityId: creationOfEntity.data.id,
+              photoAttached,
+            })
+            .debug("hcbGrants: attached grant photo");
           created++;
           logger
             .with({
