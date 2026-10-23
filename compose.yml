@@ -2,6 +2,7 @@ services:
   hc2hb:
     build:
       context: .
+      network: host
     env_file: .env
     restart: always
     healthcheck:
